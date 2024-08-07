@@ -38,7 +38,7 @@ const Card: React.FC<CardProps> = ({ title, cardData }) => {
               : ""
           }`}
         >
-          <p className="hidden lg:block truncate px-1 border-solid text-purple-600 border-purple-600 border rounded-xl text-xs font-semibold">
+          <p className="hidden lg:block truncate px-1 border-solid text-blue border-blue border rounded-xl text-xs font-semibold">
             {item.category}
           </p>
           <span className="flex justify-start items-center gap-2">

@@ -40,7 +40,7 @@ const config: Config = {
         "4xl": "2rem",
       },
       colors: {
-        blue: "#3461FF",
+        blue: "#3384F5",
         mediumblue: "#395DDB",
         semiblue: "#E9EEFF",
         normalblue: "#5171E2",
