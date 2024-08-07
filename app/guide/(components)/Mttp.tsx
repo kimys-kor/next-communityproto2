@@ -11,7 +11,7 @@ function Mttp() {
             <span className="text-blue"> GOAT</span>
           </div>
           <Image
-            alt="먹튀타파소개"
+            alt="꽁머니팡 소개"
             width={248}
             height={255}
             src={ggongMoney}

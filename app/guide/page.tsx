@@ -11,13 +11,13 @@ function page() {
         <Mttp></Mttp>
         <section className="flex flex-col justify-center items-center py-20">
           <Image
-            alt="먹튀타파소개"
+            alt="꽁머니팡소개"
             width={248}
             height={255}
             src={question}
           ></Image>
           <div className="text-4xl font-semibold">
-            <span className="text-blue">먹튀타파, </span>왜 믿을 수 있나요?
+            <span className="text-blue">꽁머니팡, </span>왜 믿을 수 있나요?
           </div>
           <div className="flex flex-col items-center px-3">
             <div className="w-full flex flex-col lg:flex-row pt-10 gap-5">
@@ -91,7 +91,7 @@ function page() {
                 </span>
                 <div className="text-lg font-medium">
                   <div>
-                    먹튀타파는
+                    꽁머니팡은
                     <span className="text-normalblue">
                       {" "}
                       게시판 및 검증 사이트를 직접관리
@@ -114,7 +114,7 @@ function page() {
               <p>
                 온라인 토토사이트를 이용하는 모든 플레이어의 권리를 보장하기
                 위해 노력하고 있습니다. 적지 않은 경력과 노하우로 먹튀검증
-                사이트를 운영하고 있는 만큼, 먹튀타파에서 보증하는 안전한
+                사이트를 운영하고 있는 만큼, 꽁머니팡에서 보증하는 안전한
                 업체들을 이용해 보시기 바랍니다.먹튀검증 사이트도 충분한 검증이
                 필요하다는 것 잊지 마세요!
               </p>
@@ -125,22 +125,22 @@ function page() {
               width={401}
               height={274}
               src={advantage}
-              alt="먹튀타파 장점"
+              alt="꽁머니팡 장점"
             ></Image>
             <div className="pt-10 flex flex-col items-center">
               <h1 className="text-4xl font-semibold">
-                먹튀검증 <span className="text-blue">No.1</span> 먹튀타파
+                먹튀검증 <span className="text-blue">No.1</span> 꽁머니팡
               </h1>
               <p className="w-full max-w-[900px] px-5 pt-5 text-description leading-6 flex flex-col items-center break-keep">
                 이미 수많은 토토사이트 먹튀증을 해주는 사이트들이 운영되고
-                있습니다.먹튀타파는 토토사이트 먹튀검증을 오랜 기간 진행해
+                있습니다.꽁머니팡은 토토사이트 먹튀검증을 오랜 기간 진행해
                 왔습니다. 그래서 먹튀검증업체 순위에서도 높은 순위를 차지하고
                 있습니다. 먹튀검증 커뮤니티를 선택할 때는 먹튀검증업체가 실력이
                 있는지, 정확히 검증하고 있는지를 확인해야 합니다.
               </p>
               <div className="w-full  pt-20 px-5 flex flex-col lg:flex-row justify-start items-center gap-10 lg:gap-32">
                 <h1 className="w-72 text-2xl font-bold">
-                  먹튀타파 사이트는 믿을 수 있습니다!
+                  꽁머니팡 사이트는 믿을 수 있습니다!
                 </h1>
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3 font-normal">
@@ -148,7 +148,7 @@ function page() {
                       1
                     </div>
                     <div className="w-full max-w-[568px] break-keep">
-                      먹튀타파는 먹튀검증을 직접 진행합니다.
+                      꽁머니팡은 먹튀검증을 직접 진행합니다.
                     </div>
                   </div>
                   <div className="flex items-center gap-3 font-normal">
@@ -156,7 +156,7 @@ function page() {
                       2
                     </div>
                     <div className="w-full max-w-[568px] break-keep">
-                      먹튀타파는 토토사이트로부터 보증금을 받지 않고서는 광고를
+                      꽁머니팡은 토토사이트로부터 보증금을 받지 않고서는 광고를
                       진행하지 않습니다.
                     </div>
                   </div>
@@ -165,8 +165,8 @@ function page() {
                       3
                     </div>
                     <div className="w-full max-w-[568px] break-keep">
-                      먹튀타파는 적극적인 커뮤니티 활동으로 고객이 먹튀 피해를
-                      입지 않도록 정보를 빠르게 업데이트 합니다. 먹튀타파를
+                      꽁머니팡은 적극적인 커뮤니티 활동으로 고객이 먹튀 피해를
+                      입지 않도록 정보를 빠르게 업데이트 합니다. 꽁머니팡을
                       이용하는 회원들의 안전한 게임을 가장 우선시 합니다.
                     </div>
                   </div>
@@ -174,7 +174,7 @@ function page() {
               </div>
               <div className="w-full  pt-20 px-5 flex flex-col lg:flex-row justify-start items-center gap-10 lg:gap-32">
                 <h1 className="w-72 text-2xl font-bold">
-                  먹튀타파 사이트 신고 방법
+                  꽁머니팡 사이트 신고 방법
                 </h1>
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center gap-3 font-normal">
@@ -191,7 +191,7 @@ function page() {
                       2
                     </div>
                     <div className="w-full max-w-[568px] break-keep">
-                      먹튀피해를 입었다면 먹튀타파 고객센터에 직접 문의를
+                      먹튀피해를 입었다면 꽁머니팡 고객센터에 직접 문의를
                       주시거나 먹튀신고게시판에 글을 올려주시면 됩니다.
                     </div>
                   </div>
@@ -200,7 +200,7 @@ function page() {
                       3
                     </div>
                     <div className="w-full max-w-[568px] break-keep">
-                      먹튀피해를 입으신 플레이어를 위해 먹튀타파는 구제 방법을
+                      먹튀피해를 입으신 플레이어를 위해 꽁머니팡은 구제 방법을
                       함께 찾아나갑니다.
                     </div>
                   </div>
@@ -237,7 +237,7 @@ function page() {
                 <p>
                   온라인 토토사이트를 이용하는 모든 플레이어의 권리를 보장하기
                   위해 노력하고 있습니다.적지 않은 경력과 노하우로 먹튀검증
-                  사이트를 운영하고 있는 만큼, 먹튀타파에서 보증하는 안전한
+                  사이트를 운영하고 있는 만큼, 꽁머니팡에서 보증하는 안전한
                   업체들을 이용해 보시기 바랍니다.먹튀검증 사이트도 충분한
                   검증이 필요하다는 것 잊지 마세요!
                 </p>

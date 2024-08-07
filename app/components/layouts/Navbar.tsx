@@ -128,15 +128,15 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative ${link.width} h-14 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
-                  isActiveLink(link.href) ? "text-blue" : "text-black"
+                className={`relative ${link.width} h-14 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-red-500 ${
+                  isActiveLink(link.href) ? "text-red-500" : "text-black"
                 }`}
                 onClick={() => handleLinkClick(link.href)}
               >
                 <div className="font-bold">{link.label}</div>
                 <div>{link.icon ? link.icon : null}</div>
               </Link>
-              <ul className="border border-t border-blue">
+              <ul className="border border-t border-red-text-red-500">
                 {link.dropdown && (
                   <li
                     className={`mt-[1px] w-24 lg:w-32 left-[0px] invisible absolute z-50 flex flex-col bg-white text-black shadow-xl group-hover:visible`}
@@ -161,13 +161,13 @@ const Navbar = () => {
         <div className="hidden lg:flex justify-around items-center gap-2 relative">
           <Link
             href={"/login"}
-            className="w-12 text-sm font-semibold text-gray-400 hover:text-blue"
+            className="w-12 text-sm font-semibold text-gray-400 hover:text-red-500"
           >
             로그인
           </Link>
           <Link
             href={"/signup"}
-            className="w-16 text-sm font-semibold text-gray-400 hover:text-blue"
+            className="w-16 text-sm font-semibold text-gray-400 hover:text-red-500"
           >
             회원가입
           </Link>

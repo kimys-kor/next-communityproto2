@@ -8,7 +8,7 @@ function page() {
       <main>
         <Mttp></Mttp>
         <section className="flex flex-col justify-center items-center py-20">
-          <Image alt="먹튀타파소개" width={248} height={255} src={safe}></Image>
+          <Image alt="소개" width={248} height={255} src={safe}></Image>
           <div className="text-4xl font-semibold px-3">
             <span className="text-blue">안전 놀이터</span> 바로 알기
           </div>
@@ -67,7 +67,7 @@ function page() {
                       </div>
                       <div className="w-full max-w-[568px] break-keep">
                         안전한 놀이터는 기존 유저들로부터 먹튀 피해 루머가 나지
-                        않습니다. 먹튀타파 커뮤니티를 살펴보면 토토사이트에서
+                        않습니다. 꽁머니팡 커뮤니티를 살펴보면 토토사이트에서
                         먹튀피해를 당했다는 글을 쉽게 볼 수 있습니다. 이렇게
                         먹튀피해가 있는 사이트라면 입금을 피해야 합니다.
                       </div>
@@ -96,7 +96,7 @@ function page() {
                         1
                       </div>
                       <div className="w-full max-w-[568px] break-keep">
-                        먹튀타파는 안전토토사이트를 검증하여 추천하고 있습니다.
+                        꽁머니팡은 안전토토사이트를 검증하여 추천하고 있습니다.
                       </div>
                     </div>
                     <div className="flex items-center gap-3 font-normal">
@@ -123,7 +123,7 @@ function page() {
                         4
                       </div>
                       <div className="w-full max-w-[568px] break-keep">
-                        먹튀타파는 안전토토사이트에 대하여 보증금을 받고
+                        꽁머니팡은 안전토토사이트에 대하여 보증금을 받고
                         보증업체들을 선정하고 있습니다. 그렇기에 이중으로
                         먹튀방지를 할 수 있습니다.
                       </div>

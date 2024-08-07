@@ -18,10 +18,11 @@ export default function Home() {
           <TabACommunityPage></TabACommunityPage>
         </section>
 
+        <HomeBoard></HomeBoard>
+
         <Suspense fallback={<HomeBannerSk></HomeBannerSk>}>
           <HomeBanner></HomeBanner>
         </Suspense>
-        <HomeBoard></HomeBoard>
 
         {/* <MultiResponsiveSlider></MultiResponsiveSlider> */}
       </article>

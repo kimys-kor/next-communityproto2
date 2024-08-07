@@ -13,7 +13,7 @@ import localFont from "next/font/local";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "먹튀타파",
+  title: "꽁머니팡",
   description: "라이브스코어 라이브스포츠 라이브중계",
 };
 

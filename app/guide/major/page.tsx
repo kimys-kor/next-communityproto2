@@ -9,7 +9,7 @@ function page() {
         <Mttp></Mttp>
         <section className="flex flex-col justify-center items-center py-20">
           <Image
-            alt="먹튀타파소개"
+            alt="꽁머니팡소개"
             width={248}
             height={255}
             src={major}
@@ -65,10 +65,10 @@ function page() {
                   믿을만한 먹튀검증 커뮤니 티를 이용해야 합니다. 믿을만한
                   먹튀검증 커뮤니티의 특징은 직접 먹튀검증을 한다는점,여러
                   유저들이 함께 정보를 공유하며 정확한 추천 정보를 제공한다는
-                  점입니다.먹튀타파는 토토사이트 커뮤니티로는 매우 활성화되어
+                  점입니다.꽁머니팡은 토토사이트 커뮤니티로는 매우 활성화되어
                   있는 사이트이고 직접 먹튀검증을 하기 때문에 먹튀 에방이 100%
                   가능합니다.토토 메이저 놀이터 순위나목록을 확인하고 싶다면{" "}
-                  <span className="text-blue">먹튀타파</span>를 이용하시면
+                  <span className="text-blue">꽁머니팡</span>을 이용하시면
                   되겠습니다.
                 </p>
               </div>

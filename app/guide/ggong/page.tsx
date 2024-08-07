@@ -11,7 +11,7 @@ function page() {
         <Mttp></Mttp>
         <section className="flex flex-col justify-center items-center py-20">
           <Image
-            alt="먹튀타파소개"
+            alt="꽁머니팡소개"
             width={248}
             height={255}
             src={money}
@@ -38,7 +38,7 @@ function page() {
               </div>
               <div className="">
                 <Image
-                  alt="먹튀타파소개"
+                  alt="꽁머니팡소개"
                   width={248}
                   height={255}
                   src={search}
@@ -64,7 +64,7 @@ function page() {
                   </div>
                   <div>
                     <p className="">
-                      먹튀타파는 꽁머니를 지급하는 사이트 중에서도 검증된
+                      꽁머니팡은 꽁머니를 지급하는 사이트 중에서도 검증된
                       사이트만을 추천해 드립니다.
                     </p>
                   </div>
@@ -132,7 +132,7 @@ function page() {
             ></Image>
             <div className="w-full max-w-[900px] text-description leading-6">
               <p>
-                먹튀타파는 꽁머니를 지급하는 사이트에 대해서 더 신중하고
+                꽁머니팡은 꽁머니를 지급하는 사이트에 대해서 더 신중하고
                 정확하게 검증하기 위해 노력하고 있습니다.그렇기에 꽁머니
                 사이트라고 해서 먹튀 우려가 있는 사이트를 추천해 드리지 않는다고
                 확실히 말씀 드릴 수 있습니다.따라서 꽁머니 사이트를 이용하기

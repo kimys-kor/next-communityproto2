@@ -59,7 +59,7 @@ const Login: React.FC = () => {
               htmlFor="default-checkbox"
               className="ms-2 font-normal text-sm truncate leading-tight"
             >
-              로그인 유지
+              자동로그인
             </label>
           </div>
           <Link

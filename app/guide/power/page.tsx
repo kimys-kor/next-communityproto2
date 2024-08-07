@@ -11,7 +11,7 @@ function page() {
         <Mttp></Mttp>
         <section className="flex flex-col justify-center items-center py-20">
           <Image
-            alt="먹튀타파소개"
+            alt="꽁머니팡소개"
             width={332}
             height={271}
             src={powerball}

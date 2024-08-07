@@ -13,7 +13,7 @@ function Footer() {
           <div className="w-1/2 px-5 py-5">
             <Logo></Logo>
             <p className="mt-4 font-semibold break-keep">
-              Corporate name 먹튀타파
+              Corporate name 꽁머니팡
             </p>
             <p className="mt-2 text-gray-400 text-xs leading-5 break-keep">
               The design and all content of this site are protected under
@@ -29,7 +29,7 @@ function Footer() {
             </p>
 
             <p className="mt-3 text-gray-400 text-xs break-keep">
-              ⓒ 먹튀타파. All rights reserved.
+              ⓒ 꽁머니팡. All rights reserved.
             </p>
           </div>
           <div className="w-1/2 flex flex-col px-5 pl-10 lg:pl-40">
@@ -41,10 +41,10 @@ function Footer() {
             </div>
             <Image width={250} height={30} src={telId} alt="telegramId"></Image>
             <p className="mt-3 text-gray-400 text-xs break-keep">
-              먹튀타파는 금전요구 및 영업행위를 하지 않습니다.
+              꽁머니팡은 금전요구 및 영업행위를 하지 않습니다.
             </p>
             <p className="text-gray-400 text-xs break-keep">
-              먹튀타파를 사칭하는 텔레그램 및 카카오톡에 유의하시기 바랍니다.
+              꽁머니팡을 사칭하는 텔레그램 및 카카오톡에 유의하시기 바랍니다.
             </p>
             <Image
               width={155}

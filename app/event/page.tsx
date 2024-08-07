@@ -6,7 +6,7 @@ function page() {
     <div className="flex flex-col max-w-[1200px] gap-6">
       <div className="bg-guide-intro"></div>
       <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">먹튀타파 </span>
+        <span className="text-blue">꽁머니팡 </span>
         &nbsp;이벤트
       </div>
       <EventBoard />
