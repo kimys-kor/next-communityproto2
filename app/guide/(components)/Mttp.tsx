@@ -1,17 +1,26 @@
+import Image from "next/image";
+import ggongMoney from "/public/images/ggongMoney.png";
+
 function Mttp() {
   return (
-    <section className="block lg:flex bg-guide-intro py-28 px-10 gap-5">
+    <section className="block lg:flex bg-[#E7EBFF] py-28 px-10 gap-5">
       <div className="flex flex-col lg:flex-row items-center max-w-[1300px] mx-auto gap-10">
         <div className="w-full lg:w-auto flex flex-col justify-center items-center lg:items-start lg:px-20">
           <div className="text-3xl font-semibold">
             스포츠커뮤니티
-            <span className="text-blue">No.1</span>
+            <span className="text-blue"> GOAT</span>
           </div>
-          <div className="text-5xl font-semibold mt-1">먹튀타파 소개</div>
-          <div className="w-80 pt-5 text-lg font-medium text-mediumblue break-keep">
+          <Image
+            alt="먹튀타파소개"
+            width={248}
+            height={255}
+            src={ggongMoney}
+          ></Image>
+          <div className="text-5xl font-semibold mt-1">꽁머니팡 소개</div>
+          <div className="w-80 pt-5 text-lg font-medium text-blue break-keep">
             <p>
-              먹튀타파는 국내 최대 규모의 방대한 정보를 보유하고 있는 먹튀 검증
-              커뮤니티입니다.
+              꽁머니팡은 스포츠분석글과 피해사례 및 꽁머니 정보등 다양한 정보를
+              가지고 있는 스포츠 커뮤니티 입니다.
             </p>
           </div>
         </div>

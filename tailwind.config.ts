@@ -47,6 +47,9 @@ const config: Config = {
         lightblue: "#F7F8FB",
         deepsky: "#808BAB",
         description: "#888888",
+        cpurple: "#8800FF",
+        csemipubple: "#EDC9FF",
+        cpink: "#FED4E7",
         // pink: "#ff49db",
         // orange: "#ff7849",
         // green: "#13ce66",
@@ -72,6 +75,7 @@ const config: Config = {
       },
       backgroundImage: {
         "guide-intro": "url('/images/intro.png')",
+        "gradient-to-top": "linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)",
       },
     },
   },
