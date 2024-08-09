@@ -38,7 +38,7 @@ export default function RootLayout({
           <RegisterModal />
           <Headers></Headers>
 
-          <div className="pt-24 min-h-[100vh]">{children}</div>
+          <div className="pt-28 md:pt-32 min-h-[100vh]">{children}</div>
 
           <Footer></Footer>
         </main>

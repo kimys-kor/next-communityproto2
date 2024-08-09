@@ -115,20 +115,20 @@ const Navbar = () => {
   return (
     <div className="px-2">
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex w-full h-20 px-1">
-        <ul className="flex w-full h-20 rounded-lg text-center pl-1">
-          <li className="w-5 h-20 relative group cursor-pointe flex flex-col justify-center items-center box-border">
+      <nav className="hidden md:flex w-full  px-1">
+        <ul className="flex w-full  rounded-lg text-center pl-1">
+          <li className="w-5 h-14 md:h-16 relative group cursor-pointe flex flex-col justify-center items-center box-border">
             <BurgerIcon className="cursor-pointer" />
           </li>
           {links.map((link, index) => (
             <li
               key={index}
-              className="h-20 relative group cursor-pointer flex flex-col justify-center items-center box-border"
+              className="h-14 md:h-16 relative group cursor-pointer flex flex-col justify-center items-center box-border"
             >
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative ${link.width} h-14 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
+                className={`relative ${link.width} h-14 md:h-16 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
                   isActiveLink(link.href) ? "text-blue" : "text-black"
                 }`}
                 onClick={() => handleLinkClick(link.href)}
@@ -139,7 +139,7 @@ const Navbar = () => {
               <ul className="border border-t border-red-text-blue">
                 {link.dropdown && (
                   <li
-                    className={`mt-[1px] w-24 lg:w-32 left-[0px] invisible absolute z-50 flex flex-col bg-white text-black shadow-xl group-hover:visible`}
+                    className={` w-24 lg:w-32 left-[0px] invisible absolute z-50 flex flex-col bg-white text-black shadow-xl group-hover:visible`}
                   >
                     {link.dropdown.map((sublink, index) => (
                       <Link
