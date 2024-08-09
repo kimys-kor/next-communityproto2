@@ -35,10 +35,10 @@ async function HomeBanner() {
 
   return (
     <main className="w-full h-auto bg-white rounded-2xl flex flex-col items-center">
-      <div className="w-full flex justify-center items-center gap-3 py-3 font-bold">
+      {/* <div className="w-full flex justify-center items-center gap-3 py-3 font-bold">
         <span className="text-3xl text-purple-500 ">꽁머니팡</span>
         <span className="text-3xl text-black ">파트너</span>
-      </div>
+      </div> */}
       <ul className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-1">
         {(await imgContent).map((item, index) => (
           <li key={index} className="grid-element">

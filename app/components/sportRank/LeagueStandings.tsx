@@ -87,7 +87,7 @@ const LeagueStandings: React.FC<LeagueStandingsProps> = ({ league }) => {
   return (
     <table className="min-w-full text-center">
       <thead>
-        <tr className="bg-semiblue text-blue font-semibold">
+        <tr className="border-semiblue border-solid border-b border-t text-blue font-semibold">
           <th className="py-2 text-sm">순위</th>
           <th className="py-2 text-sm">팀</th>
           <th className="py-2 text-sm">경기</th>

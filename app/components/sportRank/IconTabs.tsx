@@ -61,7 +61,7 @@ const IconTabs: React.FC = () => {
 
   return (
     <section className="w-full border-solid border border-[#EEEEEE] bg-white rounded-lg shadow-sm">
-      <article className="rounded-t-md py-3 px-2 bg-[#FAFAFA] flex justify-around cursor-pointer border-b border-solid border-[#EEEEEE] ">
+      <article className="rounded-t-md py-3 px-2  flex justify-around cursor-pointer border-b border-solid border-[#EEEEEE] ">
         {sports.map((sport) => (
           <div
             key={sport.id}
@@ -79,10 +79,10 @@ const IconTabs: React.FC = () => {
                 setSelectedLeague(null);
               }
             }}
-            className={`flex justify-center items-center w-10 h-7 md:w-12 rounded-2xl text-sm font-bold hover:bg-blue hover:text-white ${
+            className={`flex justify-center items-center w-10 h-7 md:w-12 text-sm font-bold  border-b border-solid hover:border-blue hover:text-blue ${
               selectedSport === sport.id
-                ? "text-white bg-blue"
-                : "text-black bg-[#E8E8ED]"
+                ? "border-blue text-blue"
+                : "border-transparent"
             }`}
           >
             {sport.label}
