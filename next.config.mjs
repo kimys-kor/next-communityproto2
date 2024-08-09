@@ -5,8 +5,12 @@ const nextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-    config.cache = false; 
+    config.cache = false;
     return config;
+  },
+  images: {
+    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
   },
 };
 

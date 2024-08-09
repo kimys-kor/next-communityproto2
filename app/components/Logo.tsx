@@ -7,7 +7,7 @@ const Logo = () => {
       alt="logo"
       className="cursor-pointer"
       width={130}
-      height={47}
+      height={50}
       src={logo}
     ></Image>
   );

@@ -63,7 +63,7 @@ export default function ProgressSlider({ items }: { items: Item[] }) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Image src={item.img} width={1024} height={177} alt={item.desc} />
+            <Image src={item.img} width={1024} height={270} alt={item.desc} />
           </Transition>
         ))}
       </div>
