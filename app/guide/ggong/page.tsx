@@ -21,16 +21,16 @@ function page() {
           </div>
           <p className="w-full max-w-[900px] px-5 pt-5 text-description leading-6 flex flex-col justify-center items-center text-sm">
             꽁머니는 토토사이트나 스포츠토토, 카지노에서 신규 가입자나 기존
-            사용자에게 제공하는 무료 돈입니다. 이를 통해 사용자는 실제 돈을
-            사용하기 전에 게임을 시험해볼 수 있습니다. 꽁머니는 주로
-            메이저사이트와 안전한놀이터에서 제공되며, 먹튀검증이 완료된 신뢰할
-            수 있는 사이트에서 주어지는 것이 일반적입니다. 하지만 꽁머니를 통해
-            안전하게 이용을 마쳤더라도 안전한 업체라고 안심할 수는 없습니다.
-            마케팅 목적으로 이용자를 끌어들인 후 먹튀를 하는 업체도 심심치 않게
+            사용자에게 제공하는 무료 포인트입니다. 이를 통해 사용자는 실제
+            이용전에 게임을 시험해볼 수 있습니다. 꽁머니는 주로 메이저사이트와
+            안전한놀이터에서 제공되며, 먹튀검증이 완료된 신뢰할 수 있는
+            사이트에서 주어지는 것이 일반적입니다. 하지만 꽁머니를 통해 안전하게
+            이용을 마쳤더라도 안전한 업체라고 안심할 수는 없습니다. 마케팅
+            목적으로 이용자를 끌어들인 후 먹튀를 하는 업체도 심심치 않게
             존재하기 때문입니다. 꽁머니팡에서 활발한 소통을 통하여 피해 사례를
             공유하고 안전한 업체를 찾아보세요.
           </p>
-          <div className="w-full max-w-[900px] pt-20 px-5 flex items-center justify-center">
+          <div className="w-full max-w-[1000px] pt-20 px-5 flex items-center justify-between">
             <section className="hidden lg:flex w-1/2 h-full  flex-col justify-center items-center">
               <div className="font-bold text-center">
                 <h1 className="text-2xl ">꽁머니</h1>
