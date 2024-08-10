@@ -41,6 +41,7 @@ const config: Config = {
       },
       colors: {
         blue: "#3384F5",
+        deepblue: "#046cf5",
         mediumblue: "#395DDB",
         semiblue: "#E9EEFF",
         normalblue: "#5171E2",
