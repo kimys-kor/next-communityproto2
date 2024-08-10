@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Mttp from "./(components)/Mttp";
+import Mttp from "./(components)/Ggmp";
 import question from "/public/images/question.png";
 import talkball from "/public/images/talkball.png";
 import advantage from "/public/images/advantage.png";
@@ -131,7 +131,7 @@ function page() {
               <h1 className="text-4xl font-semibold">
                 먹튀검증 <span className="text-blue">No.1</span> 꽁머니팡
               </h1>
-              <p className="w-full max-w-[900px] px-5 pt-5 text-description leading-6 flex flex-col items-center break-keep">
+              <p className="w-full max-w-[900px] px-5 pt-5 text-description leading-6 flex flex-col items-center ">
                 이미 수많은 토토사이트 먹튀증을 해주는 사이트들이 운영되고
                 있습니다.꽁머니팡은 토토사이트 먹튀검증을 오랜 기간 진행해
                 왔습니다. 그래서 먹튀검증업체 순위에서도 높은 순위를 차지하고
@@ -147,7 +147,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       1
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       꽁머니팡은 먹튀검증을 직접 진행합니다.
                     </div>
                   </div>
@@ -155,16 +155,16 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       2
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       꽁머니팡은 토토사이트로부터 보증금을 받지 않고서는 광고를
                       진행하지 않습니다.
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 font-normal break-keep">
+                  <div className="flex items-center gap-3 font-normal ">
                     <div className="h-4 w-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       3
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       꽁머니팡은 적극적인 커뮤니티 활동으로 고객이 먹튀 피해를
                       입지 않도록 정보를 빠르게 업데이트 합니다. 꽁머니팡을
                       이용하는 회원들의 안전한 게임을 가장 우선시 합니다.
@@ -181,7 +181,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       1
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       먹튀사이트 정보를 신고해 주시면 많은 유저들의 피해를
                       예방할 수 있습니다.
                     </div>
@@ -190,7 +190,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       2
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       먹튀피해를 입었다면 꽁머니팡 고객센터에 직접 문의를
                       주시거나 먹튀신고게시판에 글을 올려주시면 됩니다.
                     </div>
@@ -199,7 +199,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       3
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       먹튀피해를 입으신 플레이어를 위해 꽁머니팡은 구제 방법을
                       함께 찾아나갑니다.
                     </div>
@@ -208,7 +208,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       4
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       토토사이트 이용 시 먹튀 피해를 막고 싶다면 커뮤니티를 통해
                       정보를 얻어 피해가 의심되는 사이트를 피하는 것이
                       좋겠습니다.
@@ -218,7 +218,7 @@ function page() {
                     <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
                       5
                     </div>
-                    <div className="w-full max-w-[568px] break-keep">
+                    <div className="w-full max-w-[568px] ">
                       먹튀검증 메뉴를 통해서 토토사이트 피해 사실을 공유하면
                       먹튀사이트 근절에 많은 도움이 됩니다.
                     </div>

@@ -1,4 +1,4 @@
-import Mttp from "../(components)/Mttp";
+import Ggmp from "../(components)/Ggmp";
 import Image from "next/image";
 import money from "/public/images/money.png";
 import search from "/public/images/search.png";
@@ -8,7 +8,7 @@ function page() {
   return (
     <div className="w-full">
       <main>
-        <Mttp></Mttp>
+        <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">
           <Image
             alt="꽁머니팡소개"
@@ -32,25 +32,20 @@ function page() {
           </p>
           <div className="w-full max-w-[900px] pt-20 px-5 flex items-center justify-center">
             <section className="hidden lg:flex w-1/2 h-full  flex-col justify-center items-center">
-              <div className="h-full font-bold">
+              <div className="font-bold text-center">
                 <h1 className="text-2xl ">안전한 꽁머니</h1>
                 <h1 className="text-2xl ">사이트 찾는 방법</h1>
               </div>
-              <div className="">
-                <Image
-                  alt="꽁머니팡소개"
-                  width={248}
-                  height={255}
-                  src={search}
-                ></Image>
-              </div>
+              <Image
+                alt="꽁머니팡소개"
+                width={248}
+                height={255}
+                src={search}
+              ></Image>
             </section>
             <section className="w-full flex flex-col gap-5 ">
               <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
                 <article className="w-full max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    1
-                  </div>
                   <div>
                     <p className="">
                       안전한 꽁머니를 찾고 싶다면 먹튀검증 업체에 등록된
@@ -59,9 +54,6 @@ function page() {
                   </div>
                 </article>
                 <article className="w-full max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    2
-                  </div>
                   <div>
                     <p className="">
                       꽁머니팡은 꽁머니를 지급하는 사이트 중에서도 검증된
@@ -72,9 +64,6 @@ function page() {
               </div>
               <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
                 <article className="w-full max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    3
-                  </div>
                   <div>
                     <p className="">
                       꽁머니는 신규가입머니 지급을 의미하는 것으로 플레이어를
@@ -86,9 +75,6 @@ function page() {
                   </div>
                 </article>
                 <article className="w-full md:h-[182px] max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    4
-                  </div>
                   <div>
                     <p className="">
                       안전한 꽁머니를 찾고 싶다면 먹튀검증 업체에 등록된
@@ -99,9 +85,6 @@ function page() {
               </div>
               <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
                 <article className="w-full max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    5
-                  </div>
                   <div>
                     <p className="">
                       안전한 꽁머니를 찾고 싶다면 먹튀검증 업체에 등록된
@@ -110,9 +93,6 @@ function page() {
                   </div>
                 </article>
                 <article className="w-full max-w-80 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
-                  <div className="absolute top-[-0.5rem] rounded-full bg-black w-5 h-5 text-white text-sm  flex items-center justify-center font-light">
-                    6
-                  </div>
                   <div>
                     <p className="">
                       안전한 꽁머니를 찾고 싶다면 먹튀검증 업체에 등록된
@@ -126,8 +106,8 @@ function page() {
           <article className="w-full flex justify-center items-center pt-10 gap-3 px-5">
             <Image
               src={talkball}
-              width={36}
-              height={36}
+              width={120}
+              height={120}
               alt="sub description"
             ></Image>
             <div className="w-full max-w-[900px] text-description leading-6">

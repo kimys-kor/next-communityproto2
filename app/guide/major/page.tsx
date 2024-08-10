@@ -1,4 +1,4 @@
-import Mttp from "../(components)/Mttp";
+import Ggmp from "../(components)/Ggmp";
 import Image from "next/image";
 import major from "/public/images/major.png";
 
@@ -6,7 +6,7 @@ function page() {
   return (
     <div className="w-full">
       <main>
-        <Mttp></Mttp>
+        <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">
           <Image
             alt="꽁머니팡소개"
@@ -19,7 +19,7 @@ function page() {
             <span className="text-blue"> 메이저 사이트 </span>
           </div>
           <div className="w-full lg:w-1/3 px-5">
-            <p className="break-keep py-5 leading-6 text-sm font-medium text-description">
+            <p className=" py-5 leading-6 text-sm font-medium text-description">
               토토사이트를 이용하면서 중요한 것은 먹튀 피해를 당하지 않는
               것입니다. 그래서 안전한 놀이터에서 게임을 즐기는 것이 중요한데요.
               많은 유저들이 먹튀 피해를 막기 위해 메이저 놀이터를 이용하고
@@ -39,7 +39,7 @@ function page() {
                 </div>
               </div>
               <div className="w-full lg:w-1/3 px-5">
-                <p className="break-keep py-10 text-sm font-medium">
+                <p className="py-10 text-sm font-medium">
                   결론부터 말하자면 메이저 놀이터 순위와 추천은 믿기 어려운
                   경우가 많습니다. 여러 사이트들을 살펴보면 메이저놀이터 순위가
                   다 다르다는 것을 알 수가 있습니다. 그 이유는 메이저놀이터를
@@ -60,7 +60,7 @@ function page() {
                 </div>
               </div>
               <div className="w-full lg:w-1/3 px-5">
-                <p className="break-keep py-10 text-sm font-medium">
+                <p className="py-10 text-sm font-medium">
                   메이저놀이터 순위나 메이저사이트 추천 정보를 얻고 싶다면
                   믿을만한 먹튀검증 커뮤니 티를 이용해야 합니다. 믿을만한
                   먹튀검증 커뮤니티의 특징은 직접 먹튀검증을 한다는점,여러

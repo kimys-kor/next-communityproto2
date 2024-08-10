@@ -1,4 +1,4 @@
-import Mttp from "../(components)/Mttp";
+import Ggmp from "../(components)/Ggmp";
 import Image from "next/image";
 import powerball from "/public/images/powerball.png";
 import game from "/public/images/game.png";
@@ -8,7 +8,7 @@ function page() {
   return (
     <div className="w-full">
       <main>
-        <Mttp></Mttp>
+        <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">
           <Image
             alt="꽁머니팡소개"
@@ -20,15 +20,15 @@ function page() {
             <span className="text-blue">파워볼</span>
           </div>
           <div className="w-full max-w-[900px] px-5 pt-5">
-            <p className="w-full text-center break-keep leading-6 text-sm font-medium text-description">
+            <p className="w-full text-center leading-6 text-sm font-medium text-description">
               파워볼 게임을 즐기는 분들이 많아지고 있습니다.
             </p>
-            <p className="w-full text-center break-keep leading-6 text-sm font-medium text-description">
+            <p className="w-full text-center leading-6 text-sm font-medium text-description">
               네임드 파워볼은 5분에 한 번24시간 진행되는 게임으로 누구나 손쉽게
               즐길 수 있다는 장점이 있습니다. 파워볼에서 어떤 숫자가 나올지를
               예측해 베팅
             </p>
-            <p className="w-full text-center break-keep leading-6 text-sm font-medium text-description">
+            <p className="w-full text-center leading-6 text-sm font-medium text-description">
               하면 되는데요. 남녀노소를 가리지 않고 손쉽게 게임에 임할 수 있다는
               점에서 많은 사랑을 받고 있는 게임 유형입니다.
             </p>
@@ -43,7 +43,7 @@ function page() {
                       <h1 className="">파워볼 게임</h1>
                       <h1 className="text-blue">&nbsp;종류</h1>
                     </div>
-                    <div className="py-6 w-full break-keep leading-4 text-sm">
+                    <div className="py-6 w-full leading-4 text-sm">
                       <p className="font-medium text-description">
                         파워볼 게임은 여러 종류가 있습니다. 다양하게 파워볼
                         게임을 즐길 수 있는데요.
