@@ -77,8 +77,6 @@ const Navbar = () => {
         { href: "/guide/ggong", label: "꽁머니" },
         { href: "/guide/major", label: "메이저" },
         { href: "/guide/safe", label: "안전놀이터" },
-        { href: "/guide/proto", label: "프로토" },
-        { href: "/guide/power", label: "파워볼" },
       ],
       width: "w-20 md:w-24 lg:w-24",
     },

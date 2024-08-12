@@ -1,6 +1,8 @@
 import Ggmp from "../(components)/Ggmp";
 import Image from "next/image";
 import safe from "/public/images/safe.png";
+import search from "/public/images/search.png";
+import talkball from "/public/images/talkball.png";
 
 function page() {
   return (
@@ -8,131 +10,118 @@ function page() {
       <main>
         <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">
-          <Image alt="소개" width={248} height={255} src={safe}></Image>
+          <Image alt="꽁머니팡소개" width={248} height={255} src={safe}></Image>
           <div className="text-4xl font-semibold px-3">
-            <span className="text-blue">안전 놀이터</span> 바로 알기
+            <span className="text-blue">안전 놀이터 </span>란?
           </div>
-          <div className="w-full max-w-[900px] px-5 py-5">
-            <p className="w-full text-center s leading-6 text-sm font-medium text-description">
-              토토사이트를 이용하면서 안전놀이터를 찾는 분들이 늘고 있습니다.
-            </p>
-            <p className="w-full text-center  leading-6 text-sm font-medium text-description">
-              안전놀이터가 아니면 게임을 진행하더라도 환전을 받을 수 없기
-              때문입니다.
-            </p>
-            <p className="w-full text-center leading-6 text-sm font-medium text-description">
-              이를 토토 먹튀사이트라고 부릅니다. 또 일부 많은 유저들이
-              안전놀이터가 아닌 경우 조작을 의심하기도 합니다.
-            </p>
-          </div>
-          <div className="pt-20 w-full flex flex-col items-center justify-center">
-            <p className="text-2xl font-bold px-5">
-              조작 없이 안전하게 환급까지 받을 수 있는
-            </p>
-            <p className="text-2xl font-bold px-5">
-              안전한 놀이터를 찾는 것이 중요합니다.
-            </p>
-            <article className="block lg:flex justify-center py-20 px-5 gap-20 border-solid border-b border-slate-200">
-              <div className=" flex flex-col items-center">
-                <div className="w-full pt-10 px-5 py-10 flex flex-col lg:flex-row justify-start items-center gap-10 lg:gap-32 border-b border-solid border-gray-200">
-                  <div className="w-72 text-3xl font-bold flex flex-row lg:flex-col">
-                    <h1 className="">안전한 놀이터의</h1>
-                    <h1 className="text-blue">&nbsp;조건</h1>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        1
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        안전토토사이트는 오랫동안 운영된 경력이 있습니다. 신생
-                        사이트는 먹튀위험이 있음으로 많은 금액을 입금하지 않는
-                        것이 좋습니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        2
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        안전토토사이트는 먹튀검증업체로부터 먹튀 위험이 없다고
-                        검증 받은 사이트를 이용해야 합니다. 다만, 검증업체도
-                        제대로 된 정보를 제공하지 않을 수 있으므로
-                        먹튀검증업체를 신중하게 선택하는 것이 중요합니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="h-4 w-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        3
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        안전한 놀이터는 기존 유저들로부터 먹튀 피해 루머가 나지
-                        않습니다. 꽁머니팡 커뮤니티를 살펴보면 토토사이트에서
-                        먹튀피해를 당했다는 글을 쉽게 볼 수 있습니다. 이렇게
-                        먹튀피해가 있는 사이트라면 입금을 피해야 합니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="h-4 w-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        4
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        안전토토사이트는 유저를 유인하기 위해서 많은 꽁머니를
-                        지급하지 않습니다. 지나치게 많은 꽁머니를 지급하는
-                        토토사이트가 있다면 이는 안전하지 않은 사이트일 가능성이
-                        높습니다.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full  pt-20 px-5 flex flex-col lg:flex-row justify-start items-center gap-10 lg:gap-32">
-                  <div className="w-72 text-3xl font-bold flex flex-row lg:flex-col">
-                    <h1 className="">안전 토토사이트</h1>
-                    <h1 className="text-blue">&nbsp;추천</h1>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        1
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        꽁머니팡은 안전토토사이트를 검증하여 추천하고 있습니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        2
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        검증은 여러 단계를 거쳐 진행이 되므로 믿을만한 정보들만
-                        추천합니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        3
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        다른 커뮤니티와 다르게 많은 유저들이 안전하지 않은
-                        사이트에 대해 정보를 공유하기 때문에 실시간으로, 그리고
-                        최신의 정보를 토토핫에서 찾아보실 수 있습니다.
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 font-normal">
-                      <div className="w-4 h-4 rounded-full bg-[#6885EC] text-white flex items-center justify-center text-sm">
-                        4
-                      </div>
-                      <div className="w-full max-w-[568px]">
-                        꽁머니팡은 안전토토사이트에 대하여 보증금을 받고
-                        보증업체들을 선정하고 있습니다. 그렇기에 이중으로
-                        먹튀방지를 할 수 있습니다.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
+          <p className="w-full max-w-[900px] px-5 pt-5 text-description leading-6 flex flex-col justify-center items-center text-sm">
+            안전 놀이터는 토토사이트, 스포츠토토, 카지노 등에서 오랜기간
+            운영되어온 안전성을 갖춘 플랫폼을 의미합니다. 이러한 놀이터는
+            어느정도 규모 있는 자본력과 안전한 운영방식을 통해 먹튀 확률이 없는
+            검증된 사이트를 말합니다. 지금도 안타깝게 많은 사람들이 먹튀 피해를
+            입는 사건이 발생하고 있습니다. 저희 꽁머니팡에서는 담당 검증팀을
+            통하여 안전놀이터인지 정확하고 꼼꼼하게 검증을 진행하고 있습니다.
+          </p>
+
+          <div className="w-full max-w-[1000px] pt-20 px-5 flex items-center justify-between">
+            <section className="hidden lg:flex w-1/2 h-full  flex-col justify-center items-center">
+              <div className="font-bold text-center">
+                <h1 className="text-2xl ">안전 놀이터</h1>
+                <h1 className="text-2xl ">특징과 주의사항</h1>
               </div>
-            </article>
+              <Image
+                alt="꽁머니팡소개"
+                width={248}
+                height={255}
+                src={search}
+              ></Image>
+            </section>
+            <section className="w-full flex flex-col gap-5 ">
+              <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
+                <article className="w-full h-36 max-w-80  relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      안전 놀이터는 어느정도 규모 있는 자본력을 유지하고
+                      있습니다. 꽁머니팡에서는 일정한 자본이 있는 놀이터인지
+                      정기적으로 점검하고 있습니다.
+                    </p>
+                  </div>
+                </article>
+                <article className="w-full h-36 max-w-80  relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      안전 놀이터는 메이저 놀이터라고 해도 언제나 믿을 수 있는게
+                      아닙니다. 실제로 메이저 놀이터라고 안심하였다가 피해
+                      사례를 입는 분들이 다수 존재 합니다. 따라서 정기적으로
+                      검증을 통하여 신뢰성을 확보하여야 합니다.
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
+                <article className="w-full max-w-80 h-36 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      안전 놀이터를 선택할 때에도 업체마다 이벤트와 규정에
+                      상당한 차이가 존재합니다. 따라서 자신의 성향과 맞는 업체를
+                      찾는것이 중요하기 때문에 꼼꼼히 이벤트와 규정을 따져보고
+                      자신에게 유리한 업체를 찾는것이 좋습니다.
+                    </p>
+                  </div>
+                </article>
+                <article className="w-full max-w-80 h-36 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      믿을 수 있는 안전 놀이터라고 하더라도 개인 정보와 업체의
+                      보안 규정 스타일을 파악하여야 합니다. 언제든지 유저의
+                      개인정보 해킹 피해를 통해 금전적인 손실을 입을 수 있기
+                      때문입니다. 따라서 기술적인 수준, 보안 의식이 있는
+                      업체인지도 판단을 하여야 안전 놀이터라 할 수 있습니다.
+                    </p>
+                  </div>
+                </article>
+              </div>
+              <div className="flex flex-col md:flex-row gap-2 w-full justify-center items-center">
+                <article className="w-full max-w-80 h-36 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      안전 놀이터라도 정기적으로 이벤트를 진행하는 곳과 업데이트
+                      하는 곳이 좋습니다. 게임외에 부가적으로 다양한 즐길거리를
+                      제공 하는 업체인지 확인하는것이 중요합니다.
+                    </p>
+                  </div>
+                </article>
+                <article className="w-full max-w-80 h-36 relative px-5 py-5 text-sm rounded-lg  border border-solid border-[#EEEEEE] flex items-center justify-center">
+                  <div>
+                    <p className="">
+                      안전 놀이터 헷갈릴 때에는 꽁머니팡에서 사용자 리뷰와
+                      평가를 통하여 확인해 보는것이 좋습니다. 꽁머니팡에서는
+                      정기적으로 광고멘트, 자금력 여부, 이벤트 여부를 검증하고
+                      있기 때문에 믿고 이용할 수 있습니다.
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </section>
           </div>
+          <article className="w-full flex justify-center items-center pt-10 gap-3 px-5">
+            <Image
+              src={talkball}
+              width={120}
+              height={120}
+              alt="sub description"
+            ></Image>
+            <div className="w-full max-w-[900px] text-description leading-6">
+              <p>
+                안전 놀이터 추천 업체는 안전 놀이터 순위를 제공하지만, 이를
+                활용하기 전에 먹튀검증, 이용자들의 후기, 피해사례등 정확성을
+                충분히 확인하는 것이 중요합니다. 꽁머니팡 에서는 신뢰할 수 있는
+                정보를 바탕으로 매일 매일 정기적으로 광고글인지 실제 이용자들의
+                진솔한 후기 인지를 판단하여 최신 정보를 유지 하고 있습니다.
+              </p>
+            </div>
+          </article>
         </section>
       </main>
     </div>
