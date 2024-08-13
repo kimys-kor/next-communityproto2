@@ -4,6 +4,11 @@ import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
 
 export default function Page() {
+  const breadcrumbItems = {
+    title: "스포츠분석",
+    subMenu: "농구분석",
+  };
+
   return (
     <div className="flex flex-col max-w-[1300px] gap-6">
       <div className="bg-guide-intro">

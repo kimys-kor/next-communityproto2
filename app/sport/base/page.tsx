@@ -16,9 +16,8 @@ export default function Page() {
         />
       </div>
       <ThreeBanner />
-      <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">야구</span>
-        &nbsp;분석
+      <div className="mt-5 flex justify-center items-center gap-2 text-3xl font-semibold text-[#07122B] ">
+        야구 분석
       </div>
       <Board />
     </div>
