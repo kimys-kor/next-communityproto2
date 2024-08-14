@@ -6,6 +6,11 @@ import Image from "next/image";
 import PhotoBoard from "../components/boards/PhotoBoard";
 
 function page() {
+  const breadcrumbItems = {
+    title: "커뮤니티",
+    subMenu: "안구정화",
+  };
+
   return (
     <div className="flex flex-col max-w-[1200px] gap-6">
       <ThreeBanner></ThreeBanner>

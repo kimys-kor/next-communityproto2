@@ -2,6 +2,7 @@ import Board from "@/app/components/boards/Board";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
+import Breadcrumb from "@/app/components/BreadCrumb";
 
 export default function Page() {
   const breadcrumbItems = {
@@ -21,10 +22,7 @@ export default function Page() {
         />
       </div>
       <ThreeBanner />
-      <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">농구</span>
-        &nbsp;분석
-      </div>
+      <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <Board />
     </div>
   );

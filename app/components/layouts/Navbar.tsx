@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BurgerIcon from "/public/images/icon/burgerIcon.svg";
-import WaIcon from "/public/images/icon/waIcon.svg";
-import MedalIcon from "/public/images/icon/medalIcon.svg";
-import TvIcon from "/public/images/icon/tvIcon.svg";
+import partnerIcon from "/public/images/partnerIcon.png";
+import sportIcon from "/public/images/sportIcon.png";
+import commuIcon from "/public/images/commuIcon.png";
+import Image from "next/image";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -22,7 +23,15 @@ const Navbar = () => {
     {
       href: "/partner",
       label: "파트너",
-      icon: <WaIcon className="hidden lg:block" />,
+      icon: (
+        <Image
+          src={partnerIcon}
+          width={33}
+          height={33}
+          alt="menuIcon"
+          className="hidden lg:block"
+        />
+      ),
       width: "w-20 md:w-24 lg:w-32",
     },
     {
@@ -33,9 +42,16 @@ const Navbar = () => {
         { href: "/sport/base", label: "야구분석" },
         { href: "/sport/basket", label: "농구분석" },
         { href: "/sport/volley", label: "배구분석" },
-        { href: "/sport/hockey", label: "하키분석" },
       ],
-      icon: <MedalIcon className="hidden lg:block" />,
+      icon: (
+        <Image
+          src={sportIcon}
+          width={33}
+          height={33}
+          alt="menuIcon"
+          className="hidden lg:block"
+        />
+      ),
       width: "w-20 md:w-24 lg:w-32",
     },
     {
@@ -48,7 +64,15 @@ const Navbar = () => {
         { href: "/community/free", label: "자유게시판" },
         { href: "/community/case", label: "피해사례" },
       ],
-      icon: <TvIcon className="hidden lg:block absolute top-2 right-0" />,
+      icon: (
+        <Image
+          src={commuIcon}
+          width={33}
+          height={33}
+          alt="menuIcon"
+          className="hidden lg:block"
+        />
+      ),
       width: "w-20 md:w-24 lg:w-32",
     },
     {
