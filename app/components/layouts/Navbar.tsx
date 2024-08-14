@@ -78,10 +78,10 @@ const Navbar = () => {
     {
       href: "/event",
       label: "이벤트",
-      dropdown: [
-        { href: "/event", label: "이벤트" },
-        { href: "/event/attd", label: "출석체크" },
-      ],
+      // dropdown: [
+      //   { href: "/event", label: "이벤트" },
+      //   { href: "/event/attd", label: "출석체크" },
+      // ],
       width: "w-20 md:w-24 lg:w-24",
     },
     {

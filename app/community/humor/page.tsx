@@ -15,10 +15,7 @@ function page() {
       <ProgressSliderPage></ProgressSliderPage>
       <ThreeBanner></ThreeBanner>
       {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}
-      <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">유머</span>
-        &nbsp;게시판
-      </div>
+      <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <Board />
     </div>
   );

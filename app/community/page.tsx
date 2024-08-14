@@ -23,10 +23,7 @@ function page() {
           alt={"안구정화갤러리"}
         />
       </div>
-      <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">안구정화 </span>
-        &nbsp;갤러리
-      </div>
+      <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <PhotoBoard />
     </div>
   );
