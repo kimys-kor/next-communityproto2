@@ -70,13 +70,7 @@ const Board = () => {
 
   return (
     <section className="flex flex-col gap-8 mt-10">
-      <article className="flex justify-center gap-2 ">
-        <SelectBox options={options} onChange={handleChange} defaultValue="1" />
-        <SearchBox
-          handleSearch={handleSearch}
-          placeholderText="검색어 입력"
-        ></SearchBox>
-      </article>
+      
       <div className="flex justify-between items-center w-full">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm">
@@ -89,6 +83,13 @@ const Board = () => {
             {")"}
           </div>
         </div>
+        <article className="flex justify-center gap-2 ">
+        <SelectBox options={options} onChange={handleChange} defaultValue="1" />
+        <SearchBox
+          handleSearch={handleSearch}
+          placeholderText="검색어 입력"
+        ></SearchBox>
+      </article>
       </div>
       <table className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px]">
         {/* Header */}

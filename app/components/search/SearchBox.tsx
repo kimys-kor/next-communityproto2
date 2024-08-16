@@ -26,7 +26,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       <input
         type="text"
         id="searchKeyword"
-        className="w-full pl-5 block h-full box-border border-b border-gray-300 bg-white text-black text-sm focus:outline-none"
+        className="w-full pl-5 block h-full text-black box-border block text-sm border border-gray-300  rounded-lg focus:ring-blue focus:border-blue"
         placeholder={placeholderText}
         value={searchTerm}
         onChange={handleChange}
