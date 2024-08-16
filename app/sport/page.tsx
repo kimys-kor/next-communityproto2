@@ -12,6 +12,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col max-w-[1300px] gap-6">
+      <ThreeBanner />
       <div className="">
         <Image
           className=""
@@ -21,9 +22,7 @@ export default function Page() {
           alt={"스포츠분석"}
         />
       </div>
-      <ThreeBanner />
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-
       <Board />
     </div>
   );

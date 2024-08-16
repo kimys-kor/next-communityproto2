@@ -14,7 +14,7 @@ function page() {
   return (
     <div className="flex flex-col max-w-[1200px] gap-6">
       <ThreeBanner></ThreeBanner>
-      <div className="bg-guide-intro">
+      <div>
         <Image
           className=""
           src={photoMain}
