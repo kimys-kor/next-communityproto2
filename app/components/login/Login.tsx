@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import IdIcon from "/public/images/icon/idIcon.svg";
-import PassIcon from "/public/images/icon/passIcon.svg";
+import IdIcon from "/public/images/idIcon.png";
+import PassIcon from "/public/images/passIcon.png";
 import Link from "next/link";
+import Image from "next/image";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +34,13 @@ const Login: React.FC = () => {
             placeholder="아이디"
             required
           />
-          <IdIcon className="absolute top-2 left-2"></IdIcon>
+          <Image
+            src={IdIcon}
+            width={17}
+            height={17}
+            alt="Id Icon"
+            className="absolute top-2 left-2"
+          />
         </div>
         <div className="relative mb-4">
           <input
@@ -45,9 +52,15 @@ const Login: React.FC = () => {
             placeholder="비밀번호"
             required
           />
-          <PassIcon className="absolute top-2 left-2"></PassIcon>
+          <Image
+            src={PassIcon}
+            width={17}
+            height={17}
+            alt="Password Icon"
+            className="absolute top-2 left-2"
+          />
         </div>
-        <div className="flex justify-between items-center mb-4">
+        {/* <div className="flex justify-between items-center mb-4">
           <div className="flex items-center justify-center">
             <input
               id="default-checkbox"
@@ -68,15 +81,25 @@ const Login: React.FC = () => {
           >
             회원가입
           </Link>
-        </div>
-        <div className="flex flex-col gap-2 items-center justify-between">
-          <button
-            type="submit"
-            className="py-4 px-4  bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
-          >
-            로그인
-          </button>
-        </div>
+        </div> */}
+        <section className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 items-center justify-between">
+            <button
+              type="submit"
+              className="py-3 px-4  bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
+            >
+              로그인
+            </button>
+          </div>
+          <div className="flex flex-col gap-2 items-center justify-between">
+            <button
+              type="submit"
+              className="py-3 px-4  bg-[#6870e9] hover:bg-[#525dee] text-white font-bold w-full rounded focus:outline-none"
+            >
+              회원가입
+            </button>
+          </div>
+        </section>
       </form>
     </div>
   );
