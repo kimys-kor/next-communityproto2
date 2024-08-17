@@ -1,6 +1,10 @@
 import React from "react";
 import StarIcon from "/public/images/icon/starIcon.svg";
 import HomeBoardCard from "./HomeBoardCard";
+import newBlue from "/public/images/new_blue_icon.png";
+import newPurple from "/public/images/new_purple_icon.png";
+import Image from "next/image";
+import Link from "next/link";
 
 function HomeBoard() {
   return (
@@ -8,7 +12,7 @@ function HomeBoard() {
       <article className="flex flex-col gap-2">
         <div className="font-bold text-lg flex justify-between items-center">
           <div className="flex items-center justify-between">
-            <StarIcon></StarIcon>
+            <Image src={newBlue} width={40} height={40} alt="Id Icon" />
             <h1 className="text-lg font-bold">주간 베스트</h1>
           </div>
           <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
@@ -29,7 +33,7 @@ function HomeBoard() {
       <article className="flex flex-col gap-2">
         <div className="font-bold text-lg flex justify-between items-center">
           <div className="flex items-center justify-between">
-            <StarIcon></StarIcon>
+            <Image src={newPurple} width={40} height={40} alt="Id Icon" />
             <h1 className="text-lg font-bold">실시간 베스트</h1>
           </div>
           <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
