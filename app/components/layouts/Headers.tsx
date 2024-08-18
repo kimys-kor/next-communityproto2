@@ -3,8 +3,9 @@ import React from "react";
 import Logo from "../Logo";
 import Link from "next/link";
 import SearchBox from "../search/SearchBox";
-import Avatar from "/public/images/icon/avatar.svg";
+import Avatar from "/public/images/avatar.png";
 import Navbar from "./Navbar";
+import Image from "next/image";
 
 function Headers() {
   async function handleSearch() {
@@ -26,7 +27,7 @@ function Headers() {
               placeholderText="검색어를 입력하세요."
             ></SearchBox> */}
             <div className="flex gap-2 justify-center items-center">
-              <Avatar className="relative"></Avatar>
+              <Image src={Avatar} width={40} height={40} alt="Id Icon" />
             </div>
           </div>
         </section>
