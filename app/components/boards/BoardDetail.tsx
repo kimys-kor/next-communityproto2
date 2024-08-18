@@ -1,16 +1,16 @@
 "use client";
 import adminIcon from "/public/images/adminIcon.png";
 import writerIcon from "/public/images/writerIcon.png";
-import boardViewIcon from "/public/images/boardViewIcon.png";
-import boardCommentIcon from "/public/images/boardCommentIcon.png";
-import boardLikeIcon from "/public/images/boardLikeIcon.png";
-import boardDislikeIcon from "/public/images/boardDislikeIcon.png";
-import sirenIcon from "/public/images/sirenIcon.png";
 import likeButtonIcon from "/public/images/likeButtonIcon.png";
 import dislikeButtonIcon from "/public/images/dislikeButtonIcon.png";
 import Image from "next/image";
 import SelectBox from "../SelectBox";
 import Paging from "../Paging";
+import { BiCommentDetail } from "react-icons/bi";
+import { GrView } from "react-icons/gr";
+import { LiaThumbsUp } from "react-icons/lia";
+import { LiaThumbsDown } from "react-icons/lia";
+import { PiSirenFill } from "react-icons/pi";
 
 function BoardDetail() {
   const Content = {
@@ -58,7 +58,7 @@ function BoardDetail() {
   return (
     <div>
       <section className="flex flex-col gap-1">
-        <h1 className="font-bold text-2xl">{Content.title}</h1>
+        <h1 className="font-bold text-3xl">{Content.title}</h1>
         <div className="w-full pt-3 flex items-center justify-between gap-1">
           <div className="flex items-center gap-1">
             {Content.role == "admin" ? (
@@ -81,39 +81,19 @@ function BoardDetail() {
         <div className="flex items-center justify-between w-full py-3 border-b border-solid border-black">
           <section className="flex items-center gap-4">
             <div className="flex items-center gap-1 text-sm text-[#AAAAAA]">
-              <Image
-                src={boardViewIcon}
-                width={17}
-                height={14}
-                alt={"viewNumberIcon"}
-              />
+              <GrView />
               {Content.view}
             </div>
             <div className="flex items-center gap-1 text-sm text-[#AAAAAA]">
-              <Image
-                src={boardCommentIcon}
-                width={17}
-                height={14}
-                alt={"commentNumberIcon"}
-              />
+              <BiCommentDetail />
               {Content.view}
             </div>
             <div className="flex items-center gap-1 text-sm text-[#AAAAAA]">
-              <Image
-                src={boardLikeIcon}
-                width={17}
-                height={14}
-                alt={"likeNumberIcon"}
-              />
+              <LiaThumbsUp size={20} />
               {Content.view}
             </div>
             <div className="flex items-center gap-1 text-sm text-[#AAAAAA]">
-              <Image
-                src={boardDislikeIcon}
-                width={17}
-                height={14}
-                alt={"dislikeNumberIcon"}
-              />
+              <LiaThumbsDown size={20} />
               {Content.view}
             </div>
           </section>
@@ -122,12 +102,7 @@ function BoardDetail() {
               목록
             </button>
             <button className="px-3 py-1 border border-solid border-[#BD1515] text-[#BD1515] font-bold rounded-sm flex gap-1">
-              <Image
-                src={sirenIcon}
-                width={17}
-                height={17}
-                alt={"viewNumberIcon"}
-              />
+              <PiSirenFill />
               신고
             </button>
           </section>
@@ -215,12 +190,7 @@ function BoardDetail() {
                 {item.dislike}
               </button>
               <button className="px-3 py-1 border border-solid border-[#BD1515] text-[#BD1515] font-bold text-xs rounded-sm flex gap-1">
-                <Image
-                  src={sirenIcon}
-                  width={14}
-                  height={14}
-                  alt={"viewNumberIcon"}
-                />
+                <PiSirenFill />
                 신고
               </button>
             </div>
