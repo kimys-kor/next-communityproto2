@@ -1,6 +1,7 @@
 "use client";
 
 import Paging from "@/app/components/Paging";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ImgContent {
@@ -48,12 +49,19 @@ const PartnerCard: React.FC = () => {
       </div>
       <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3 ">
         {imgContent.map((item, index) => (
-          <article className="w-full h-auto p-2 bg-white/25 rounded-2xl flex flex-col gap-4 items-center border border-solid border-slate-200">
-            <img
-              className="w-full rounded-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-              src={item.img}
-              alt={item.title}
-            />
+          <article
+            key={index}
+            className="w-full h-auto p-2 bg-white/25 rounded-2xl flex flex-col gap-4 items-center border border-solid border-slate-200"
+          >
+            <div className="overflow-hidden rounded-lg">
+              <Image
+                width={326}
+                height={230}
+                className="w-full rounded-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                src={item.img}
+                alt={item.title}
+              />
+            </div>
             <table className="w-full rounded-md">
               <tbody>
                 <tr>

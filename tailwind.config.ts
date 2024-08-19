@@ -51,6 +51,8 @@ const config: Config = {
         cpurple: "#8800FF",
         csemipubple: "#EDC9FF",
         cpink: "#FED4E7",
+        semiblack: "#2f3438",
+        subtext: "#6c757d",
         // pink: "#ff49db",
         // orange: "#ff7849",
         // green: "#13ce66",

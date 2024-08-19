@@ -4,8 +4,7 @@ import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-import timeIcon from "/public/images/timeIcon.png";
-import writerIcon from "/public/images/writerIcon.png";
+
 import { usePathname } from "next/navigation";
 
 const PhotoBoard = () => {
@@ -102,43 +101,26 @@ const PhotoBoard = () => {
       </div>
       <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-3">
         {items.map((item, index) => (
-          <li
-            key={item.id}
-            className="bg-white rounded-lg border-solid border border-slate-200 cursor-pointer"
-          >
-            <div>
+          <li key={item.id} className="bg-white rounded-lg cursor-pointer">
+            <div className="overflow-hidden rounded-lg">
               <Image
                 width={326}
                 height={230}
-                className="w-full h-auto rounded-t-lg"
+                className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
                 src={item.thumbnail}
                 alt={item.title}
               />
             </div>
-            <section className="w-full flex flex-col justify-center gap-3 px-2 py-4">
+            <section className="w-full flex flex-col justify-center px-2 py-4">
               <h1 className="w-full text-center font-bold text-lg truncate">
                 {item.title}
               </h1>
-              <div className="w-full flex justify-between items-center px-2">
-                <div className="w-24 flex truncate">
-                  <Image
-                    width={14}
-                    height={14}
-                    src={timeIcon}
-                    alt={"content post Date Icon"}
-                  />
-                  <p>{item.date}</p>
-                </div>
-                <div className="w-24 flex gap-1 px-1 truncate">
-                  <Image
-                    width={14}
-                    height={14}
-                    src={writerIcon}
-                    alt={"content post Writer Icon"}
-                  />
-                  <p>{item.name}</p>
-                </div>
-              </div>
+              <p className="w-full text-center truncate text-base font-medium text-semiblack">
+                {item.date}
+              </p>
+              <p className="w-full text-center truncate text-base text-subtext">
+                {item.name}
+              </p>
             </section>
           </li>
         ))}

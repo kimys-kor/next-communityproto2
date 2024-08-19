@@ -1,6 +1,5 @@
 "use client";
 import masterIcon from "/public/images/masterIcon.png";
-import writerIcon from "/public/images/writerIcon.png";
 
 import Image from "next/image";
 import SelectBox from "../SelectBox";
@@ -68,34 +67,29 @@ function BoardDetail() {
                 alt={"adminIcon"}
               />
             ) : (
-              <Image
-                src={writerIcon}
-                width={25}
-                height={20}
-                alt={"writerIcon"}
-              />
+              <div></div>
             )}
             <p className="font-semibold">{Content.writer}</p>
           </div>
           <div className="flex gap-1 truncate px-2">
-            <p className="text-[#6c757d] font-light">{Content.date}</p>
+            <p className="text-subtext font-light">{Content.date}</p>
           </div>
         </article>
         <article className="px-3 py-2 flex items-center justify-between w-full ">
           <section className="flex items-center gap-4">
-            <div className="flex items-center gap-1 text-sm text-[#6c757d]">
+            <div className="flex items-center gap-1 text-sm text-subtext">
               <GrView />
               {Content.view}
             </div>
-            <div className="flex items-center gap-1 text-sm text-[#6c757d]">
+            <div className="flex items-center gap-1 text-sm text-subtext">
               <BiCommentDetail />
               {Content.view}
             </div>
-            <div className="flex items-center gap-1 text-sm text-[#6c757d]">
+            <div className="flex items-center gap-1 text-sm text-subtext">
               <LiaThumbsUp size={20} />
               {Content.view}
             </div>
-            <div className="flex items-center gap-1 text-sm text-[#6c757d]">
+            <div className="flex items-center gap-1 text-sm text-subtext">
               <LiaThumbsDown size={20} />
               {Content.view}
             </div>
@@ -128,7 +122,7 @@ function BoardDetail() {
           </div> */}
         </div>
         {comment.map((item, index) => (
-          <div key={index} className="py-5 flex flex-col gap-3 text-[#6c757d]">
+          <div key={index} className="py-5 flex flex-col gap-3 text-subtext">
             <div className="py-4 px-3 bg- flex justify-between items-center bg-[#f8f9fa] border-t border-solid border-[#ddd]">
               <div className="flex gap-2 items-center">
                 <p>{item.writer}</p>

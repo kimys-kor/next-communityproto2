@@ -4,9 +4,7 @@ import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-import timeIcon from "/public/images/timeIcon.png";
-import writerIcon from "/public/images/writerIcon.png";
-import viewIcon from "/public/images/viewIcon.png";
+
 import { usePathname } from "next/navigation";
 
 const PhotoBoard = () => {
@@ -144,21 +142,9 @@ const PhotoBoard = () => {
               </h1>
               <div className="w-full flex justify-between items-center px-2">
                 <div className="w-2/3 flex gap-2 truncate">
-                  <Image
-                    width={14}
-                    height={14}
-                    src={timeIcon}
-                    alt={"content post Date Icon"}
-                  />
                   <p>~{item.endDate}</p>
                 </div>
                 <div className="w-24 flex gap-1 px-1 truncate">
-                  <Image
-                    width={14}
-                    height={14}
-                    src={writerIcon}
-                    alt={"content post Writer Icon"}
-                  />
                   <p>{item.name}</p>
                 </div>
               </div>
