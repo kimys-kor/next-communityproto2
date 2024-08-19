@@ -22,7 +22,7 @@ export default function Page() {
           alt={"스포츠분석"}
         />
       </div>
-      <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
+      <Breadcrumb breadcrumbData={breadcrumbItems} />
       <Board />
     </div>
   );

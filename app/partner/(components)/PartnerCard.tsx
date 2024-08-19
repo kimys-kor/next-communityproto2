@@ -29,10 +29,10 @@ const PartnerCard: React.FC = () => {
 
   return (
     <section className="flex flex-col gap-8 mt-10">
-      <div className="flex justify-center text-3xl font-semibold">
+      {/* <div className="flex justify-center text-3xl font-semibold">
         <span className="text-blue">꽁머니팡 </span>
         &nbsp;파트너
-      </div>
+      </div> */}
       <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid py-2">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm">
