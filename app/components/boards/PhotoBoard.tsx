@@ -103,16 +103,18 @@ const PhotoBoard = () => {
         {items.map((item, index) => (
           <li key={item.id} className="bg-white rounded-lg cursor-pointer">
             <div className="overflow-hidden rounded-lg">
-              <Image
-                width={326}
-                height={230}
-                className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
-                src={item.thumbnail}
-                alt={item.title}
-              />
+              <Link href={pathname + "/" + item.id}>
+                <Image
+                  width={326}
+                  height={230}
+                  className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+                  src={item.thumbnail}
+                  alt={item.title}
+                />
+              </Link>
             </div>
             <section className="w-full flex flex-col justify-center px-2 py-4">
-              <h1 className="w-full text-center font-bold text-lg truncate">
+              <h1 className="w-full text-center font-bold text-base truncate">
                 {item.title}
               </h1>
               <p className="w-full text-center truncate text-base font-medium text-semiblack">

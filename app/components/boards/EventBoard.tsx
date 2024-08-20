@@ -16,11 +16,11 @@ const PhotoBoard = () => {
       title: "게시물 제목",
       name: "사용자 이름",
       startDate: "2024.06.19",
-      endDate: "2024.07.19",
+      endDate: "2024.12.31",
       views: 100,
       likes: 20,
       dislikes: 5,
-      thumbnail: "/images/dog1.PNG",
+      thumbnail: "/images/ev1.PNG",
       Proceeding: true,
     },
     {
@@ -28,11 +28,11 @@ const PhotoBoard = () => {
       title: "다른 게시물 제목",
       name: "다른 사용자",
       startDate: "2024.06.19",
-      endDate: "2024.07.19",
+      endDate: "2024.12.31",
       views: 150,
       likes: 30,
       dislikes: 10,
-      thumbnail: "/images/dog2.PNG",
+      thumbnail: "/images/ev2.PNG",
       Proceeding: false,
     },
     {
@@ -44,20 +44,20 @@ const PhotoBoard = () => {
       views: 150,
       likes: 30,
       dislikes: 10,
-      thumbnail: "/images/dog3.PNG",
+      thumbnail: "/images/ev3.PNG",
       Proceeding: false,
     },
     {
       id: 4,
       title: "다른 게시물 제목",
-      name: "사용자",
+      name: "다른 사용자",
       startDate: "2024.06.19",
       endDate: "2024.07.19",
       views: 150,
       likes: 30,
       dislikes: 10,
-      thumbnail: "/images/dog4.PNG",
-      Proceeding: true,
+      thumbnail: "/images/ev4.PNG",
+      Proceeding: false,
     },
   ];
 
@@ -80,73 +80,43 @@ const PhotoBoard = () => {
     console.log("전체검색");
   }
 
+  const getStatus = (endDate: string): string => {
+    const today = new Date();
+    const end = new Date(endDate);
+    return end > today ? "진행중" : "종료";
+  };
+  const getStatusColor = (endDate: string): string => {
+    const status = getStatus(endDate);
+    return status === "진행중" ? "text-blue" : "text-gray-300";
+  };
+
   return (
     <section className="flex flex-col gap-8 mt-10">
-      <article className="flex justify-center gap-2 ">
-        <button className="px-3 py-2 bg-gradient-to-r from-[#6B68FF] to-[#3461FF] hover:from-[#7775e4] hover:to-[#428fe7] text-white rounded-2xl">
-          전체
-        </button>
-        <button className="px-3 py-2 bg-gradient-to-r from-[#6B68FF] to-[#3461FF] hover:from-[#7775e4] hover:to-[#428fe7] text-white rounded-2xl">
-          진행중
-        </button>
-        <button className="px-3 py-2 bg-gradient-to-r from-[#6B68FF] to-[#3461FF] hover:from-[#7775e4] hover:to-[#428fe7] text-white rounded-2xl">
-          종료
-        </button>
-        <button className="px-3 py-2 bg-gradient-to-r from-[#6B68FF] to-[#3461FF] hover:from-[#7775e4] hover:to-[#428fe7] text-white rounded-2xl">
-          업체이벤트
-        </button>
-      </article>
-
-      <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid py-2">
-        <div className="flex gap-2">
-          <div className="text-[#555555] text-sm">
-            총<span className="text-[#2C4AB6] font-semibold"> 34,001</span>건
-          </div>
-          <div className="text-[#555555] text-sm">
-            {"("}
-            <span className="text-[#2C4AB6] font-semibold">1</span>/
-            <span> 52</span> 페이지
-            {")"}
-          </div>
-        </div>
-        <article className="flex justify-center gap-2 ">
-          <SelectBox
-            options={options}
-            onChange={handleChange}
-            defaultValue="1"
-          />
-          <SearchBox
-            handleSearch={handleSearch}
-            placeholderText="검색어를 입력"
-          ></SearchBox>
-        </article>
-      </div>
-      <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid py-2"></div>
+      <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-1 md:grid-cols-2 gap-3">
         {items.map((item, index) => (
-          <li
-            key={item.id}
-            className="bg-white rounded-lg border-solid border border-slate-200 cursor-pointer"
-          >
-            <div>
-              <Image
-                width={326}
-                height={230}
-                className="w-full h-auto rounded-t-lg"
-                src={item.thumbnail}
-                alt={item.title}
-              />
+          <li key={item.id} className="bg-white rounded-lg py-4">
+            <div className="overflow-hidden rounded-lg flex justify-center items-center">
+              <Link href={pathname + "/" + item.id}>
+                <Image
+                  width={765}
+                  height={226}
+                  className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+                  src={item.thumbnail}
+                  alt={item.title}
+                />
+              </Link>
             </div>
-            <section className="w-full flex flex-col justify-center gap-3 px-2 py-4">
-              <h1 className="w-full text-center font-bold text-lg truncate">
-                {item.title}
-              </h1>
-              <div className="w-full flex justify-between items-center px-2">
-                <div className="w-2/3 flex gap-2 truncate">
-                  <p>~{item.endDate}</p>
-                </div>
-                <div className="w-24 flex gap-1 px-1 truncate">
-                  <p>{item.name}</p>
-                </div>
+            <section className="w-full flex flex-col justify-center px-2 py-1">
+              <div className="w-full flex justify-between">
+                <p
+                  className={`w-full text-left truncate text-base font-medium ${getStatusColor(item.endDate)}`}
+                >
+                  {getStatus(item.endDate)}
+                </p>
+                <p className="w-full text-right truncate text-sm text-subtext">
+                  {item.startDate}~{item.endDate}
+                </p>
               </div>
             </section>
           </li>
