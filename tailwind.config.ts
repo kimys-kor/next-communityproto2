@@ -53,6 +53,8 @@ const config: Config = {
         cpink: "#FED4E7",
         semiblack: "#2f3438",
         subtext: "#6c757d",
+        subtext2: "#828c94",
+        warnigtext: "#ff7777",
         // pink: "#ff49db",
         // orange: "#ff7849",
         // green: "#13ce66",
