@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Avatarimg from "/public/images/avatar.png";
 
 const Avatar = () => {
   return (
     <Image
       className="rounded-full"
-      height="30"
-      width="30"
-      alt="Avatar"
-      src="/images/placeholder.jpg"
+      src={Avatarimg}
+      width={40}
+      height={40}
+      alt="avatar"
     ></Image>
   );
 };

@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import BurgerIcon from "/public/images/icon/burgerIcon.svg";
 import partnerIcon from "/public/images/partnerIcon.png";
 import sportIcon from "/public/images/sportIcon.png";
 import commuIcon from "/public/images/commuIcon.png";
 import Image from "next/image";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -140,7 +140,7 @@ const Navbar = () => {
       <nav className="hidden md:flex w-full  px-1">
         <ul className="flex w-full  rounded-lg text-center pl-1">
           <li className="w-5 h-14 md:h-16 relative group cursor-pointe flex flex-col justify-center items-center box-border">
-            <BurgerIcon className="cursor-pointer" />
+            <AiOutlineMenu size={20} className="cursor-pointer" />
           </li>
           {links.map((link, index) => (
             <li

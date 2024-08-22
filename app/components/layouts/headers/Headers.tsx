@@ -1,11 +1,12 @@
 import React from "react";
 
-import Logo from "../Logo";
+import Logo from "../../Logo";
 import Link from "next/link";
-import SearchBox from "../search/SearchBox";
+import SearchBox from "../../search/SearchBox";
 import Avatar from "/public/images/avatar.png";
 import Navbar from "./Navbar";
 import Image from "next/image";
+import UserMenu from "./userMenu";
 
 function Headers() {
   async function handleSearch() {
@@ -27,7 +28,7 @@ function Headers() {
               placeholderText="검색어를 입력하세요."
             ></SearchBox> */}
             <div className="flex gap-2 justify-center items-center">
-              <Image src={Avatar} width={40} height={40} alt="Id Icon" />
+              <UserMenu></UserMenu>
             </div>
           </div>
         </section>

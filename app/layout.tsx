@@ -4,7 +4,7 @@ import "./globals.css";
 import RegisterModal from "./components/modals/RegisterModal";
 import ToasterProvider from "./components/providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
-import Headers from "./components/layouts/Headers";
+import Headers from "./components/layouts/headers/Headers";
 import Footer from "./components/layouts/Footer";
 import Navbar from "./components/layouts/Navbar";
 import ScrollButtons from "./components/ScrollButtons";

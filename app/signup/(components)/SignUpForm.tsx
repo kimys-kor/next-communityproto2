@@ -221,7 +221,7 @@ const SignUpForm: React.FC = () => {
               <button
                 type="button"
                 disabled={!isPhoneNumberValid}
-                className={`border border-solid border-blue bg-white text-blue px-2 py-3 w-full ${isPhoneNumberValid ? "hover:bg-blue hover:text-white" : "opacity-50 cursor-not-allowed"}`}
+                className={`border border-solid rounded-lg border-blue bg-white text-blue px-2 py-3 w-full ${isPhoneNumberValid ? "hover:bg-blue hover:text-white" : "opacity-50 cursor-not-allowed"}`}
               >
                 인증번호 전송
               </button>
