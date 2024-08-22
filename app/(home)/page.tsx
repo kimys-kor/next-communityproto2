@@ -9,7 +9,7 @@ import HomeBoard from "./(components)/HomeBoard";
 
 export default function Home() {
   return (
-    <div className="flex">
+    <div>
       <article className="w-full h-full flex flex-col gap-5 lg:gap-10">
         <ProgressSliderPage></ProgressSliderPage>
 

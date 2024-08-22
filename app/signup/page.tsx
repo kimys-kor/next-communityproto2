@@ -1,7 +1,12 @@
 import React from "react";
+import SignUpForm from "./(components)/SignUpForm";
 
 function page() {
-  return <div>회원가입</div>;
+  return (
+    <div>
+      <SignUpForm />
+    </div>
+  );
 }
 
 export default page;
