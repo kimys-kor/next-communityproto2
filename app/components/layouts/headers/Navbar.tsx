@@ -180,20 +180,6 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <div className="hidden lg:flex justify-around items-center gap-2 relative">
-          <Link
-            href={"/login"}
-            className="w-12 text-sm font-semibold text-gray-400 hover:text-blue"
-          >
-            로그인
-          </Link>
-          <Link
-            href={"/signup"}
-            className="w-16 text-sm font-semibold text-gray-400 hover:text-blue"
-          >
-            회원가입
-          </Link>
-        </div>
       </nav>
 
       {/* Mobile Navigation (Scrollable) */}

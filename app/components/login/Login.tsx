@@ -92,12 +92,14 @@ const Login: React.FC = () => {
             </button>
           </div>
           <div className="flex flex-col gap-2 items-center justify-between">
-            <button
-              type="submit"
-              className="py-3 px-4  bg-[#6870e9] hover:bg-[#525dee] text-white font-bold w-full rounded focus:outline-none"
-            >
-              회원가입
-            </button>
+            <Link className="w-full" href={"/signup"}>
+              <button
+                type="submit"
+                className="py-3 px-4  bg-[#6870e9] hover:bg-[#525dee] text-white font-bold w-full rounded focus:outline-none"
+              >
+                회원가입
+              </button>
+            </Link>
           </div>
         </section>
       </form>

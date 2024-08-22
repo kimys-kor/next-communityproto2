@@ -25,7 +25,7 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="z-10 absolute rounded-xl shadow-md w-[15vw] bg-white overflow-hidden right-0 top-12 text-sm">
+        <div className="z-10 absolute rounded-xl shadow-md w-20 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
             <>
               <Link href={"/myinfo"}>
