@@ -4,6 +4,7 @@ import Avatar from "../../Avatar";
 import { useCallback, useState } from "react";
 
 import Link from "next/link";
+import Profile from "../../Profile";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,15 +26,16 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="z-10 absolute rounded-xl shadow-md w-20 bg-white overflow-hidden right-0 top-12 text-sm">
-          <div className="flex flex-col cursor-pointer">
+        <div className="z-10 w-72 absolute shadow-md bg-white overflow-hidden right-0 top-12 text-sm">
+          <div className="flex flex-col">
             <>
+              <Profile />
               <Link href={"/myinfo"}>
                 <div
                   onClick={toggleOpen}
-                  className="px-4 py-3 hover:bg-neutral-100 font-semibold"
+                  className="px-4 py-3 hover:bg-neutral-100 text-lg font-medium text-center"
                 >
-                  내정보
+                  내정보수정
                 </div>
               </Link>
             </>

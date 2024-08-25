@@ -55,6 +55,7 @@ const config: Config = {
         subtext: "#6c757d",
         subtext2: "#828c94",
         warnigtext: "#ff7777",
+        bordercolor: "#EAEDEF",
         // pink: "#ff49db",
         // orange: "#ff7849",
         // green: "#13ce66",
