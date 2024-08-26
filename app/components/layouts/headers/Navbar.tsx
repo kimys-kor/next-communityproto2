@@ -8,10 +8,12 @@ import sportIcon from "/public/images/sportIcon.png";
 import commuIcon from "/public/images/commuIcon.png";
 import Image from "next/image";
 import { AiOutlineMenu } from "react-icons/ai";
+import Sidebar from "@/app/components/layouts/Sidebar";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [activeLink, setActiveLink] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && pathname) {
@@ -78,10 +80,6 @@ const Navbar = () => {
     {
       href: "/event",
       label: "이벤트",
-      // dropdown: [
-      //   { href: "/event", label: "이벤트" },
-      //   { href: "/event/attd", label: "출석체크" },
-      // ],
       width: "w-20 md:w-24 lg:w-24",
     },
     {
@@ -117,6 +115,11 @@ const Navbar = () => {
 
   const handleLinkClick = (path: string) => {
     setActiveLink(path);
+    setSidebarOpen(false); // Close the sidebar on link click
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev); // Toggle the sidebar open or closed
   };
 
   const isActiveLink = (link: string) => {
@@ -135,12 +138,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className="px-2">
+    <div className="relative">
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex w-full  px-1">
-        <ul className="flex w-full  rounded-lg text-center pl-1">
-          <li className="w-5 h-14 md:h-16 relative group cursor-pointe flex flex-col justify-center items-center box-border">
-            <AiOutlineMenu size={20} className="cursor-pointer" />
+      <nav className="hidden md:flex w-full px-1">
+        <ul className="flex w-full rounded-lg text-center pl-1">
+          <li className="w-5 h-14 md:h-16 relative group cursor-pointer flex flex-col justify-center items-center box-border">
+            <AiOutlineMenu
+              size={20}
+              className="cursor-pointer"
+              onClick={toggleSidebar} // Toggle sidebar on click
+            />
           </li>
           {links.map((link, index) => (
             <li
@@ -161,14 +168,14 @@ const Navbar = () => {
               <ul className="border border-t border-red-text-blue">
                 {link.dropdown && (
                   <li
-                    className={` w-24 lg:w-32 left-[0px] invisible absolute z-50 flex flex-col bg-white text-black shadow-xl group-hover:visible`}
+                    className={`w-24 lg:w-32 left-[0px] invisible absolute z-50 flex flex-col bg-white text-black shadow-xl group-hover:visible`}
                   >
                     {link.dropdown.map((sublink, index) => (
                       <Link
                         key={sublink.href}
                         href={sublink.href}
                         className={`outline-white w-full block p-2 text-base lg:text-base hover:bg-gray-700 hover:text-white 
-                ${index === link.dropdown.length - 1 ? "" : "border-b border-solid border-slate-200"}`}
+                        ${index === link.dropdown.length - 1 ? "" : "border-b border-solid border-slate-200"}`}
                         onClick={() => handleLinkClick(sublink.href)}
                       >
                         {sublink.label}
@@ -184,7 +191,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation (Scrollable) */}
       <nav className="md:hidden w-full bg-indigo-500/75 font-medium text-sm text-white overflow-hidden">
-        <div className="flex overflow-x-auto scrollbar-w-2 scrollbar-track-gray-200 scrollbar-thumb-indigo-600 ">
+        <div className="flex overflow-x-auto scrollbar-w-2 scrollbar-track-gray-200 scrollbar-thumb-indigo-600">
           {links.map((link, index) => (
             <Link
               key={index}
@@ -197,6 +204,9 @@ const Navbar = () => {
           ))}
         </div>
       </nav>
+
+      {/* Sidebar Component */}
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </div>
   );
 };
