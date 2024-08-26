@@ -1,20 +1,33 @@
 "use client";
 
 import Avatar from "../../Avatar";
-import { useCallback, useState } from "react";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Profile from "../../Profile";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleOpen = useCallback(() => {
-    setIsOpen((value) => !value);
+    setIsOpen((prev) => !prev);
   }, []);
 
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={menuRef}>
       <div className="flex flex-row items-center gap-3">
         <div
           onClick={toggleOpen}
@@ -26,7 +39,7 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="z-10 w-72 absolute shadow-md bg-white overflow-hidden right-0 top-12 text-sm">
+        <div className="z-10 w-72 absolute bg-white overflow-hidden right-0 top-12 text-sm border border-solid border-gray-300">
           <div className="flex flex-col">
             <>
               <Profile />

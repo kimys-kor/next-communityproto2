@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import axios, { AxiosError } from "axios";
 import "react-quill/dist/quill.snow.css";
@@ -6,7 +8,8 @@ import styled from "styled-components";
 
 import ReactQuill, { ReactQuillProps } from "react-quill";
 import { BeatLoader } from "react-spinners";
-import { ChangeEvent, useMemo, useRef } from "react";
+import { ChangeEvent, useMemo, useRef, useState } from "react";
+import ImageUploader from "./ImageUploader";
 
 interface ForwardedQuillComponent extends ReactQuillProps {
   forwardedRef: React.Ref<ReactQuill>;
@@ -49,49 +52,28 @@ const Editor = dynamic(
       forwardedRef,
       ...props
     }: ForwardedQuillComponent) {
+      const [isUploaderOpen, setIsUploaderOpen] = useState(false);
       const fileInput = useRef<HTMLInputElement | null>(null);
 
-      async function changeHandler(event: ChangeEvent<HTMLInputElement>) {
-        if (fileInput.current?.files) {
-          const files: FileList = fileInput.current.files;
-          const formData = new FormData();
-
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            formData.append("file", file, file.name);
-          }
-
-          try {
-            const res = await axios.post("/api/main/image-upload/", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-            if (typeof forwardedRef !== "function") {
-              const editor = (forwardedRef?.current as ReactQuill).getEditor();
-
-              res.data.forEach((imgUrl: string) => {
-                const range = editor.getSelection();
-                const index = range ? range.index : 0;
-                editor.insertEmbed(
-                  index,
-                  "image",
-                  `${process.env.NEXT_PUBLIC_API_URL + imgUrl}`
-                );
-
-                // Use RangeStatic object for setSelection
-                editor.setSelection({ index: index + 1, length: 0 });
-              });
-            }
-          } catch (error) {
-            console.error(error);
-
-            return error;
-          }
+      const handleImageUpload = (imageUrls: string[]) => {
+        if (typeof forwardedRef !== "function") {
+          const editor = (forwardedRef?.current as ReactQuill).getEditor();
+          imageUrls.forEach((imgUrl: string) => {
+            const range = editor.getSelection();
+            const index = range ? range.index : 0;
+            editor.insertEmbed(
+              index,
+              "image",
+              `${process.env.NEXT_PUBLIC_API_URL + imgUrl}`
+            );
+            editor.setSelection({ index: index + 1, length: 0 });
+          });
         }
+      };
 
-        return;
-      }
+      const handleImageUploadClick = () => {
+        setIsUploaderOpen(true);
+      };
 
       const modules = useMemo(
         () => ({
@@ -106,9 +88,7 @@ const Editor = dynamic(
               [{ background: colors }],
             ],
             handlers: {
-              image: () => {
-                fileInput.current?.click();
-              },
+              image: handleImageUploadClick,
             },
           },
           imageResize: {
@@ -121,20 +101,18 @@ const Editor = dynamic(
 
       return (
         <Container>
-          <input
-            type="file"
-            ref={fileInput}
-            accept="image/*"
-            onChange={changeHandler}
-            multiple
-            hidden
-          />
           <QuillComponent
             ref={forwardedRef}
             formats={formats}
             modules={modules}
             {...props}
           />
+          {isUploaderOpen && (
+            <ImageUploader
+              onClose={() => setIsUploaderOpen(false)}
+              onUpload={handleImageUpload}
+            />
+          )}
         </Container>
       );
     }

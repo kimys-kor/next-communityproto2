@@ -3,8 +3,10 @@
 import Paging from "@/app/components/Paging";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ImgContent {
+  id: number;
   img: string;
   title: string;
   code: string;
@@ -15,13 +17,15 @@ interface PartnerCardProps {
 }
 
 const PartnerCard: React.FC = () => {
+  const pathname = usePathname();
+
   const imgContent: ImgContent[] = [
-    { img: "/images/homebanner/1.jpg", title: "땅콩", code: "mttp" },
-    { img: "/images/homebanner/2.png", title: "물음표", code: "mttp" },
-    { img: "/images/homebanner/3.jpg", title: "bet38", code: "mttp" },
-    { img: "/images/homebanner/4.jpg", title: "onetup", code: "mttp" },
-    { img: "/images/homebanner/5.jpg", title: "식스", code: "mttp" },
-    { img: "/images/homebanner/6.jpg", title: "정글", code: "mttp" },
+    { id: 1, img: "/images/homebanner/1.jpg", title: "땅콩", code: "mttp" },
+    { id: 2, img: "/images/homebanner/2.png", title: "물음표", code: "mttp" },
+    { id: 3, img: "/images/homebanner/3.jpg", title: "bet38", code: "mttp" },
+    { id: 4, img: "/images/homebanner/4.jpg", title: "onetup", code: "mttp" },
+    { id: 5, img: "/images/homebanner/5.jpg", title: "식스", code: "mttp" },
+    { id: 6, img: "/images/homebanner/6.jpg", title: "정글", code: "mttp" },
   ];
 
   const setPage = function () {
@@ -54,13 +58,15 @@ const PartnerCard: React.FC = () => {
             className="w-full h-auto p-2 bg-white/25 rounded-2xl flex flex-col gap-4 items-center border border-solid border-slate-200"
           >
             <div className="overflow-hidden rounded-lg">
-              <Image
-                width={326}
-                height={230}
-                className="w-full rounded-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-                src={item.img}
-                alt={item.title}
-              />
+              <Link href={pathname + "/" + item.id}>
+                <Image
+                  width={326}
+                  height={230}
+                  className="w-full rounded-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  src={item.img}
+                  alt={item.title}
+                />
+              </Link>
             </div>
             <table className="w-full rounded-md">
               <tbody>
