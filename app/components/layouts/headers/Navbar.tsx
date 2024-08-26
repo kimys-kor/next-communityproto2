@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import partnerIcon from "/public/images/partnerIcon.png";
@@ -14,6 +14,8 @@ const Navbar = () => {
   const pathname = usePathname();
   const [activeLink, setActiveLink] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && pathname) {
@@ -122,6 +124,22 @@ const Navbar = () => {
     setSidebarOpen((prev) => !prev); // Toggle the sidebar open or closed
   };
 
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target as Node)
+    ) {
+      setSidebarOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   const isActiveLink = (link: string) => {
     if (activeLink === link) return true;
     if (link === "/guide" && activeLink.startsWith("/guide")) return true;
@@ -205,8 +223,9 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Sidebar Component */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div ref={sidebarRef}>
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      </div>
     </div>
   );
 };
