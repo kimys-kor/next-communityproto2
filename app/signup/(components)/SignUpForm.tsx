@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import logo from "/public/images/logo.png";

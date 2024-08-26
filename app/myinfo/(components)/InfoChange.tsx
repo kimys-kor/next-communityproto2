@@ -1,21 +1,26 @@
 "use client";
 
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import Image from "next/image";
-import logo from "/public/images/logo.png";
 
 interface FormData {
-  id: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
+  fullname: string;
   nickname: string;
   phoneNumber: string;
   email: string;
 }
 
 function InfoChange() {
+  const userInfo = {
+    id: "user121",
+    fullname: "김득근",
+    nickname: "커뮤관리자",
+    Level: 1,
+    point: 104200,
+    joinDate: "2024-08-25",
+    phoneNumber: "01011112222",
+    email: "king@naver.com",
+  };
+
   const {
     control,
     handleSubmit,
@@ -24,24 +29,18 @@ function InfoChange() {
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
-      id: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
-      nickname: "",
-      phoneNumber: "",
-      email: "",
+      fullname: userInfo.fullname,
+      nickname: userInfo.nickname, // 기본값을 userInfo.nickname으로 설정
+      phoneNumber: userInfo.phoneNumber,
+      email: userInfo.email,
     },
   });
 
-  const password = watch("password");
   const phoneNumber = watch("phoneNumber");
   const isPhoneNumberValid = phoneNumber.length === 11;
-  const isPasswordValid =
-    password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
 
   const onSubmit = (data: FormData) => {
-    console.log("signUp request", data);
+    console.log("info Change request", data);
   };
 
   return (
@@ -55,32 +54,11 @@ function InfoChange() {
             <div className="w-full mt-3 flex flex-col gap-1">
               <div className="w-full flex flex-col gap-2 p-2">
                 <p className="w-24">아이디</p>
-                <p className="text-subtext2 text-sm">
-                  영문 입력, 특수문자 불가능
-                </p>
-                <Controller
-                  name="id"
-                  control={control}
-                  rules={{
-                    required: "아이디는 필수 입력 사항입니다.",
-                    pattern: {
-                      value: /^[a-zA-Z0-9]+$/,
-                      message: "영문과 숫자만 입력 가능합니다.",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <input
-                        {...field}
-                        className="w-full truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                      />
-                      {errors.id && (
-                        <p className="text-warnigtext text-xs">
-                          {errors.id.message}
-                        </p>
-                      )}
-                    </>
-                  )}
+
+                <input
+                  defaultValue={userInfo.id}
+                  disabled
+                  className="w-full truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-subtext leading-tight focus:outline-none"
                 />
               </div>
             </div>
@@ -93,7 +71,7 @@ function InfoChange() {
               <div className="w-full flex flex-col gap-3 p-2">
                 <p className="w-24">이름</p>
                 <Controller
-                  name="name"
+                  name="fullname"
                   control={control}
                   render={({ field }) => (
                     <input
@@ -189,9 +167,9 @@ function InfoChange() {
           <div className="w-full gap-3 flex justify-center p-2">
             <button
               type="submit"
-              disabled={!isValid || !isPhoneNumberValid || !isPasswordValid}
+              disabled={!isValid || !isPhoneNumberValid}
               className={`w-full md:w-1/2 lg:w-1/3 px-4 py-4 ${
-                isValid && isPhoneNumberValid && isPasswordValid
+                isValid && isPhoneNumberValid
                   ? "bg-blue text-white hover:bg-deepblue"
                   : "bg-gray-400 text-gray-600 cursor-not-allowed"
               }`}
