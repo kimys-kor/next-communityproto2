@@ -17,7 +17,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="p-8 rounded-lg w-full border-solid border-slate-200 border">
+    <div className="bg-white p-8 rounded-lg w-full border-solid border-slate-200 border">
       <form
         onSubmit={(e) => {
           e.preventDefault();

@@ -4,7 +4,7 @@ import logo from "/public/images/logo.png";
 
 function Ggmp() {
   return (
-    <section className="block lg:flex bg-[#E7EBFF] py-28 px-10 gap-5">
+    <section className="block lg:flex bg-bgblue py-28 px-10 gap-5">
       <div className="flex flex-col lg:flex-row items-center max-w-[1300px] mx-auto gap-10">
         <article className="w-full lg:w-auto flex flex-col justify-center items-center lg:items-start lg:px-20">
           <div className="w-80 text-2xl font-semibold flex items-center justify-center">
