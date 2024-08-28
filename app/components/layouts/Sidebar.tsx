@@ -125,24 +125,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           {links.map((link, index) => (
             <div key={index} className="space-y-4">
               <ul>
-                <li className="text-blue font-semibold text-lg mb-2 flex items-center">
-                  <Link href={link.href}>
+                <Link href={link.href}>
+                  <li
+                    onClick={onClose}
+                    className="text-blue font-semibold text-lg mb-2 flex items-center"
+                  >
                     <div className="flex">
                       <span className="ml-2">{link.label}</span>
                       {link.icon}
                     </div>
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               </ul>
               {link.dropdown && (
                 <ul className="space-y-1">
                   {link.dropdown.map((item, subIndex) => (
-                    <li
-                      key={subIndex}
-                      className="hover:bg-blue-50 hover:text-blue p-3 rounded-lg transition duration-200"
-                    >
-                      <Link href={item.href}>{item.label}</Link>
-                    </li>
+                    <Link href={item.href}>
+                      <li
+                        key={subIndex}
+                        className="hover:bg-blue-50 hover:text-blue p-3 rounded-lg transition duration-200"
+                        onClick={onClose}
+                      >
+                        {item.label}
+                      </li>
+                    </Link>
                   ))}
                 </ul>
               )}
