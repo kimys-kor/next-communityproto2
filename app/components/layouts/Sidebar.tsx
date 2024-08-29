@@ -28,15 +28,8 @@ const links = [
   {
     href: "/partner",
     label: "파트너",
-    icon: (
-      <Image
-        src={partnerIcon}
-        width={33}
-        height={33}
-        alt="menuIcon"
-        className="hidden lg:block"
-      />
-    ),
+    icon: <Image src={partnerIcon} width={33} height={33} alt="menuIcon" />,
+    dropdown: [{ href: "/partner", label: "파트너" }],
   },
   {
     href: "/sport",
@@ -47,15 +40,7 @@ const links = [
       { href: "/sport/basket", label: "농구분석" },
       { href: "/sport/volley", label: "배구분석" },
     ],
-    icon: (
-      <Image
-        src={sportIcon}
-        width={33}
-        height={33}
-        alt="menuIcon"
-        className="hidden lg:block"
-      />
-    ),
+    icon: <Image src={sportIcon} width={33} height={33} alt="menuIcon" />,
   },
   {
     href: "/community",
@@ -67,19 +52,12 @@ const links = [
       { href: "/community/free", label: "자유게시판" },
       { href: "/community/case", label: "피해사례" },
     ],
-    icon: (
-      <Image
-        src={commuIcon}
-        width={33}
-        height={33}
-        alt="menuIcon"
-        className="hidden lg:block"
-      />
-    ),
+    icon: <Image src={commuIcon} width={33} height={33} alt="menuIcon" />,
   },
   {
     href: "/event",
     label: "이벤트",
+    dropdown: [{ href: "/event", label: "이벤트" }],
   },
   {
     href: "/promotion",
@@ -113,28 +91,33 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<number>(1);
   const [showMore, setShowMore] = useState<boolean>(false);
 
+  const handleClose = () => {
+    setShowMore(false);
+    onClose();
+  };
+
   const handleMoreClick = () => {
     setShowMore(!showMore);
   };
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-80 shadow-lg bg-white rounded-r-xl transform transition-transform duration-300 overflow-y-auto ${
+      className={`fixed top-0 left-0 h-full w-80 shadow-lg bg-white transform transition-transform duration-300 overflow-y-scroll ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <section className="bg-mediumblue border-b-2 border-blue-600 w-full flex flex-col justify-center items-center">
         <div className="w-full flex justify-between items-center p-2 ">
           <p className="text-white text-2xl">
-            꽁머니팡:꽁머니 스포츠분석 안전놀이터
+            꽁머니팡: 꽁머니 토토사이트 스포츠분석 안전놀이터
           </p>
-          <button className="p-2" onClick={onClose}>
+          <button className="p-2" onClick={handleClose}>
             <IoCloseSharp color="white" size={30} />
           </button>
         </div>
       </section>
-      <section className="flex flex-col gap-4">
-        <div className="w-full table border-collapse">
+      <section className="flex flex-col">
+        <article className="w-full table border-collapse">
           <ul className="w-full table-row mb-4">
             <li
               className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
@@ -235,58 +218,249 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               </ul>
             </>
           )}
-        </div>
-        <div className="mb-4">
-          <Login />
-        </div>
-        <article className="bg-white rounded-lg shadow-md p-4 space-y-4">
+        </article>
+        <article className="w-full table border-collapse">
+          <ul className="w-full table-row mb-4">
+            <li
+              className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer"
+              onClick={() => setActiveTab(2)}
+            >
+              로그인
+            </li>
+            <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
+              회원가입
+            </li>
+            <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
+              정보찾기
+            </li>
+          </ul>
+        </article>
+
+        <article className="w-full bg-white">
           {activeTab === 1 && (
-            <div>
-              {/* Content for Button 1 */}
-              <p className="text-base ">Button 1 Content</p>
-              {/* You can add more specific content for Button 1 here */}
-            </div>
-          )}
-          {activeTab === 2 && (
-            <div>
-              {/* Content for Button 2 */}
-              <p className="text-base ">Button 2 Content</p>
-              {/* You can add more specific content for Button 2 here */}
-            </div>
-          )}
-          <div className="mt-4">
-            {links.map((link, index) => (
-              <div key={index} className="space-y-4">
-                <ul>
-                  <Link href={link.href}>
-                    <li
-                      onClick={onClose}
-                      className="text-blue font-semibold text-lg mb-2 flex items-center"
-                    >
-                      <div className="flex">
-                        <span className="ml-2">{link.label}</span>
-                        {link.icon}
-                      </div>
-                    </li>
-                  </Link>
-                </ul>
-                {link.dropdown && (
-                  <ul className="space-y-1">
-                    {link.dropdown.map((item, subIndex) => (
-                      <Link key={subIndex} href={item.href}>
-                        <li
-                          className="hover:bg-blue-50 hover:text-blue p-3 rounded-lg transition duration-200"
-                          onClick={onClose}
-                        >
-                          {item.label}
-                        </li>
-                      </Link>
-                    ))}
-                  </ul>
-                )}
+            <div className="w-full border-collapse">
+              <div className="w-full bg-bordercolor2 text-lg font-semibold border-solid border-t-[1px] border-bordercolor3 ">
+                <p className="px-4 py-2">메뉴</p>
               </div>
-            ))}
-          </div>
+              <div key={0} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <Link className="w-full flex items-center" href="/partner">
+                    <Image
+                      src={partnerIcon}
+                      width={33}
+                      height={33}
+                      alt="menuIcon"
+                    />
+                    <span className="ml-2">파트너</span>
+                  </Link>
+                </div>
+                <ul className="grid grid-cols-1 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/partner">파트너</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={1} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <Link className="w-full flex items-center" href="/sport">
+                    <Image
+                      src={sportIcon}
+                      width={33}
+                      height={33}
+                      alt="menuIcon"
+                    />
+                    <span className="ml-2">스포츠분석</span>
+                  </Link>
+                </div>
+                <ul className="grid grid-cols-3 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/sport">축구분석</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/sport/base">야구분석</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/sport/basket">농구분석</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/sport/volley">배구분석</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={2} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <Link className="w-full flex items-center" href="/community">
+                    <Image
+                      src={commuIcon}
+                      width={33}
+                      height={33}
+                      alt="menuIcon"
+                    />
+                    <span className="ml-2">커뮤니티</span>
+                  </Link>
+                </div>
+                <ul className="grid grid-cols-3 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/community">안구정화</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/community/humor">유머 & 이슈</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/community/pickster">나는분석왕</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/community/free">자유게시판</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/community/case">피해사례</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={3} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <Link className="w-full flex items-center" href="/event">
+                    <span className="ml-2">이벤트</span>
+                  </Link>
+                </div>
+                <ul className="grid grid-cols-1 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/event">이벤트</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={4} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <span className="ml-2">홍보센터</span>
+                </div>
+                <ul className="grid grid-cols-3 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/promotion">일반홍보</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/promotion/ggong">꽁머니홍보</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/promotion/hunting">구인구직</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={5} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <span className="ml-2">가이드</span>
+                </div>
+                <ul className="grid grid-cols-3 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/guide/ggong">꽁머니</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/guide/major">메이저</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/guide/safe">안전놀이터</Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div key={6} className="w-full">
+                <div
+                  onClick={onClose}
+                  className="w-full font-semibold text-lg mb-2 px-4 py-2 border-solid border-y-[1px] border-bordercolor3"
+                >
+                  <span className="ml-2">고객센터</span>
+                </div>
+                <ul className="grid grid-cols-2 border-collapse">
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/customer">공지사항</Link>
+                  </li>
+                  <li
+                    className="px-4 py-2 border-solid border-y-[1px] border-bordercolor3 hover:text-blue"
+                    onClick={onClose}
+                  >
+                    <Link href="/customer/qalist">1:1 문의</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+          {activeTab === 2 && <Login />}
         </article>
       </section>
     </div>
