@@ -60,6 +60,7 @@ const config: Config = {
         bordercolor: "#EAEDEF",
         bordercolor2: "#f5f5f5",
         bordercolor3: "#dee2e6",
+        buttoncolor: "#FAFAFA",
         subgray: "#F8F9FA",
         // pink: "#ff49db",
         // orange: "#ff7849",
