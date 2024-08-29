@@ -1,6 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import Login from "../login/Login";
-import Logo from "../Logo";
-import CloseIcon from "/public/images/icon/closeIcon.svg";
+import { IoCloseSharp } from "react-icons/io5";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdRefresh } from "react-icons/io";
+import { FaSearch } from "react-icons/fa";
+import { IoMdMore } from "react-icons/io";
+import { BsChatDots } from "react-icons/bs";
+import { FaQuestionCircle } from "react-icons/fa";
+import { FaTags } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa6";
+import { FaPeopleLine } from "react-icons/fa6";
+
 import partnerIcon from "/public/images/partnerIcon.png";
 import sportIcon from "/public/images/sportIcon.png";
 import commuIcon from "/public/images/commuIcon.png";
@@ -98,62 +110,183 @@ const links = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  const [activeTab, setActiveTab] = useState<number>(1);
+  const [showMore, setShowMore] = useState<boolean>(false);
+
+  const handleMoreClick = () => {
+    setShowMore(!showMore);
+  };
+
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-80 bg-gradient-to-b from-gray-100 to-subgray shadow-lg rounded-r-xl transform transition-transform duration-300 overflow-y-auto ${
+      className={`fixed top-0 left-0 h-full w-80 shadow-lg bg-white rounded-r-xl transform transition-transform duration-300 overflow-y-auto ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <section className="bg-white border-b-2 border-blue-600 w-full flex flex-col justify-center items-center">
-        <div className="w-full flex justify-between items-center px-4 py-3">
-          <Logo />
-          <div className="flex justify-end p-2">
-            <button
-              className="text-xl border border-blue-600 bg-blue-600 rounded-full p-2 text-white transition-transform transform hover:scale-110"
-              onClick={onClose}
-            >
-              <CloseIcon />
-            </button>
-          </div>
+      <section className="bg-mediumblue border-b-2 border-blue-600 w-full flex flex-col justify-center items-center">
+        <div className="w-full flex justify-between items-center p-2 ">
+          <p className="text-white text-2xl">
+            꽁머니팡:꽁머니 스포츠분석 안전놀이터
+          </p>
+          <button className="p-2" onClick={onClose}>
+            <IoCloseSharp color="white" size={30} />
+          </button>
         </div>
       </section>
-      <section className="flex flex-col gap-4 p-4">
+      <section className="flex flex-col gap-4">
+        <div className="w-full table border-collapse">
+          <ul className="w-full table-row mb-4">
+            <li
+              className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+              onClick={() => setActiveTab(1)}
+            >
+              <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                <GiHamburgerMenu size={20} />
+                <p className="text-base ">메뉴</p>
+              </div>
+            </li>
+            <li
+              className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+              onClick={() => setActiveTab(2)}
+            >
+              <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                <IoMdRefresh size={22} />
+                <p className="text-base ">새글</p>
+              </div>
+            </li>
+            <li
+              className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+              onClick={() => setActiveTab(2)}
+            >
+              <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue ">
+                <FaSearch size={20} />
+                <p className="text-base ">검색</p>
+              </div>
+            </li>
+            <li
+              className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+              onClick={handleMoreClick}
+            >
+              <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                <IoMdMore size={22} />
+                <p className="text-base ">더보기</p>
+              </div>
+            </li>
+          </ul>
+          {showMore && (
+            <>
+              <ul className="w-full table-row mb-4">
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(1)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                    <BsChatDots size={20} />
+                    <p className="text-base ">1:1문의</p>
+                  </div>
+                </li>
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(2)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                    <FaQuestionCircle size={22} />
+                    <p className="text-base ">FAQ</p>
+                  </div>
+                </li>
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(2)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue ">
+                    <FaTags size={20} />
+                    <p className="text-base ">태그모음</p>
+                  </div>
+                </li>
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(2)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                    <FaRegEyeSlash size={22} />
+                    <p className="text-base ">신고모음</p>
+                  </div>
+                </li>
+              </ul>
+              <ul className="w-full table-row mb-4">
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(1)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                    <FaPeopleLine size={20} />
+                    <p className="text-base ">접속자</p>
+                  </div>
+                </li>
+                <li
+                  className="w-1/4 box-border table-cell border-[1px] border-solid border-bordercolor3"
+                  onClick={() => setActiveTab(2)}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 cursor-pointer hover:text-blue py-3 px-2">
+                    <IoCloseSharp size={22} />
+                    <p className="text-base ">닫기</p>
+                  </div>
+                </li>
+              </ul>
+            </>
+          )}
+        </div>
         <div className="mb-4">
           <Login />
         </div>
         <article className="bg-white rounded-lg shadow-md p-4 space-y-4">
-          {links.map((link, index) => (
-            <div key={index} className="space-y-4">
-              <ul>
-                <Link href={link.href}>
-                  <li
-                    onClick={onClose}
-                    className="text-blue font-semibold text-lg mb-2 flex items-center"
-                  >
-                    <div className="flex">
-                      <span className="ml-2">{link.label}</span>
-                      {link.icon}
-                    </div>
-                  </li>
-                </Link>
-              </ul>
-              {link.dropdown && (
-                <ul className="space-y-1">
-                  {link.dropdown.map((item, subIndex) => (
-                    <Link href={item.href}>
-                      <li
-                        key={subIndex}
-                        className="hover:bg-blue-50 hover:text-blue p-3 rounded-lg transition duration-200"
-                        onClick={onClose}
-                      >
-                        {item.label}
-                      </li>
-                    </Link>
-                  ))}
-                </ul>
-              )}
+          {activeTab === 1 && (
+            <div>
+              {/* Content for Button 1 */}
+              <p className="text-base ">Button 1 Content</p>
+              {/* You can add more specific content for Button 1 here */}
             </div>
-          ))}
+          )}
+          {activeTab === 2 && (
+            <div>
+              {/* Content for Button 2 */}
+              <p className="text-base ">Button 2 Content</p>
+              {/* You can add more specific content for Button 2 here */}
+            </div>
+          )}
+          <div className="mt-4">
+            {links.map((link, index) => (
+              <div key={index} className="space-y-4">
+                <ul>
+                  <Link href={link.href}>
+                    <li
+                      onClick={onClose}
+                      className="text-blue font-semibold text-lg mb-2 flex items-center"
+                    >
+                      <div className="flex">
+                        <span className="ml-2">{link.label}</span>
+                        {link.icon}
+                      </div>
+                    </li>
+                  </Link>
+                </ul>
+                {link.dropdown && (
+                  <ul className="space-y-1">
+                    {link.dropdown.map((item, subIndex) => (
+                      <Link key={subIndex} href={item.href}>
+                        <li
+                          className="hover:bg-blue-50 hover:text-blue p-3 rounded-lg transition duration-200"
+                          onClick={onClose}
+                        >
+                          {item.label}
+                        </li>
+                      </Link>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
         </article>
       </section>
     </div>
