@@ -3,9 +3,6 @@ import Container from "../components/Container";
 import RightSideBanner from "../components/layouts/RightSideBanner";
 import Login from "../components/login/Login";
 import IconTabs from "../components/sportRank/IconTabs";
-import side1 from "/public/images/side1.png";
-import side2 from "/public/images/side2.png";
-import Image from "next/image";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
