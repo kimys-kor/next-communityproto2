@@ -61,7 +61,7 @@ const Board = () => {
   return (
     <section className="flex flex-col gap-8 mt-3">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 w-full">
-        <div className="flex gap-2 text-sm text-[#555555]">
+        <div className="text-xs md:text-sm flex gap-2 text-[#555555]">
           <span>
             총 <span className="text-[#2C4AB6] font-semibold">34,006</span>건
           </span>
@@ -104,7 +104,7 @@ const Board = () => {
                 {item.id}
               </td>
               <td className="grow py-4 px-2 font-medium">
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
                   {isNew(item.date) && <NewIcon />}
 
                   <Link href={`${pathname}/${item.id}`}>{item.title}</Link>
@@ -119,7 +119,7 @@ const Board = () => {
                   </div>
                 </div>
               </td>
-              <td className="w-20 py-4 px-2 text-center flex items-center">
+              <td className="truncate w-20 py-4 px-2 text-center flex items-center">
                 {item.name}
               </td>
               <td className="hidden md:block w-32 py-4 px-2 text-center">
