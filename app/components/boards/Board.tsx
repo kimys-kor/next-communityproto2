@@ -59,8 +59,8 @@ const Board = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 mt-3">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 w-full">
+    <section className="flex flex-col gap-1 mt-3">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
         <div className="text-xs md:text-sm flex gap-2 text-[#555555]">
           <span>
             총 <span className="text-[#2C4AB6] font-semibold">34,006</span>건

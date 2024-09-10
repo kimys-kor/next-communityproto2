@@ -57,7 +57,7 @@ function BoardDetail() {
     <div>
       <section className="flex flex-col gap-1 mt-3">
         <h1 className="font-semibold text-3xl">{Content.title}</h1>
-        <article className="mt-3 w-full px-3 py-2 flex items-center justify-between gap-1 border-solid border-t border-normalblue bg-semiblue">
+        <article className="mt-3 w-full px-3 py-2 flex items-center justify-between gap-1 bg-semiblue">
           <div className="flex items-center gap-1 ">
             {Content.role == "admin" ? (
               <Image
@@ -72,7 +72,7 @@ function BoardDetail() {
             <p className="font-semibold">{Content.writer}</p>
           </div>
           <div className="flex gap-1 truncate px-2">
-            <p className="text-subtext font-light">{Content.date}</p>
+            <p className="font-light text-[#2C4AB6]">{Content.date}</p>
           </div>
         </article>
         <article className="px-3 py-2 flex items-center justify-between w-full ">
