@@ -15,7 +15,7 @@ interface PagingProps {
 const Paging: FC<PagingProps> = ({ page, count, setPage }) => {
   return (
     <div className="max-w-screen-xl mx-auto mt-1 px-4 text-gray-600 md:px-8 mb-5">
-      <div className="hidden justify-center sm:flex" aria-label="Pagination">
+      <div className="justify-center sm:flex" aria-label="Pagination">
         <StyledPagination>
           <Pagination
             activePage={page}
@@ -71,8 +71,8 @@ const StyledPagination = styled.div`
 
   ul.pagination li {
     display: inline-block;
-    width: 2.5rem; /* Set the width of each button */
-    height: 2.5rem; /* Set the height of each button */
+    width: 2.3rem; /* Set the width of each button */
+    height: 2.3rem; /* Set the height of each button */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,7 +113,6 @@ const StyledPagination = styled.div`
   ul.pagination li.active a {
     background-color: #e0e7ff;
     color: white;
-    font-size: large;
   }
 
   /* Ensure the first and last buttons are rounded correctly */

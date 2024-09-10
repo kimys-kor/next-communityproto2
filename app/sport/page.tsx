@@ -13,7 +13,6 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-3 max-w-[1300px]">
       <ThreeBanner />
-
       <Image
         className=""
         src={sportMain}

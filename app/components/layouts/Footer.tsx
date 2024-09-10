@@ -7,10 +7,10 @@ import Image from "next/image";
 
 function Footer() {
   return (
-    <footer className="max-w-[1300px]  mx-auto relative w-full h-96 mt-5 border-t border-solid border-gray-200">
+    <footer className="max-w-[1300px] mx-auto relative w-full min-h-96 mt-5 border-t border-solid border-gray-200">
       <div className="w-full h-full absolute bg-footer bottom-0 flex items-center justify-center">
         <div className="w-full flex justify-between items-center gap-5">
-          <div className="w-1/2 px-5 py-5">
+          <div className="w-1/2 px-5 py-2">
             <Logo></Logo>
             <p className="mt-4 font-semibold">Corporate name 꽁머니팡</p>
             <p className="mt-2 text-gray-400 text-xs leading-5">
@@ -37,7 +37,6 @@ function Footer() {
                 <span className="left-20">
                   <TeleIcon></TeleIcon>
                 </span>
-                ggmoang
               </div>
             </div>
             <p className="mt-3 text-gray-400 text-xs">
