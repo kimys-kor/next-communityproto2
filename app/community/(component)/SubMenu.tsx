@@ -28,12 +28,6 @@ function SubMenu() {
         </Link>
       </div>
       <div>
-        <Link className="flex items-center gap-1" href={"/community/free"}>
-          <Image src={community} width={20} height={20} alt="menuIcon" />
-          <p>자유게시판</p>
-        </Link>
-      </div>
-      <div>
         <Link className="flex items-center gap-1" href={"/community/case"}>
           <Image src={reasearch} width={20} height={20} alt="menuIcon" />
           <p>피해사례</p>

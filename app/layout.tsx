@@ -8,6 +8,7 @@ import Headers from "@/app/components/layouts/headers/Headers";
 import ScrollButtons from "./components/ScrollButtons";
 import localFont from "next/font/local";
 import Footer from "@/app/components/layouts/Footer";
+import MobBottomNav from "./components/MobBottomNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({
           {children}
         </main>
 
+        <MobBottomNav />
         <ScrollButtons />
       </body>
     </html>

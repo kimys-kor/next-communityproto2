@@ -1,7 +1,6 @@
 import TabAnalyzePage from "./(components)/TabAnalyzePage";
 import TabACommunityPage from "./(components)/TabACommunityPage";
 import ProgressSliderPage from "../components/ProgressSliderPage";
-import MultiResponsiveSlider from "../components/MultiResponsiveSlider";
 import HomeBanner from "./(components)/HomeBanner";
 import { Suspense } from "react";
 import HomeBannerSk from "../components/skeleton/HomeBannerSk";
