@@ -146,7 +146,7 @@ const Navbar = () => {
             <AiOutlineMenu
               size={20}
               className="cursor-pointer"
-              onClick={toggleSidebar} // Toggle sidebar on click
+              onClick={toggleSidebar}
             />
           </li>
           {links.map((link, index) => (
@@ -190,18 +190,26 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Navigation (Scrollable) */}
-      <nav className="md:hidden w-full bg-indigo-500/75 font-medium text-sm text-white overflow-hidden">
-        <div className="flex overflow-x-auto scrollbar-w-2 scrollbar-track-gray-200 scrollbar-thumb-indigo-600">
-          {links.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className={`px-2 py-2 flex-shrink-0 transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
-              onClick={() => handleLinkClick(link.href)}
-            >
-              {link.label}
-            </Link>
-          ))}
+      <nav className="md:hidden w-full bg-blue font-medium text-sm text-white overflow-hidden">
+        <div className="flex flex-wrap">
+          <div className="flex flex-wrap items-center pl-3 divide-x divide-gray-300">
+            <AiOutlineMenu
+              size={20}
+              className="cursor-pointer"
+              onClick={toggleSidebar}
+            />
+            {/* Adjust divide-x to divide-y if vertical */}
+            {links.map((link, index) => (
+              <Link
+                key={index}
+                href={link.href}
+                className={`px-2 py-2 flex-shrink-0 transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
+                onClick={() => handleLinkClick(link.href)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </nav>
 

@@ -86,7 +86,7 @@ const config: Config = {
         "200%": "200% 200%",
       },
       backgroundImage: {
-        "guide-intro": "url('/images/intro.png')",
+        "guide-intro": "url('/images/intro1.JPG')",
         "gradient-to-top": "linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)",
       },
     },
