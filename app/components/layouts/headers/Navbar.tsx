@@ -25,16 +25,8 @@ const Navbar = () => {
     {
       href: "/partner",
       label: "파트너",
-      icon: (
-        <Image
-          src={partnerIcon}
-          width={33}
-          height={33}
-          alt="menuIcon"
-          className="hidden lg:block"
-        />
-      ),
-      width: "w-20 md:w-24 lg:w-32",
+      icon: <Image src={partnerIcon} width={33} height={33} alt="menuIcon" />,
+      width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/sport",
@@ -45,16 +37,8 @@ const Navbar = () => {
         { href: "/sport/basket", label: "농구분석" },
         { href: "/sport/volley", label: "배구분석" },
       ],
-      icon: (
-        <Image
-          src={sportIcon}
-          width={33}
-          height={33}
-          alt="menuIcon"
-          className="hidden lg:block"
-        />
-      ),
-      width: "w-20 md:w-24 lg:w-32",
+      icon: <Image src={sportIcon} width={33} height={33} alt="menuIcon" />,
+      width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/community",
@@ -66,21 +50,13 @@ const Navbar = () => {
         { href: "/community/free", label: "자유게시판" },
         { href: "/community/case", label: "피해사례" },
       ],
-      icon: (
-        <Image
-          src={commuIcon}
-          width={33}
-          height={33}
-          alt="menuIcon"
-          className="hidden lg:block"
-        />
-      ),
+      icon: <Image src={commuIcon} width={33} height={33} alt="menuIcon" />,
       width: "w-20 md:w-24 lg:w-32",
     },
     {
       href: "/event",
       label: "이벤트",
-      width: "w-20 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-24",
     },
     {
       href: "/promotion",
@@ -90,7 +66,7 @@ const Navbar = () => {
         { href: "/promotion/ggong", label: "꽁머니홍보" },
         { href: "/promotion/hunting", label: "구인구직" },
       ],
-      width: "w-20 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-24",
     },
     {
       href: "/guide",
@@ -100,7 +76,7 @@ const Navbar = () => {
         { href: "/guide/major", label: "메이저" },
         { href: "/guide/safe", label: "안전놀이터" },
       ],
-      width: "w-20 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-24",
     },
     {
       href: "/customer",
@@ -109,7 +85,7 @@ const Navbar = () => {
         { href: "/customer", label: "공지사항" },
         { href: "/customer/qalist", label: "1:1 문의" },
       ],
-      width: "w-20 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-24",
     },
   ];
 
@@ -203,10 +179,11 @@ const Navbar = () => {
               <Link
                 key={index}
                 href={link.href}
-                className={`px-2 py-2 flex-shrink-0 transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
+                className={`px-2 py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
                 onClick={() => handleLinkClick(link.href)}
               >
                 {link.label}
+                <div>{link.icon ? link.icon : null}</div>
               </Link>
             ))}
           </div>
