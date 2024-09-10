@@ -4,10 +4,10 @@ import "./globals.css";
 import RegisterModal from "./components/modals/RegisterModal";
 import ToasterProvider from "./components/providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
-import Headers from "./components/layouts/headers/Headers";
-import Footer from "./components/layouts/Footer";
+import Headers from "@/app/components/layouts/headers/Headers";
 import ScrollButtons from "./components/ScrollButtons";
 import localFont from "next/font/local";
+import Footer from "@/app/components/layouts/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,11 +35,8 @@ export default function RootLayout({
           <ToasterProvider />
           <LoginModal />
           <RegisterModal />
-          <Headers></Headers>
 
-          <div className="pt-28 md:pt-32 min-h-[100vh]">{children}</div>
-
-          <Footer></Footer>
+          {children}
         </main>
 
         <ScrollButtons />
