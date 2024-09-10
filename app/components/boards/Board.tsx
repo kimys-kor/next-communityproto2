@@ -59,7 +59,7 @@ const Board = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 mt-10">
+    <section className="flex flex-col gap-8 mt-3">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 w-full">
         <div className="flex gap-2 text-sm text-[#555555]">
           <span>

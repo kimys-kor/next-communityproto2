@@ -74,7 +74,7 @@ const PhotoBoard = () => {
   }
 
   return (
-    <section className="flex flex-col gap-8 mt-10">
+    <section className="flex flex-col gap-8 mt-3">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 w-full">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm">

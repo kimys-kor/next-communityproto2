@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../Logo";
 import TeleIcon from "/public/images/icon/teleIcon.svg";
 import mobV from "/public/images/mobV.png";
-import telId from "/public/images/muktuitapa.png";
+import tele from "/public/images/ggomimg/tele.png";
 import Image from "next/image";
 
 function Footer() {
@@ -33,11 +33,13 @@ function Footer() {
           <div className="w-1/2 flex flex-col px-5 pl-10 lg:pl-40">
             <div className="relative text-lg font-semibold flex gap-2">
               Telegram
-              <span className="absolute top-[-5px] left-20">
-                <TeleIcon></TeleIcon>
-              </span>
+              <div>
+                <span className="left-20">
+                  <TeleIcon></TeleIcon>
+                </span>
+                ggmoang
+              </div>
             </div>
-            <Image width={250} height={30} src={telId} alt="telegramId"></Image>
             <p className="mt-3 text-gray-400 text-xs">
               꽁머니팡은 금전요구 및 영업행위를 하지 않습니다.
             </p>
