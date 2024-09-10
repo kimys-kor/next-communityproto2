@@ -5,6 +5,8 @@ import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GrView } from "react-icons/gr";
+import { IoMdTime } from "react-icons/io";
 
 const Board = () => {
   const pathname = usePathname();
@@ -94,11 +96,19 @@ const Board = () => {
               </td>
               <td className="grow py-4 px-2 font-medium">
                 <Link href={`${pathname}/${item.id}`}>{item.title}</Link>
-                <div className="md:hidden text-sm text-gray-500">
-                  {item.date} • 조회 {item.views}
+                <div className="mt-3 md:hidden flex gap-2 text-sm text-gray-500">
+                  <div className="flex items-center">
+                    <IoMdTime />
+                    {item.date}
+                  </div>{" "}
+                  <div className="flex items-center">
+                    <GrView /> {item.views}
+                  </div>
                 </div>
               </td>
-              <td className="w-20 py-4 px-2 text-center">{item.name}</td>
+              <td className="w-20 py-4 px-2 text-center flex items-center">
+                {item.name}
+              </td>
               <td className="hidden md:block w-32 py-4 px-2 text-center">
                 {item.date}
               </td>

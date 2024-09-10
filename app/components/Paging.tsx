@@ -64,6 +64,11 @@ const StyledPagination = styled.div`
     padding: 0;
   }
 
+  ul.pagination {
+    display: flex;
+    gap: 0; /* Remove gaps so only border width separates items */
+  }
+
   ul.pagination li {
     display: inline-block;
     width: 2.5rem; /* Set the width of each button */
@@ -75,7 +80,10 @@ const StyledPagination = styled.div`
   }
 
   ul.pagination li a {
-    border-radius: 1.5rem;
+    border: 1px solid #ccc; /* Add border to each button */
+    border-left: 0; /* Remove the left border for all buttons */
+    border-right: 0; /* Remove the right border for all buttons */
+    border-radius: 0; /* Set border-radius to 0 for internal buttons */
     text-decoration: none;
     color: black;
     width: 100%; /* Ensure the anchor tag takes up the full width */
@@ -88,16 +96,30 @@ const StyledPagination = styled.div`
       color 0.2s;
   }
 
+  /* First button should have left border and rounded left */
+  ul.pagination li:first-child a {
+    border-left: 1px solid #ccc;
+    border-radius: 1.5rem 0 0 1.5rem; /* Round left corners */
+  }
+
+  /* Last button should have right border and rounded right */
+  ul.pagination li:last-child a {
+    border-right: 1px solid #ccc;
+    border-radius: 0 1.5rem 1.5rem 0; /* Round right corners */
+  }
+
+  /* Active and hover states */
   ul.pagination li a:hover,
   ul.pagination li.active a {
-    border-radius: 1.5rem;
     background-color: #e0e7ff;
     color: white;
     font-size: large;
   }
 
-  ul.pagination li:first-child a,
-  ul.pagination li:last-child a {
-    border-radius: 1.5rem;
+  /* Ensure the first and last buttons are rounded correctly */
+  ul.pagination li:first-child a:hover,
+  ul.pagination li:last-child a:hover,
+  ul.pagination li:first-child a.active,
+  ul.pagination li:last-child a.active {
   }
 `;
