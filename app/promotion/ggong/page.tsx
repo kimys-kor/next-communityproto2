@@ -10,7 +10,7 @@ function page() {
     subMenu: "꽁머니홍보",
   };
   return (
-    <div className="flex flex-col max-w-[1300px] gap-6">
+    <div className="flex flex-col max-w-[1300px]">
       <ThreeBanner></ThreeBanner>
       <ProgressSliderPage></ProgressSliderPage>
       {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}

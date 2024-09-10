@@ -51,12 +51,12 @@ const Navbar = () => {
         { href: "/community/case", label: "피해사례" },
       ],
       icon: <Image src={commuIcon} width={33} height={33} alt="menuIcon" />,
-      width: "w-20 md:w-24 lg:w-32",
+      width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/event",
       label: "이벤트",
-      width: "w-14 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/promotion",
@@ -66,7 +66,7 @@ const Navbar = () => {
         { href: "/promotion/ggong", label: "꽁머니홍보" },
         { href: "/promotion/hunting", label: "구인구직" },
       ],
-      width: "w-14 md:w-24 lg:w-24",
+      width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/guide",

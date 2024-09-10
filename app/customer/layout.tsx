@@ -4,6 +4,7 @@ import RightSideBanner from "../components/layouts/RightSideBanner";
 import Login from "../components/login/Login";
 import IconTabs from "../components/sportRank/IconTabs";
 import Headers from "@/app/components/layouts/headers/Headers";
+import Footer from "@/app/components/layouts/Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Notice></Notice>
           <IconTabs></IconTabs>
         </aside>
-        <section className="w-full mt-32 md:w-3/4">{children}</section>
+        <section className="w-full mt-28 md:w-3/4">{children}</section>
         <RightSideBanner></RightSideBanner>
       </Container>
       <Footer />

@@ -92,7 +92,30 @@ const PhotoBoard = () => {
 
   return (
     <section className="flex flex-col gap-8 mt-10">
-      <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid py-2"></div>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 w-full">
+        <div className="flex gap-2">
+          <div className="text-[#555555] text-sm">
+            총<span className="text-[#2C4AB6] font-semibold"> 34,006</span>건
+          </div>
+          <div className="text-[#555555] text-sm">
+            {"("}
+            <span className="text-[#2C4AB6] font-semibold">1</span>/
+            <span> 52</span> 페이지
+            {")"}
+          </div>
+        </div>
+        <article className="flex justify-center gap-2 ">
+          <SelectBox
+            options={options}
+            onChange={handleChange}
+            defaultValue="1"
+          />
+          <SearchBox
+            handleSearch={handleSearch}
+            placeholderText="검색어 입력"
+          ></SearchBox>
+        </article>
+      </div>
       <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-1 md:grid-cols-2 gap-3">
         {items.map((item, index) => (
           <li key={item.id} className="bg-white rounded-lg py-4">

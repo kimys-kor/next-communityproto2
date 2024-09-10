@@ -55,7 +55,7 @@ function BoardDetail() {
 
   return (
     <div>
-      <section className="flex flex-col gap-1">
+      <section className="flex flex-col gap-1 mt-3">
         <h1 className="font-semibold text-3xl">{Content.title}</h1>
         <article className="mt-3 w-full px-3 py-2 flex items-center justify-between gap-1 border-solid border-t border-normalblue bg-semiblue">
           <div className="flex items-center gap-1 ">

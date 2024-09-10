@@ -33,7 +33,7 @@ const PartnerCard: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 mt-10">
+    <section className="flex flex-col gap-8">
       {/* <div className="flex justify-center text-3xl font-semibold">
         <span className="text-blue">꽁머니팡 </span>
         &nbsp;파트너
@@ -55,14 +55,14 @@ const PartnerCard: React.FC = () => {
         {imgContent.map((item, index) => (
           <article
             key={index}
-            className="w-full h-auto p-2 bg-white/25 rounded-2xl flex flex-col gap-4 items-center border border-solid border-slate-200"
+            className="w-full h-auto bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
           >
-            <div className="overflow-hidden rounded-lg">
+            <div className="overflow-hidden">
               <Link href={pathname + "/" + item.id}>
                 <Image
-                  width={326}
+                  width={395}
                   height={230}
-                  className="w-full rounded-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
                   src={item.img}
                   alt={item.title}
                 />

@@ -11,7 +11,7 @@ function page() {
   };
 
   return (
-    <div className="flex flex-col max-w-[1300px] gap-6">
+    <div className="flex flex-col max-w-[1300px]">
       <ProgressSliderPage></ProgressSliderPage>
       <ThreeBanner></ThreeBanner>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>

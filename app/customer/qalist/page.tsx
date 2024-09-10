@@ -10,7 +10,7 @@ function page() {
   };
 
   return (
-    <div className="flex flex-col max-w-[1300px] gap-6">
+    <div className="flex flex-col max-w-[1300px]">
       <ThreeBanner />
       <div>
         <ProgressSliderPage></ProgressSliderPage>
