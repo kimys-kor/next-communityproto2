@@ -2,6 +2,7 @@ import Board from "@/app/components/boards/Board";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 import Breadcrumb from "@/app/components/BreadCrumb";
+import SubMenu from "../(component)/SubMenu";
 
 function page() {
   const breadcrumbItems = {
@@ -11,6 +12,7 @@ function page() {
 
   return (
     <div className="flex flex-col max-w-[1300px]">
+      <SubMenu />
       <ThreeBanner />
       <div>
         <ProgressSliderPage></ProgressSliderPage>

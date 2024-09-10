@@ -3,10 +3,12 @@ import Image from "next/image";
 import money from "/public/images/money.png";
 import search from "/public/images/search.png";
 import talkball from "/public/images/talkball.png";
+import SubMenu from "../(components)/SubMenu";
 
 function page() {
   return (
-    <div className="w-full">
+    <div className="w-full pt-36">
+      <SubMenu />
       <main>
         <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">

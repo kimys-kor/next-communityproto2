@@ -2,6 +2,7 @@ import Breadcrumb from "@/app/components/BreadCrumb";
 import React from "react";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import PhotoBoard from "../components/boards/PhotoBoard";
+import SubMenu from "./(component)/SubMenu";
 
 function page() {
   const breadcrumbItems = {
@@ -10,7 +11,8 @@ function page() {
   };
 
   return (
-    <div className="flex flex-col max-w-[1200px] gap-3">
+    <div className="flex flex-col gap-3 max-w-[1200px]">
+      <SubMenu />
       <ThreeBanner></ThreeBanner>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <PhotoBoard />

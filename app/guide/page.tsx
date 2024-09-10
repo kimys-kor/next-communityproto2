@@ -4,10 +4,12 @@ import question from "/public/images/question.png";
 import talkball from "/public/images/talkball.png";
 import advantage from "/public/images/advantage.png";
 import logo from "/public/images/logo.png";
+import SubMenu from "./(components)/SubMenu";
 
 function page() {
   return (
-    <div className="w-full">
+    <div className="w-full pt-36">
+      <SubMenu />
       <main>
         <Ggmp />
         <section className="flex flex-col justify-center items-center py-20">
