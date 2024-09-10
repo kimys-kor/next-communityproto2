@@ -133,7 +133,7 @@ function BoardDetail() {
           </div>
         ))}
         <div className="py-6 px-4 bg-[#F8F9FA] flex gap-2 rounded-md">
-          <textarea className="p-2 bg-white w-10/12 h-28 resize-none border-[#DDDDDD] border border-solid focus:outline-none"></textarea>
+          <textarea className="p-2 bg-white w-10/12 h-16 md:h-28  resize-none border-[#DDDDDD] border border-solid focus:outline-none"></textarea>
           <button
             type="submit"
             className="w-2/12 bg-blue hover:bg-[#2250f5] text-white font-bold rounded focus:outline-none"
