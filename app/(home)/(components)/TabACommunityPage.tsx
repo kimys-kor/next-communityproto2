@@ -1,6 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import photo from "/public/images/icon/photoIgalIcon.png";
+import event from "/public/images/icon/event.png";
+import community from "/public/images/icon/community.png";
+import analyze from "/public/images/icon/analyze.png";
 
 type TabContent = {
   title: string;
@@ -9,15 +14,10 @@ type TabContent = {
   writer: string;
 }[];
 
-type Tab = {
-  label: string;
-  content: TabContent | string[];
-};
-
 const TabACommunityPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabs: Tab[] = [
+  const tabs = [
     {
       label: "안구정화",
       content: [
@@ -46,18 +46,22 @@ const TabACommunityPage: React.FC = () => {
           writer: "관리자",
         },
       ],
+      icon: <Image src={photo} width={20} height={20} alt="menuIcon" />,
     },
     {
       label: "이벤트",
       content: ["야구1", "야구2", "야구3", "야구4", "야구5"],
+      icon: <Image src={event} width={20} height={20} alt="menuIcon" />,
     },
     {
       label: "자유게시판",
       content: ["농구1", "농구2", "농구3", "농구4", "농구6"],
+      icon: <Image src={community} width={20} height={20} alt="menuIcon" />,
     },
     {
       label: "분석왕",
       content: ["배구1", "배구2", "배구3", "배구4", "배구5"],
+      icon: <Image src={analyze} width={20} height={20} alt="menuIcon" />,
     },
   ];
 
@@ -75,6 +79,7 @@ const TabACommunityPage: React.FC = () => {
               onClick={() => setActiveTab(index)}
             >
               <div className="flex justify-center items-center gap-1">
+                {tab.icon}
                 {tab.label}
               </div>
             </div>

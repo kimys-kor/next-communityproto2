@@ -1,4 +1,5 @@
 import React from "react";
+import { GrView } from "react-icons/gr";
 import { fetchMainBoardData } from "@/app/api/fetchDataWithDelay";
 
 interface CardData {
@@ -26,12 +27,9 @@ const HomeBoardCard = () => {
               <p className="text-sm">{item.title}</p>
             </div>
             <div className="flex justify-center items-center gap-1">
-              <span className="truncate text-xs text-gray-500">
-                {item.date}
-              </span>
-              <span className="truncate text-xs text-gray-500">
-                조회수 {item.hit}
-              </span>
+              <div className="truncate text-xs text-gray-500 flex gap-1 items-center">
+                <GrView color="gray" /> {item.hit}
+              </div>
             </div>
           </div>
         ))}

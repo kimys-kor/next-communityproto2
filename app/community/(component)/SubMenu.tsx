@@ -1,7 +1,3 @@
-import SocIcon from "/public/images/icon/Msoccer.png";
-import BaseIcon from "/public/images/icon/Mbase.png";
-import BaskIcon from "/public/images/icon/Mbasketball.png";
-import VolleyIcon from "/public/images/icon/Mvolleyball.png";
 import photo from "/public/images/icon/photoIgalIcon.png";
 import humor from "/public/images/icon/humor.png";
 import analyze from "/public/images/icon/analyze.png";
