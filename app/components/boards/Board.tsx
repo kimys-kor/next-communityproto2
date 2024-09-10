@@ -89,7 +89,7 @@ const Board = () => {
           {items.map((item) => (
             <tr
               key={item.id}
-              className="flex border-b border-gray-200 bg-white hover:bg-[#f1f3fa] hover:text-blue"
+              className="border-b border-solid border-gray-200 flex  bg-white hover:bg-[#f1f3fa] hover:text-blue"
             >
               <td className="hidden md:block w-12 py-4 px-2 text-center">
                 {item.id}
