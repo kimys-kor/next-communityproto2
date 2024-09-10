@@ -1,10 +1,10 @@
 "use client";
+import React, { useState } from "react";
 import Paging from "@/app/components/Paging";
 import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
 
 const PhotoBoard = () => {
@@ -54,6 +54,26 @@ const PhotoBoard = () => {
     },
   ];
 
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(items.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectItem = (id: number) => {
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+    } else {
+      setSelectedItems([...selectedItems, id]);
+    }
+  };
+
   const setPage = function () {
     console.log("온체인지");
   };
@@ -64,9 +84,9 @@ const PhotoBoard = () => {
     { value: "3", label: "제목+내용" },
     { value: "4", label: "작성자" },
   ];
+
   const handleChange = (value: string) => {
     console.log("Selected value:", value);
-    // 여기에 선택된 값 처리 로직 추가
   };
 
   async function handleSearch() {
@@ -76,7 +96,13 @@ const PhotoBoard = () => {
   return (
     <section className="flex flex-col gap-1 mt-3">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={selectAll}
+            onChange={handleSelectAll}
+            className="h-4 w-4"
+          />
           <div className="text-[#555555] text-sm">
             총<span className="text-[#2C4AB6] font-semibold"> 34,006</span>건
           </div>
@@ -96,14 +122,20 @@ const PhotoBoard = () => {
           <SearchBox
             handleSearch={handleSearch}
             placeholderText="검색어 입력"
-          ></SearchBox>
+          />
         </article>
       </div>
       <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-3">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <li key={item.id} className="bg-white rounded-lg cursor-pointer">
-            <div className="overflow-hidden rounded-lg">
-              <Link href={pathname + "/" + item.id}>
+            <div className="overflow-hidden rounded-lg relative">
+              <input
+                type="checkbox"
+                className="absolute top-2 left-2 z-10 h-4 w-4"
+                checked={selectedItems.includes(item.id)}
+                onChange={() => handleSelectItem(item.id)}
+              />
+              <Link href={`${pathname}/${item.id}`}>
                 <Image
                   width={326}
                   height={230}
@@ -128,13 +160,13 @@ const PhotoBoard = () => {
         ))}
       </ul>
       <span className="w-full flex justify-end">
-        <Link href={pathname + "/write"}>
-          <button className="bg-blue text-white  hover:bg-mediumblue rounded-sm text-[13px]  px-3 py-3">
+        <Link href={`${pathname}/write`}>
+          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
             글작성하기
           </button>
         </Link>
       </span>
-      <Paging page={1} count={15} setPage={setPage}></Paging>
+      <Paging page={1} count={15} setPage={setPage} />
     </section>
   );
 };

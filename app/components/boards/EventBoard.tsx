@@ -1,14 +1,15 @@
 "use client";
+import React, { useState } from "react";
 import Paging from "@/app/components/Paging";
 import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
 
-const PhotoBoard = () => {
+const EventBoard = () => {
   const pathname = usePathname();
+
   // 가상의 데이터
   const items = [
     {
@@ -61,7 +62,27 @@ const PhotoBoard = () => {
     },
   ];
 
-  const setPage = function () {
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(items.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectItem = (id: number) => {
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+    } else {
+      setSelectedItems([...selectedItems, id]);
+    }
+  };
+
+  const setPage = () => {
     console.log("온체인지");
   };
 
@@ -71,6 +92,7 @@ const PhotoBoard = () => {
     { value: "3", label: "제목+내용" },
     { value: "4", label: "작성자" },
   ];
+
   const handleChange = (value: string) => {
     console.log("Selected value:", value);
     // 여기에 선택된 값 처리 로직 추가
@@ -85,6 +107,7 @@ const PhotoBoard = () => {
     const end = new Date(endDate);
     return end > today ? "진행중" : "종료";
   };
+
   const getStatusColor = (endDate: string): string => {
     const status = getStatus(endDate);
     return status === "진행중" ? "text-blue" : "text-gray-300";
@@ -93,7 +116,13 @@ const PhotoBoard = () => {
   return (
     <section className="flex flex-col mt-3">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={selectAll}
+            onChange={handleSelectAll}
+            className="h-4 w-4"
+          />
           <div className="text-[#555555] text-sm">
             총<span className="text-[#2C4AB6] font-semibold"> 34,006</span>건
           </div>
@@ -104,7 +133,7 @@ const PhotoBoard = () => {
             {")"}
           </div>
         </div>
-        <article className="flex justify-center gap-2 ">
+        <article className="flex justify-center gap-2">
           <SelectBox
             options={options}
             onChange={handleChange}
@@ -113,14 +142,20 @@ const PhotoBoard = () => {
           <SearchBox
             handleSearch={handleSearch}
             placeholderText="검색어 입력"
-          ></SearchBox>
+          />
         </article>
       </div>
       <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-1 md:grid-cols-2 gap-2">
-        {items.map((item, index) => (
-          <li key={item.id} className="bg-white rounded-lg py-4">
+        {items.map((item) => (
+          <li key={item.id} className="bg-white rounded-lg py-4 relative">
+            <input
+              type="checkbox"
+              className="absolute top-6 left-2 z-10 h-4 w-4"
+              checked={selectedItems.includes(item.id)}
+              onChange={() => handleSelectItem(item.id)}
+            />
             <div className="overflow-hidden rounded-lg flex justify-center items-center">
-              <Link href={pathname + "/" + item.id}>
+              <Link href={`${pathname}/${item.id}`}>
                 <Image
                   width={765}
                   height={226}
@@ -133,7 +168,9 @@ const PhotoBoard = () => {
             <section className="w-full flex flex-col justify-center px-2 py-1">
               <div className="w-full flex justify-between">
                 <p
-                  className={`w-full text-left truncate text-base font-medium ${getStatusColor(item.endDate)}`}
+                  className={`w-full text-left truncate text-base font-medium ${getStatusColor(
+                    item.endDate
+                  )}`}
                 >
                   {getStatus(item.endDate)}
                 </p>
@@ -146,15 +183,19 @@ const PhotoBoard = () => {
         ))}
       </ul>
       <span className="w-full flex justify-end">
-        <Link href={pathname + "/write"}>
-          <button className="bg-blue text-white  hover:bg-mediumblue rounded-sm text-[13px]  px-3 py-3">
+        <Link href={`${pathname}/write`}>
+          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
             글작성하기
           </button>
         </Link>
       </span>
-      <Paging page={1} count={15} setPage={setPage}></Paging>
+      <Paging page={1} count={15} setPage={setPage} />
+      {/* Optional: Display selected item IDs in the console or UI */}
+      <div className="mt-2">
+        <p>Selected item IDs: {JSON.stringify(selectedItems)}</p>
+      </div>
     </section>
   );
 };
 
-export default PhotoBoard;
+export default EventBoard;

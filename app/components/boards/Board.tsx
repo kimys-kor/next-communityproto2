@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Paging from "@/app/components/Paging";
 import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import { GrView } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
 import NewIcon from "../NewIcon";
-import HotIcon from "../HotIcon";
 
 const Board = () => {
   const pathname = usePathname();
@@ -33,6 +32,26 @@ const Board = () => {
     },
     // Add more items as needed...
   ];
+
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(items.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectItem = (id: number) => {
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+    } else {
+      setSelectedItems([...selectedItems, id]);
+    }
+  };
 
   const setPage = () => console.log("Page changed");
 
@@ -86,6 +105,13 @@ const Board = () => {
       <table className="min-w-full bg-white text-[14px]">
         <thead className="bg-[#F2F5FF]">
           <tr className="flex border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
+            <th className="hidden md:block w-12 py-3 px-2 text-center">
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+              />
+            </th>
             <th className="hidden md:block w-12 py-3 px-2 text-center">번호</th>
             <th className="grow py-3 px-2 text-center">제목</th>
             <th className="w-20 py-3 px-2 text-center">이름</th>
@@ -98,22 +124,28 @@ const Board = () => {
           {items.map((item) => (
             <tr
               key={item.id}
-              className="border-b border-solid border-gray-200 flex  bg-white hover:bg-[#f1f3fa] hover:text-blue"
+              className="border-b border-solid border-gray-200 flex bg-white hover:bg-[#f1f3fa] hover:text-blue"
             >
+              <td className="hidden md:block w-12 py-4 px-2 text-center">
+                <input
+                  type="checkbox"
+                  checked={selectedItems.includes(item.id)}
+                  onChange={() => handleSelectItem(item.id)}
+                />
+              </td>
               <td className="hidden md:block w-12 py-4 px-2 text-center">
                 {item.id}
               </td>
               <td className="grow py-4 px-2 font-medium">
                 <div className="flex flex-wrap gap-1">
                   {isNew(item.date) && <NewIcon />}
-
                   <Link href={`${pathname}/${item.id}`}>{item.title}</Link>
                 </div>
                 <div className="mt-3 md:hidden flex gap-2 text-sm text-gray-500">
                   <div className="flex items-center">
                     <IoMdTime />
                     {item.date}
-                  </div>{" "}
+                  </div>
                   <div className="flex items-center">
                     <GrView /> {item.views}
                   </div>
