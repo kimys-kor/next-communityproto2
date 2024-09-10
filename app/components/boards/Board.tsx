@@ -73,21 +73,17 @@ const Board = () => {
       </header>
 
       <table className="min-w-full bg-white text-[14px]">
-        <thead className="hidden md:table-header-group bg-[#F2F5FF]">
-          <tr className="border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
-            {["번호", "제목", "이름", "날짜", "조회", "추천"].map(
-              (header, index) => (
-                <th
-                  key={index}
-                  className={`py-3 px-2 text-center ${index === 1 ? "grow" : "w-20"}`}
-                >
-                  {header}
-                </th>
-              )
-            )}
+        <thead className="bg-[#F2F5FF]">
+          <tr className="flex border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
+            <th className="hidden md:block w-12 py-3 px-2 text-center">번호</th>
+            <th className="grow py-3 px-2 text-center">제목</th>
+            <th className="w-20 py-3 px-2 text-center">이름</th>
+            <th className="hidden md:block w-32 py-3 px-2 text-center">날짜</th>
+            <th className="hidden md:block w-20 py-3 px-2 text-center">조회</th>
+            <th className="hidden md:block w-20 py-3 px-2 text-center">추천</th>
           </tr>
         </thead>
-        <tbody className="border-solid border-t-2 border-blue">
+        <tbody>
           {items.map((item) => (
             <tr
               key={item.id}

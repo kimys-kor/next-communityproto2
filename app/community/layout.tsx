@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Notice></Notice>
           <IconTabs></IconTabs>
         </aside>
-        <section className="w-full md:w-3/4 mt-40 ">{children}</section>
+        <section className="w-full md:w-3/4 mt-36">{children}</section>
         <RightSideBanner></RightSideBanner>
       </Container>
     </>

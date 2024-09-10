@@ -75,6 +75,7 @@ const StyledPagination = styled.div`
   }
 
   ul.pagination li a {
+    border-radius: 1.5rem;
     text-decoration: none;
     color: black;
     width: 100%; /* Ensure the anchor tag takes up the full width */
@@ -82,17 +83,21 @@ const StyledPagination = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.2s, color 0.2s;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
   }
 
   ul.pagination li a:hover,
   ul.pagination li.active a {
+    border-radius: 1.5rem;
     background-color: #e0e7ff;
-    color: #3730a3;
+    color: white;
+    font-size: large;
   }
 
   ul.pagination li:first-child a,
   ul.pagination li:last-child a {
-    border-radius: 0.375rem;
+    border-radius: 1.5rem;
   }
 `;

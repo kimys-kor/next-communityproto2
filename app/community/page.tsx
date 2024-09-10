@@ -10,7 +10,7 @@ function page() {
   };
 
   return (
-    <div className="flex flex-col max-w-[1200px] gap-6">
+    <div className="flex flex-col max-w-[1200px] gap-3">
       <ThreeBanner></ThreeBanner>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <PhotoBoard />
