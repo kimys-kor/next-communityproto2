@@ -22,7 +22,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   };
 
   return (
-    <div className="relative w-48 md:w-96 h-7 flex items-center justify-center">
+    <div className="relative w-72 md:w-96 h-7 flex items-center justify-center">
       <input
         type="text"
         id="searchKeyword"

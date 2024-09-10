@@ -7,6 +7,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { GrView } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
+import NewIcon from "../NewIcon";
+import HotIcon from "../HotIcon";
 
 const Board = () => {
   const pathname = usePathname();
@@ -17,8 +19,8 @@ const Board = () => {
       id: 1,
       title: "게시물 제목",
       name: "사용자 이름",
-      date: "2024.06.19",
-      views: 100,
+      date: "2024.09.19 18:00",
+      views: 101,
       likes: 20,
     },
     {
@@ -47,6 +49,13 @@ const Board = () => {
 
   const handleSearch = async () => {
     console.log("전체검색");
+  };
+
+  const isNew = (dateString: string) => {
+    const itemDate = new Date(dateString);
+    const now = new Date();
+    const diffInHours = (now.getTime() - itemDate.getTime()) / (1000 * 60 * 60);
+    return diffInHours <= 24; // Check if the difference is less than or equal to 24 hours
   };
 
   return (
@@ -95,7 +104,11 @@ const Board = () => {
                 {item.id}
               </td>
               <td className="grow py-4 px-2 font-medium">
-                <Link href={`${pathname}/${item.id}`}>{item.title}</Link>
+                <div className="flex gap-1">
+                  {isNew(item.date) && <NewIcon />}
+
+                  <Link href={`${pathname}/${item.id}`}>{item.title}</Link>
+                </div>
                 <div className="mt-3 md:hidden flex gap-2 text-sm text-gray-500">
                   <div className="flex items-center">
                     <IoMdTime />

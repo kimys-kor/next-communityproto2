@@ -3,6 +3,7 @@ import ThreeBanner from "@/app/components/ThreeBanner";
 import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
 import Breadcrumb from "@/app/components/BreadCrumb";
+import TwoBanner from "@/app/components/TwoBanner";
 
 export default function Page() {
   const breadcrumbItems = {
@@ -13,6 +14,7 @@ export default function Page() {
   return (
     <div className="flex flex-col max-w-[1300px]">
       <ThreeBanner />
+      <TwoBanner />
       <div>
         <Image
           className=""

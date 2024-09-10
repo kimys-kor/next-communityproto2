@@ -25,7 +25,7 @@ const SelectBox: React.FC<SelectProps> = ({
   };
 
   return (
-    <div className="relative w-32 h-[1.75rem]">
+    <div className="relative w-24 md:w-32 h-[1.75rem]">
       <select
         value={selectedValue}
         onChange={handleChange}
