@@ -190,10 +190,6 @@ const EventBoard = () => {
         </Link>
       </span>
       <Paging page={1} count={15} setPage={setPage} />
-      {/* Optional: Display selected item IDs in the console or UI */}
-      <div className="mt-2">
-        <p>Selected item IDs: {JSON.stringify(selectedItems)}</p>
-      </div>
     </section>
   );
 };
