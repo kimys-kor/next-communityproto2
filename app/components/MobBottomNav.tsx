@@ -20,10 +20,7 @@ const MobBottomNav: React.FC = () => {
   return (
     <nav className="border-solid border-t border-gray-200 fixed bottom-0 left-0 right-0 bg-white md:hidden">
       <div className="flex justify-around items-center p-2">
-        <Link
-          href="/home"
-          className="flex flex-col justify-center items-center"
-        >
+        <Link href="/" className="flex flex-col justify-center items-center">
           <Image src={home} width={20} height={20} alt="menuIcon" />
           <span className="text-sm">홈</span>
         </Link>
