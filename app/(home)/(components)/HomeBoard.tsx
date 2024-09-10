@@ -8,7 +8,7 @@ import Link from "next/link";
 
 function HomeBoard() {
   return (
-    <section className="w-full grid grid-cols-1 lg:grid-cols-2 gap-3 px-2">
+    <section className="w-full grid grid-cols-1 lg:grid-cols-2 gap-3 px-2 ">
       <article className="flex flex-col gap-2">
         <div className="font-bold text-lg flex justify-between items-center">
           <div className="flex items-center justify-between">

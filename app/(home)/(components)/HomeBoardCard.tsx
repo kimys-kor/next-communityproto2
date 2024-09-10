@@ -13,7 +13,7 @@ const HomeBoardCard = () => {
   const dataLength = data.length;
   return (
     <div>
-      <div className="w-full py-2 px-3 rounded-md bg-white font-semibold border-solid border-slate-200 border flex flex-col gap-1">
+      <div className="w-full py-2 px-3 rounded-md bg-gradient-to-tl from-lightblue via-white to-lightblue font-semibold border-solid border-slate-200 border flex flex-col gap-1">
         {data.map((item, index) => (
           <div
             key={index}
