@@ -14,7 +14,7 @@ interface PagingProps {
 
 const Paging: FC<PagingProps> = ({ page, count, setPage }) => {
   return (
-    <div className="max-w-screen-xl mx-auto mt-1 px-4 text-gray-600 md:px-8">
+    <div className="max-w-screen-xl mx-auto mt-1 px-4 text-gray-600 md:px-8 mb-5">
       <div className="hidden justify-center sm:flex" aria-label="Pagination">
         <StyledPagination>
           <Pagination
