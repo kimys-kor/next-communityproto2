@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import photo from "/public/images/icon/photoIgalIcon.png";
 import event from "/public/images/icon/event.png";
-import community from "/public/images/icon/community.png";
 import analyze from "/public/images/icon/analyze.png";
+import photoIcon from "/public/images/icon/photoIcon.png";
+import gameIcon from "/public/images/icon/gameIcon.png";
 
 type TabContent = {
   title: string;
@@ -46,7 +46,7 @@ const TabACommunityPage: React.FC = () => {
           writer: "관리자",
         },
       ],
-      icon: <Image src={photo} width={20} height={20} alt="menuIcon" />,
+      icon: <Image src={photoIcon} width={20} height={20} alt="menuIcon" />,
     },
     {
       label: "이벤트",
@@ -56,7 +56,7 @@ const TabACommunityPage: React.FC = () => {
     {
       label: "자유게시판",
       content: ["농구1", "농구2", "농구3", "농구4", "농구6"],
-      icon: <Image src={community} width={20} height={20} alt="menuIcon" />,
+      icon: <Image src={gameIcon} width={20} height={20} alt="menuIcon" />,
     },
     {
       label: "분석왕",
