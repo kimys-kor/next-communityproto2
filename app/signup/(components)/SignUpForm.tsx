@@ -65,7 +65,7 @@ const SignUpForm: React.FC = () => {
             <div className="w-full flex flex-col gap-2 p-2">
               <p className="w-24">아이디</p>
               <p className="text-subtext2 text-sm">
-                영문 입력, 특수문자 불가능
+                영문 입력 3~16글자, 알파벳, 숫자, _만 사용가능
               </p>
               <Controller
                 name="id"
