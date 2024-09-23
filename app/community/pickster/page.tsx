@@ -1,33 +1,25 @@
-import Link from "next/link";
-import { FaHome, FaSearch, FaUser, FaBell } from "react-icons/fa";
+import React from "react";
+import ThreeBanner from "@/app/components/ThreeBanner";
+import ProgressSliderPage from "@/app/components/ProgressSliderPage";
+import Board from "@/app/components/boards/Board";
+import Breadcrumb from "@/app/components/BreadCrumb";
+import SubMenu from "../(component)/SubMenu";
 
 function page() {
   const breadcrumbItems = {
     title: "커뮤니티",
-    subMenu: "나는분석왕",
+    subMenu: "픽스터",
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg md:hidden">
-      <div className="flex justify-around items-center p-2">
-        <Link href="/" className="flex flex-col items-center">
-          <FaHome className="text-gray-600 text-2xl" />
-          <span className="text-xs">Home</span>
-        </Link>
-        <Link href="/search" className="flex flex-col items-center">
-          <FaSearch className="text-gray-600 text-2xl" />
-          <span className="text-xs">Search</span>
-        </Link>
-        <Link href="/notifications" className="flex flex-col items-center">
-          <FaBell className="text-gray-600 text-2xl" />
-          <span className="text-xs">Notifications</span>
-        </Link>
-        <Link href="/profile" className="flex flex-col items-center">
-          <FaUser className="text-gray-600 text-2xl" />
-          <span className="text-xs">Profile</span>
-        </Link>
-      </div>
-    </nav>
+    <div className="flex flex-col gap-3 max-w-[1300px]">
+      <SubMenu />
+      <ProgressSliderPage></ProgressSliderPage>
+      <ThreeBanner></ThreeBanner>
+      {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}
+      <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
+      <Board />
+    </div>
   );
 }
 

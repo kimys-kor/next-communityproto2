@@ -25,8 +25,10 @@ const Navbar = () => {
     {
       href: "/partner",
       label: "파트너",
-      icon: <Image src={partnerIcon} width={33} height={33} alt="menuIcon" />,
-      width: "w-14 md:w-24 lg:w-32",
+      icon: (
+        <Image src={partnerIcon} width={33} height={33} alt="partnerIcon" />
+      ),
+      // width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/sport",
@@ -37,8 +39,8 @@ const Navbar = () => {
         { href: "/sport/basket", label: "농구분석" },
         { href: "/sport/volley", label: "배구분석" },
       ],
-      icon: <Image src={sportIcon} width={33} height={33} alt="menuIcon" />,
-      width: "w-14 md:w-24 lg:w-32",
+      icon: <Image src={sportIcon} width={33} height={33} alt="sportIcon" />,
+      // width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/community",
@@ -50,13 +52,13 @@ const Navbar = () => {
         { href: "/community/free", label: "자유게시판" },
         { href: "/community/case", label: "피해사례" },
       ],
-      icon: <Image src={commuIcon} width={33} height={33} alt="menuIcon" />,
-      width: "w-14 md:w-24 lg:w-32",
+      icon: <Image src={commuIcon} width={33} height={33} alt="commuIcon" />,
+      // width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/event",
       label: "이벤트",
-      width: "w-14 md:w-24 lg:w-32",
+      // width: "w-14 md:w-24 lg:w-32",
       dropdown: [
         { href: "/event", label: "이벤트" },
         { href: "/event/pointchange", label: "포인트교환" },
@@ -70,7 +72,7 @@ const Navbar = () => {
         { href: "/promotion/ggong", label: "꽁머니홍보" },
         { href: "/promotion/hunting", label: "구인구직" },
       ],
-      width: "w-14 md:w-24 lg:w-32",
+      // width: "w-14 md:w-24 lg:w-32",
     },
     {
       href: "/guide",
@@ -80,7 +82,7 @@ const Navbar = () => {
         { href: "/guide/major", label: "메이저" },
         { href: "/guide/safe", label: "안전놀이터" },
       ],
-      width: "w-14 md:w-24 lg:w-24",
+      // width: "w-14 md:w-24 lg:w-24",
     },
     {
       href: "/customer",
@@ -89,7 +91,7 @@ const Navbar = () => {
         { href: "/customer", label: "공지사항" },
         { href: "/customer/qalist", label: "1:1 문의" },
       ],
-      width: "w-14 md:w-24 lg:w-24",
+      // width: "w-14 md:w-24 lg:w-24",
     },
   ];
 
@@ -137,9 +139,11 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative ${link.width} h-14 md:h-16 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
-                  isActiveLink(link.href) ? "text-blue" : "text-black"
-                }`}
+                className={`relative 
+                  width: "w-14 md:w-24 lg:w-32
+                   h-14 md:h-16 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
+                     isActiveLink(link.href) ? "text-blue" : "text-black"
+                   }`}
                 onClick={() => handleLinkClick(link.href)}
               >
                 <div className="font-bold">{link.label}</div>

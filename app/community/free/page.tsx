@@ -12,7 +12,7 @@ function page() {
   };
 
   return (
-    <div className="flex flex-col max-w-[1300px]">
+    <div className="flex flex-col gap-3 max-w-[1300px]">
       <SubMenu />
       <ProgressSliderPage></ProgressSliderPage>
       <ThreeBanner></ThreeBanner>
