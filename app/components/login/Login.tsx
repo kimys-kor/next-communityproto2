@@ -7,13 +7,57 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
+  const [username, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Here you would typically handle the login logic, such as making an API call
+  const handleLogin = async () => {
+    console.log(username + " " + password);
+    try {
+      const response = await fetch("guest/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response:", data);
+      } else {
+        console.error("Login failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleLogin2 = async () => {
+    console.log();
+    try {
+      const response = await fetch("http://localhost:8080/guest/login", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response:", data);
+      } else {
+        console.error("Login failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -26,9 +70,9 @@ const Login: React.FC = () => {
       >
         <div className="relative mb-4">
           <input
-            type="email"
-            id="email"
-            value={email}
+            type="string"
+            id="username"
+            value={username}
             onChange={(e) => setEmail(e.target.value)}
             className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
             placeholder="아이디"

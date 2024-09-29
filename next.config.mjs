@@ -13,6 +13,14 @@ const nextConfig = {
     unoptimized: true,
     formats: ["image/avif", "image/webp"],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "http://localhost:8080/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
