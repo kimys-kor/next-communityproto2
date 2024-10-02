@@ -27,9 +27,6 @@ function Headers() {
               handleSearch={handleSearch}
               placeholderText="검색어를 입력하세요."
             ></SearchBox> */}
-            <div className="flex gap-2 justify-center items-center">
-              <UserMenu></UserMenu>
-            </div>
           </div>
         </section>
         <Navbar></Navbar>
