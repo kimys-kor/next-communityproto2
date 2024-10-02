@@ -1,8 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import toast from "react-hot-toast";
 
-export async function handleLogin(data: FormData) {
+export async function LoginServerAction(data: FormData) {
   try {
     const response = await fetch(process.env.API_URL + "guest/login", {
       method: "POST",
@@ -17,13 +18,14 @@ export async function handleLogin(data: FormData) {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("Response:", data);
+      const token = response.headers.get("Authorization");
+      console.log("Response:", token);
       revalidatePath("/");
-      return data;
+      return token;
     } else {
       console.error("Login failed:", response.statusText);
     }
   } catch (error) {
-    console.error("Error:", error);
+    toast.error("로그인에 실패 하였습니다.");
   }
 }
