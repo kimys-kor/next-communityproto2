@@ -1,79 +1,17 @@
-"use client";
-
-import React, { useState } from "react";
 import IdIcon from "/public/images/idIcon.png";
 import PassIcon from "/public/images/passIcon.png";
 import Link from "next/link";
 import Image from "next/image";
+import { handleLogin } from "@/app/api/loginaction";
 
 const Login: React.FC = () => {
-  const [username, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
-    console.log(username + " " + password);
-    try {
-      const response = await fetch("guest/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Response:", data);
-      } else {
-        console.error("Login failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleLogin2 = async () => {
-    console.log();
-    try {
-      const response = await fetch("http://localhost:8080/guest/login", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Response:", data);
-      } else {
-        console.error("Login failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   return (
     <div className="max-w-128 bg-white p-8 rounded-lg w-full border-solid border-slate-200 border">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleLogin();
-        }}
-      >
+      <form action={handleLogin}>
         <div className="relative mb-4">
           <input
             type="string"
-            id="username"
-            value={username}
-            onChange={(e) => setEmail(e.target.value)}
+            name="username"
             className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
             placeholder="아이디"
             required
@@ -89,9 +27,7 @@ const Login: React.FC = () => {
         <div className="relative mb-4">
           <input
             type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
             className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
             placeholder="비밀번호"
             required
