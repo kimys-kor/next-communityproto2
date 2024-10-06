@@ -1,6 +1,6 @@
 "use client";
 import Avatar from "@/app/components/Avatar";
-import { removeCookie } from "../api/loginAction";
+import { removeCookie } from "../api/authAction";
 
 function Profile({ setLoggedIn }: { setLoggedIn: (value: boolean) => void }) {
   const userInfo = {
