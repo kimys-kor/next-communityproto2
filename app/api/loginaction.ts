@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function loginServerAction(data: FormData) {
   try {
@@ -9,6 +10,7 @@ export async function loginServerAction(data: FormData) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         username: data.get("username"),
         password: data.get("password"),
@@ -16,9 +18,7 @@ export async function loginServerAction(data: FormData) {
     });
 
     if (response.ok) {
-      const data = await response.json();
       const token = response.headers.get("Authorization");
-      console.log("Response:", token);
       revalidatePath("/");
       return token;
     } else {
@@ -27,4 +27,36 @@ export async function loginServerAction(data: FormData) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function saveCookie(data: string) {
+  const cookieStore = cookies();
+  cookieStore.set("access_token", data, {
+    secure: true,
+    httpOnly: true,
+    maxAge: 1800,
+  });
+}
+
+export async function getCookie() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("access_token");
+  return token;
+}
+
+export async function removeCookie() {
+  const cookieStore = cookies();
+
+  cookieStore.set("access_token", "", {
+    secure: true,
+    httpOnly: true,
+    maxAge: -1,
+  });
+
+  // refresh_token 삭제
+  cookieStore.set("refresh_token", "", {
+    secure: true,
+    httpOnly: true,
+    maxAge: -1,
+  });
 }

@@ -1,87 +1,79 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import IdIcon from "/public/images/idIcon.png";
 import PassIcon from "/public/images/passIcon.png";
 import Link from "next/link";
 import Image from "next/image";
-import { revalidatePath } from "next/cache";
-import { loginServerAction } from "@/app/api/loginAction";
-import { refreshServerAction } from "@/app/api/refreshAction";
-import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { saveCookie, getCookie } from "@/app/api/loginAction";
+import Profile from "../Profile";
+import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
-import UserMenu from "../layouts/headers/userMenu";
 
 const Login: React.FC = () => {
-  const { accessToken, setAccessToken } = useAuthStore();
-  const [loggedIn, setLoggedIn] = useState<boolean>();
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      const isLoggedIn = sessionStorage.getItem("is_logged");
-      setLoggedIn(isLoggedIn === "true");
-
-      if (loggedIn) {
-        try {
-          const token = await refreshServerAction();
-
-          if (typeof token === "string" && token.length >= 10) {
-            setAccessToken(token);
-            sessionStorage.setItem("is_logged", "true");
-          } else if (token === "실패") {
-            toast.error("새로고침 실패");
-          }
-        } catch (err) {
-          console.error(err);
-        }
+    const checkToken = async () => {
+      const access_token = await getCookie();
+      if (access_token && access_token.value.length >= 10) {
+        setLoggedIn(true);
       }
     };
+    checkToken();
+    setHasMounted(true);
+  }, [getCookie, setLoggedIn]);
 
-    checkLoginStatus();
-  }, []);
-
-  const loginSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const formData = new FormData();
-    formData.set("username", username);
-    formData.set("password", password);
-
+  const handleLogin = async () => {
     try {
-      const token = await loginServerAction(formData);
-
-      if (typeof token === "string" && token.length >= 10) {
-        setAccessToken(token);
-        sessionStorage.setItem("is_logged", "true");
-      } else if (token == "실패") {
+      const response = await fetch("guest/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+        credentials: "include",
+      });
+      if (response.ok) {
+        const token = response.headers.get("Authorization");
+        if (token != null) {
+          saveCookie(token);
+          setLoggedIn(true);
+        }
+      } else {
         toast.error("아이디와 비밀번호를 확인해주세요");
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (error) {}
   };
 
-  const logoutSubmit = () => {
-    sessionStorage.removeItem("is_logged");
-    revalidatePath("/");
-  };
-
+  if (!hasMounted) {
+    return <ProfileSk />;
+  }
   return (
     <div className="max-w-128 bg-white p-8 rounded-lg w-full border-solid border-slate-200 border">
       {loggedIn ? (
-        <UserMenu />
+        <Profile setLoggedIn={setLoggedIn} />
       ) : (
-        <form onSubmit={loginSubmit}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <div className="relative mb-4">
             <input
               type="string"
-              name="username"
+              id="username"
+              value={username}
+              onChange={(e) => setEmail(e.target.value)}
               className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
               placeholder="아이디"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               required
             />
             <Image
@@ -95,11 +87,11 @@ const Login: React.FC = () => {
           <div className="relative mb-4">
             <input
               type="password"
-              name="password"
-              className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-              placeholder="비밀번호"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
+              placeholder="비밀번호"
               required
             />
             <Image
@@ -110,6 +102,28 @@ const Login: React.FC = () => {
               className="absolute top-2 left-2"
             />
           </div>
+          {/* <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center justify-center">
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4  bg-gray-100 "
+            />
+            <label
+              htmlFor="default-checkbox"
+              className="ms-2 font-normal text-sm truncate leading-tight"
+            >
+              자동로그인
+            </label>
+          </div>
+          <Link
+            href={"/signup"}
+            className="text-blue font-normal text-sm cursor-pointer leading-tight"
+          >
+            회원가입
+          </Link>
+        </div> */}
           <section className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 items-center justify-between">
               <button
