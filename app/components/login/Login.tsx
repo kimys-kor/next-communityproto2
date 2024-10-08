@@ -5,7 +5,7 @@ import IdIcon from "/public/images/idIcon.png";
 import PassIcon from "/public/images/passIcon.png";
 import Link from "next/link";
 import Image from "next/image";
-import { saveCookie, getCookie } from "@/app/api/authAction";
+import { getCookie } from "@/app/api/authAction";
 import Profile from "../Profile";
 import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("guest/login", {
+      const response = await fetch("/api/auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,18 +38,15 @@ const Login: React.FC = () => {
           username: username,
           password: password,
         }),
-        credentials: "include",
       });
       if (response.ok) {
-        const token = response.headers.get("Authorization");
-        if (token != null) {
-          saveCookie(token);
-          setLoggedIn(true);
-        }
+        setLoggedIn(true);
       } else {
         toast.error("아이디와 비밀번호를 확인해주세요");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("서버 오류가 발생했습니다");
+    }
   };
 
   if (!hasMounted) {

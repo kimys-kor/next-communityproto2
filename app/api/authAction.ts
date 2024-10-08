@@ -60,3 +60,8 @@ export async function removeCookie() {
     maxAge: -1,
   });
 }
+
+export async function saveRefreshToken(response: any) {
+  const cookieStore = cookies();
+  const data = cookieStore.get("refresh_token");
+}
