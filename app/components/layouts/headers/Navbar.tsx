@@ -140,7 +140,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className={`relative 
-                  width: "w-14 md:w-24 lg:w-32
+                  w-20 md:w-28 lg:w-32
                    h-14 md:h-16 truncate text-lg cursor-pointer transition-all flex justify-center items-center gap-1 duration-300 ease-in-out menu-hover hover:text-blue ${
                      isActiveLink(link.href) ? "text-blue" : "text-black"
                    }`}

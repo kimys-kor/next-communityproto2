@@ -7,6 +7,7 @@ import Profile from "../../Profile";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleOpen = useCallback(() => {
@@ -42,7 +43,7 @@ const UserMenu = () => {
         <div className="z-10 w-72 absolute bg-white overflow-hidden right-0 top-12 text-sm border border-solid border-gray-300">
           <div className="flex flex-col">
             <>
-              <Profile />
+              <Profile setLoggedIn={setLoggedIn} />
               <Link href={"/myinfo"}>
                 <div
                   onClick={toggleOpen}
