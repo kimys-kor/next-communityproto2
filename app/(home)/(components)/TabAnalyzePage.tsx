@@ -44,12 +44,12 @@ const TabAnalyzePage = () => {
   ];
 
   const [activeTab, setActiveTab] = useState(0);
-  const [boardList, setBoardList] = useState<BoardItem[]>([]); // Specify the type here
+  const [boardList, setBoardList] = useState<BoardItem[]>([]);
 
   useEffect(() => {
     const loadBoardList = async () => {
-      const typMap = [2, 3, 4, 5]; // Map activeTab to types
-      const typ = typMap[activeTab]; // Get the corresponding typ value
+      const typMap = [2, 3, 4, 5];
+      const typ = typMap[activeTab];
 
       try {
         const response = await fetch(
@@ -67,14 +67,14 @@ const TabAnalyzePage = () => {
         }
 
         const data = await response.json();
-        setBoardList(data.data.content); // Adjust according to your API response structure
+        setBoardList(data.data.content);
       } catch (error) {
         console.error("Failed to load board list:", error);
       }
     };
 
     loadBoardList();
-  }, [activeTab]); // Trigger API call on activeTab change
+  }, [activeTab]);
 
   useEffect(() => {
     console.log(boardList, "보드리스트");
