@@ -14,6 +14,7 @@ export async function GET(request: Request) {
       {
         method: "GET",
         credentials: "include",
+        next: { revalidate: 300 },
       }
     );
 

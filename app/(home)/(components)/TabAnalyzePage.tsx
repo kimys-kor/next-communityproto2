@@ -59,7 +59,6 @@ const TabAnalyzePage = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            cache: "no-store", // To prevent caching issues
           }
         );
 
