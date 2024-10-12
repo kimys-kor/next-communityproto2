@@ -1,10 +1,11 @@
 import React from "react";
 import StarIcon from "/public/images/icon/starIcon.svg";
-import HomeBoardCard from "./HomeBoardCard";
 import newBlue from "/public/images/new_blue_icon.png";
 import newPurple from "/public/images/new_purple_icon.png";
 import Image from "next/image";
 import Link from "next/link";
+import HomeBoardWeekCard from "./HomeBoardWeekCard";
+import HomeBoardDayCard from "./HomeBoardDayCard";
 
 function HomeBoard() {
   return (
@@ -28,7 +29,7 @@ function HomeBoard() {
             </svg>
           </div>
         </div>
-        <HomeBoardCard></HomeBoardCard>
+        <HomeBoardWeekCard />
       </article>
       <article className="flex flex-col gap-2">
         <div className="font-bold text-lg flex justify-between items-center">
@@ -49,7 +50,7 @@ function HomeBoard() {
             </svg>
           </div>
         </div>
-        <HomeBoardCard></HomeBoardCard>
+        <HomeBoardDayCard />
       </article>
     </section>
   );
