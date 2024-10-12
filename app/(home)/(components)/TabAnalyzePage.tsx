@@ -76,10 +76,6 @@ const TabAnalyzePage = () => {
     loadBoardList();
   }, [activeTab]);
 
-  useEffect(() => {
-    console.log(boardList, "보드리스트");
-  }, [boardList]);
-
   return (
     <div className="w-full truncate bg-white rounded-2xl flex flex-col gap-5 border border-solid border-gray-200">
       <div className="w-full flex flex-col">
