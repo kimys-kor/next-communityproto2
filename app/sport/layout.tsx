@@ -5,6 +5,9 @@ import Login from "../components/login/Login";
 import IconTabs from "../components/sportRank/IconTabs";
 import Headers from "@/app/components/layouts/headers/Headers";
 import Footer from "@/app/components/layouts/Footer";
+import NoticeCard from "@/app/components/cards/NoticeCard";
+import NewPostCard from "@/app/components/cards/NewPostCard";
+import NewPartnerCard from "@/app/components/cards/NewPartnerCard";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,8 +16,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Container>
         <aside className="md:w-1/4 mt-40 hidden md:flex flex-col gap-8 max-w-[300px] h-full">
           <Login></Login>
-          <Notice></Notice>
-          <IconTabs></IconTabs>
+          <NoticeCard />
+          <NewPostCard />
+          <NewPostCard />
+          <NewPartnerCard />
+          {/* <IconTabs></IconTabs> */}
         </aside>
         <section className="w-full mt-36 md:w-3/4">{children}</section>
         <RightSideBanner></RightSideBanner>

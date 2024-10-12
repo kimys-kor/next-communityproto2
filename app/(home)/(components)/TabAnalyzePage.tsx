@@ -21,6 +21,7 @@ interface BoardItem {
   hate: number;
   likes: number;
   replyNum: number;
+  createdDt: Date;
 }
 
 const TabAnalyzePage = () => {

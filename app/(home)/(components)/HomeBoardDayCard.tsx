@@ -25,6 +25,7 @@ interface BoardItem {
   hate: number;
   likes: number;
   replyNum: number;
+  createdDt: Date;
 }
 
 const categoryMap: { [key: number]: string } = {
@@ -127,7 +128,7 @@ const HomeBoardDayCard = () => {
 
   return (
     <div>
-      <div className="w-full py-2 px-3 rounded-md bg-gradient-to-tl from-lightblue via-white to-lightblue font-semibold border-solid border-slate-200 border flex flex-col gap-1">
+      <div className="w-full py-2 px-5 rounded-md bg-gradient-to-tl from-lightblue via-white to-lightblue font-semibold border-solid border-slate-200 border flex flex-col gap-1">
         {boardList.map((item, index) => (
           <div
             key={item.id}
@@ -138,10 +139,20 @@ const HomeBoardDayCard = () => {
             } hover:bg-lightblue hover:scale-105`}
           >
             <div className="flex justify-center items-center gap-2">
-              <span
+              {/* <span
                 className="flex items-center gap-1 border-solid border rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all"
                 style={{
                   background: categoryColors[item.postType],
+                }}
+              >
+                {categoryIcons[item.postType]}
+                {categoryMap[item.postType]}
+              </span> */}
+              <span
+                className="flex items-center gap-1 border-solid border border-blue rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
+                style={{
+                  background: "linear-gradient(45deg, #0070f3, #00d8ff)",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
                 }}
               >
                 {categoryIcons[item.postType]} {/* Icon */}

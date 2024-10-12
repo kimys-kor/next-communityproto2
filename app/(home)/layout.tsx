@@ -1,13 +1,15 @@
-import Notice from "../components/cards/Notice";
-import Container from "../components/Container";
+import Container from "@/app/components/Container";
 import Footer from "@/app/components/layouts/Footer";
-import RightSideBanner from "../components/layouts/RightSideBanner";
-import Login from "../components/login/Login";
-import IconTabs from "../components/sportRank/IconTabs";
+import RightSideBanner from "@/app/components/layouts/RightSideBanner";
+import Login from "@/app/components/login/Login";
+import IconTabs from "@/app/components/sportRank/IconTabs";
 
 import Headers from "@/app/components/layouts/headers/Headers";
 import { Suspense } from "react";
-import ProfileSk from "../components/skeleton/ProfileSk";
+import ProfileSk from "@/app/components/skeleton/ProfileSk";
+import NoticeCard from "@/app/components/cards/NoticeCard";
+import NewPostCard from "@/app/components/cards/NewPostCard";
+import NewPartnerCard from "@/app/components/cards/NewPartnerCard";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,8 +21,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Suspense fallback={<ProfileSk />}>
               <Login></Login>
             </Suspense>
-            <Notice></Notice>
-            <IconTabs></IconTabs>
+            <NoticeCard />
+            <NewPostCard />
+            <NewPartnerCard />
+            {/* <IconTabs></IconTabs> */}
           </aside>
           <section className="w-full mt-36 md:w-3/4">{children}</section>
           <RightSideBanner></RightSideBanner>
