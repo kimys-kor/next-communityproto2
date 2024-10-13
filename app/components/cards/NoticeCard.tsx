@@ -79,7 +79,7 @@ const NoticeCard: React.FC = () => {
         >
           <div className="flex gap-2">
             <span
-              className="flex items-center gap-1 border-solid border border-blue rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
+              className="flex items-center gap-1 rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
               style={{
                 background: "linear-gradient(45deg, #0070f3, #00d8ff)",
                 boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",

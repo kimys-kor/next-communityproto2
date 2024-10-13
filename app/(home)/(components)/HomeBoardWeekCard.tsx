@@ -131,7 +131,7 @@ const HomeBoardWeekCard = () => {
         {boardList.map((item, index) => (
           <div
             key={item.id}
-            className={`w-full py-2 flex justify-between items-center transition-transform duration-300 ${
+            className={`w-full py-2 flex justify-between items-center transition-transform duration-200 ${
               index !== boardList.length - 1
                 ? "border-b border-slate-200 border-solid"
                 : ""
@@ -148,9 +148,9 @@ const HomeBoardWeekCard = () => {
                 {categoryMap[item.postType]}
               </span> */}
               <span
-                className="flex items-center gap-1 border-solid border border-[#0038FF] rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
+                className="flex items-center gap-1 rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
                 style={{
-                  background: "linear-gradient(45deg, #0038FF, #7283e6)",
+                  background: "linear-gradient(45deg, #0038FF, #1494e9)",
                   boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
                 }}
               >
