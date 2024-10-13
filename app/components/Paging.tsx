@@ -6,21 +6,30 @@ import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
 
+// activePage : 현재 페이지
+// itemsCountPerPage : 한 페이지 당 보여줄 아이템 수
+//  totalItemsCount : 총 아이템 수
+// pageRangeDisplayed : paginator에서 보여줄 최대 페이지 범위
+// prevPageText : 이전 페이지로 가기를 나타내는 텍스트
+// nextPageText : 다음 페이지로 가기를 나타내는 텍스트
+// onChange : 페이지가 바뀔 때 핸들링하는 함수
+
 interface PagingProps {
   page: number;
-  count: number;
+  size: number;
+  totalElements: number;
   setPage: (pageNumber: number) => void;
 }
 
-const Paging: FC<PagingProps> = ({ page, count, setPage }) => {
+const Paging: FC<PagingProps> = ({ page, size, totalElements, setPage }) => {
   return (
     <div className="max-w-screen-xl mx-auto mt-1 px-4 text-gray-600 md:px-8 mb-5">
       <div className="justify-center sm:flex" aria-label="Pagination">
         <StyledPagination>
           <Pagination
             activePage={page}
-            itemsCountPerPage={10}
-            totalItemsCount={450}
+            itemsCountPerPage={size}
+            totalItemsCount={totalElements}
             pageRangeDisplayed={5}
             prevPageText={
               <span className="inline-flex items-center gap-x-2">

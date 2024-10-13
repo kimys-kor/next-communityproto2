@@ -1,69 +1,100 @@
 "use client";
-
 import Paging from "@/app/components/Paging";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-interface ImgContent {
+interface BoardItem {
   id: number;
-  img: string;
+  postType: number;
+  username: string;
+  nickname: string;
+  userIp: string;
+  thumbNail: string;
   title: string;
   code: string;
-}
-
-interface PartnerCardProps {
-  imgContent: ImgContent;
+  hit: number;
+  hate: number;
+  likes: number;
+  replyNum: number;
+  createdDt: Date;
 }
 
 const PartnerCard: React.FC = () => {
+  const size = 12;
   const pathname = usePathname();
-
-  const imgContent: ImgContent[] = [
-    { id: 1, img: "/images/homebanner/1.jpg", title: "땅콩", code: "mttp" },
-    { id: 2, img: "/images/homebanner/2.png", title: "물음표", code: "mttp" },
-    { id: 3, img: "/images/homebanner/3.jpg", title: "bet38", code: "mttp" },
-    { id: 4, img: "/images/homebanner/4.jpg", title: "onetup", code: "mttp" },
-    { id: 5, img: "/images/homebanner/5.jpg", title: "식스", code: "mttp" },
-    { id: 6, img: "/images/homebanner/6.jpg", title: "정글", code: "mttp" },
-  ];
-
-  const setPage = function () {
-    console.log("온체인지");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const setPage = function (e: number) {
+    setCurrentPage(e);
   };
+
+  const [boardList, setBoardList] = useState<BoardItem[]>([]);
+
+  useEffect(() => {
+    const fetchBoardContent = async () => {
+      try {
+        const response = await fetch(
+          `/api/board/partnerList?page=${currentPage - 1}&size=${size}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            cache: "no-store",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch partner content");
+        }
+
+        const data = await response.json();
+        setBoardList(data.data.content);
+        setTotalElements(data.data.totalElements);
+        setTotalPages(data.data.totalPages);
+      } catch (error) {
+        console.error("Error fetching partner content:", error);
+      }
+    };
+
+    fetchBoardContent();
+  }, [currentPage]);
 
   return (
     <section className="flex flex-col gap-1">
-      {/* <div className="flex justify-center text-3xl font-semibold">
-        <span className="text-blue">꽁머니팡 </span>
-        &nbsp;파트너
-      </div> */}
       <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm">
-            총<span className="text-[#2C4AB6] font-semibold"> 34,001</span>건
+            총
+            <span className="text-[#2C4AB6] font-semibold">
+              {totalElements}
+            </span>
+            건
           </div>
           <div className="text-[#555555] text-sm">
             {"("}
-            <span className="text-[#2C4AB6] font-semibold">1</span>/
-            <span> 52</span> 페이지
+            <span className="text-[#2C4AB6] font-semibold">{currentPage}</span>/
+            <span> {totalPages}</span> 페이지
             {")"}
           </div>
         </div>
       </div>
-      <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3 ">
-        {imgContent.map((item, index) => (
+      <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
+        {boardList.map((item) => (
           <article
-            key={index}
+            key={item.id}
             className="w-full h-auto bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
           >
             <div className="overflow-hidden">
-              <Link href={pathname + "/" + item.id}>
+              <Link href={`${pathname}/${item.id}`}>
                 <Image
                   width={395}
                   height={230}
                   className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-                  src={item.img}
+                  src={item.thumbNail}
                   alt={item.title}
                 />
               </Link>
@@ -91,12 +122,17 @@ const PartnerCard: React.FC = () => {
       </div>
       <span className="w-full flex justify-end">
         <Link href={"/partner/write"}>
-          <button className="bg-blue text-white  hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
             파트너 등록
           </button>
         </Link>
       </span>
-      <Paging page={1} count={15} setPage={setPage}></Paging>
+      <Paging
+        page={currentPage}
+        size={size}
+        totalElements={totalElements}
+        setPage={setPage}
+      ></Paging>
     </section>
   );
 };
