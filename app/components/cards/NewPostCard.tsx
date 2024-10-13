@@ -53,7 +53,7 @@ const NewPostCard: React.FC = () => {
     <div className="w-full rounded-md bg-white font-semibold border-solid border-slate-200 border">
       <div className="h-11 px-3 leading-8 flex justify-between items-center border-solid border-b border-gray-200">
         <div className="flex gap-2 justify-center items-center">
-          <Image src={noticeIcon} width={27} height={27} alt="menuIcon" />
+          {/* <Image src={noticeIcon} width={27} height={27} alt="menuIcon" /> */}
           <h1 className="text-lg font-bold">최근글</h1>
         </div>
         <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
@@ -95,18 +95,18 @@ const NewPostCard: React.FC = () => {
                   {item.title}
                 </p>
               </Link>
-              <span className="truncate text-red-500 text-[10px] flex justify-center items-center">
+              <span className="truncate text-[10px] flex justify-center items-center gap-1">
                 <svg
                   width="10"
                   height="10"
                   viewBox="0 0 100 100"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="fill-current text-blue"
+                  className="fill-current text-subtext3"
                 >
                   <rect x="45" y="10" width="10" height="80" />
                   <rect x="10" y="45" width="80" height="10" />
                 </svg>
-                <span className="text-blue font-bold text-xs">
+                <span className="text-subtext3 font-bold text-xs">
                   {item.replyNum}
                 </span>
               </span>

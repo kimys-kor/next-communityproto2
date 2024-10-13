@@ -56,6 +56,7 @@ const config: Config = {
         semiblack: "#2f3438",
         subtext: "#6c757d",
         subtext2: "#828c94",
+        subtext3: "#999999",
         warnigtext: "#ff7777",
         bordercolor: "#EAEDEF",
         bordercolor2: "#f5f5f5",
