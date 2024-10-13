@@ -22,11 +22,9 @@ const NewPostCard: React.FC = () => {
 
   useEffect(() => {
     const loadBoardList = async () => {
-      const typ = 17;
-
       try {
         const response = await fetch(
-          `/api/board/list?typ=${typ}&keyword=&page=0&size=5`,
+          `/api/board/newList?keyword=&page=0&size=5`,
           {
             method: "GET",
             headers: {
