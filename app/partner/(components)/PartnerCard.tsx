@@ -90,13 +90,23 @@ const PartnerCard: React.FC = () => {
           >
             <div className="overflow-hidden">
               <Link href={`${pathname}/${item.id}`}>
-                <Image
-                  width={395}
-                  height={230}
-                  className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-                  src={item.thumbNail}
-                  alt={item.title}
-                />
+                {item.thumbNail == null ? (
+                  <Image
+                    width={395}
+                    height={230}
+                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    src={"/images/homebanner/4.jpg"}
+                    alt={item.title}
+                  />
+                ) : (
+                  <Image
+                    width={395}
+                    height={230}
+                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    src={item.thumbNail}
+                    alt={item.title}
+                  />
+                )}
               </Link>
             </div>
             <table className="w-full rounded-md">
