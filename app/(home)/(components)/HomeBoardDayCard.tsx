@@ -53,7 +53,6 @@ const categoryIcons: { [key: number]: JSX.Element } = {
   10: <FaExclamationTriangle />,
 };
 
-// Colors for each category
 const categoryColors: { [key: number]: string } = {
   2: "#ff5733",
   3: "#33b5ff",
@@ -139,7 +138,7 @@ const HomeBoardDayCard = () => {
             } hover:bg-lightblue hover:scale-105`}
           >
             <div className="flex justify-center items-center gap-2">
-              <span
+              {/* <span
                 className="flex items-center gap-1 border-solid border rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all"
                 style={{
                   background: categoryColors[item.postType],
@@ -147,17 +146,17 @@ const HomeBoardDayCard = () => {
               >
                 {categoryIcons[item.postType]}
                 {categoryMap[item.postType]}
-              </span>
-              {/* <span
-                className="flex items-center gap-1 border-solid border border-blue rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
+              </span> */}
+              <span
+                className="flex items-center gap-1 border-solid border border-[#AF41F0] rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
                 style={{
-                  background: "linear-gradient(45deg, #0070f3, #00d8ff)",
+                  background: "linear-gradient(45deg, #AF41F0, #e47af1)",
                   boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
                 }}
               >
                 {categoryIcons[item.postType]}
                 {categoryMap[item.postType]}
-              </span> */}
+              </span>
               <Link href={getPostUrl(item.postType, item.id)}>
                 <p className="text-sm cursor-pointer hover:underline">
                   {item.title}
