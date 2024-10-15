@@ -1,5 +1,6 @@
 import React, { useState, useRef, ChangeEvent, DragEvent } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 interface ImageUploaderProps {
   onClose: () => void;
@@ -72,8 +73,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onClose, onUpload }) => {
                 {images.map((image, index) => (
                   <div key={index} className="w-1/4 p-2">
                     <div className="relative">
-                      <img
+                      <Image
                         src={URL.createObjectURL(image)}
+                        width={200}
+                        height={190}
                         alt={`Image ${index + 1}`}
                         className="object-cover w-full h-32"
                       />

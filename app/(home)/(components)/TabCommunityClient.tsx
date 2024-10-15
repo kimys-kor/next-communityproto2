@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { tabsCommunity } from "@/app/types";
+import Image from "next/image";
 
 type TabContent = {
   id: number;
@@ -97,9 +98,11 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
                   href={`/sport/${item.id}`}
                   className="flex flex-col justify-evenly items-center gap-2 px-2 hover:bg-slate-200 hover:cursor-pointer"
                 >
-                  <img
-                    className="h-24 rounded-md"
+                  <Image
+                    className="rounded-md"
                     src={item.img}
+                    width={100}
+                    height={130}
                     alt={`Dog ${index + 1}`}
                   />
                   <div className="text-center w-full">

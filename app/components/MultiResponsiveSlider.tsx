@@ -4,6 +4,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Image from "next/image";
 
 interface ResponsiveSliderProps {
   images: string[];
@@ -115,11 +116,12 @@ const MultiResponsiveSlider: React.FC<ResponsiveSliderProps> = ({ images }) => {
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index} className="px-2">
-            <img
-              style={{ width: "200px", height: "190px" }}
+            <Image
+              className="rounded-md"
               src={image}
+              width={200}
+              height={190}
               alt={`Slide ${index + 1}`}
-              className="w-full h-auto object-fit"
             />
           </div>
         ))}
