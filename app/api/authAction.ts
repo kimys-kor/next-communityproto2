@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 export async function loginServerAction(data: FormData) {
   try {
-    const response = await fetch(process.env.API_URL + "guest/login", {
+    const response = await fetch(process.env.API_URL + "/guest/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

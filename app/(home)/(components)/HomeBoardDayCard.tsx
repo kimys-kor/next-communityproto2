@@ -94,7 +94,8 @@ const HomeBoardDayCard = () => {
   const [boardList, setBoardList] = useState<BoardItem[]>([]);
 
   useEffect(() => {
-    const period = "day";
+    // const period = "day";
+    const period = "week";
     const page = 0;
     const size = 6;
 

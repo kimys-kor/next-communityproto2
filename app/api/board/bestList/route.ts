@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   try {
     const response = await fetch(
       process.env.API_URL +
-        `guest/bestList?period=${period}&page=${page}&size=${size}`,
+        `/guest/bestList?period=${period}&page=${page}&size=${size}`,
       {
         method: "GET",
         credentials: "include",

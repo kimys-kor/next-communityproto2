@@ -7,7 +7,7 @@ export async function GET(request: Request) {
 
   try {
     const response = await fetch(
-      process.env.API_URL + `guest/newList?page=${page}&size=${size}`,
+      process.env.API_URL + `/guest/newList?page=${page}&size=${size}`,
       {
         method: "GET",
         credentials: "include",

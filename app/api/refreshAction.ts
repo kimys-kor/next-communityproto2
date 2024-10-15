@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 export async function refreshServerAction() {
   try {
-    const response = await fetch(process.env.API_URL + "user/refresh", {
+    const response = await fetch(process.env.API_URL + "/user/refresh", {
       method: "GET",
       credentials: "include",
     });

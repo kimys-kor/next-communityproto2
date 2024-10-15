@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   try {
     const response = await fetch(
       process.env.API_URL +
-        `guest/list?typ=${typ}&keyword=${keyword}&page=${page}&size=${size}`,
+        `/guest/list?typ=${typ}&keyword=${keyword}&page=${page}&size=${size}`,
       {
         method: "GET",
         credentials: "include",
