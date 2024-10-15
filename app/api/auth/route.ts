@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const { username, password } = await request.json();
 
-    const apiResponse = await fetch(process.env.API_URL + "guest/login", {
+    const apiResponse = await fetch(process.env.API_URL + "/guest/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,6 @@ export async function POST(request: Request) {
         });
       }
 
-      // Forward the Set-Cookie header from the API response
       const setCookieHeader = apiResponse.headers.get("set-cookie");
 
       if (setCookieHeader) {
