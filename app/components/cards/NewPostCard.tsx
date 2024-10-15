@@ -1,57 +1,34 @@
-"use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import noticeIcon from "/public/images/icon/noticeIcon.png";
-import Image from "next/image";
 import NewIcon from "../NewIcon";
+import { BoardItem } from "@/app/types";
 
-interface BoardItem {
-  id: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  title: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-}
+const fetchBoardList = async () => {
+  const page = 0;
+  const size = 5;
 
-const NewPostCard: React.FC = () => {
-  const [boardList, setBoardList] = useState<BoardItem[]>([]);
+  const response = await fetch(
+    `${process.env.API_URL}/guest/newList?page=${page}&size=${size}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 
-  useEffect(() => {
-    const loadBoardList = async () => {
-      try {
-        const response = await fetch(
-          `/api/board/newList?keyword=&page=0&size=5`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+  if (!response.ok) {
+    throw new Error("Error fetching board list");
+  }
 
-        if (!response.ok) {
-          throw new Error("Error fetching board list");
-        }
+  const data = await response.json();
+  return data.data.content as BoardItem[]; // Cast to BoardItem array
+};
 
-        const data = await response.json();
-        setBoardList(data.data.content);
-      } catch (error) {
-        console.error("Failed to load board list:", error);
-      }
-    };
-
-    loadBoardList();
-  }, []);
+const NewPostCard = async () => {
+  const boardList = await fetchBoardList();
 
   return (
     <div className="w-full rounded-md bg-white font-semibold border-solid border-slate-200 border">
       <div className="h-11 px-3 leading-8 flex justify-between items-center border-solid border-b border-gray-200">
         <div className="flex gap-2 justify-center items-center">
-          {/* <Image src={noticeIcon} width={27} height={27} alt="menuIcon" /> */}
           <h1 className="text-lg font-bold">최근글</h1>
         </div>
         <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
@@ -70,22 +47,13 @@ const NewPostCard: React.FC = () => {
       {boardList.map((item, index) => (
         <div
           key={item.id}
-          className={`w-full h-10 px-3 flex justify-between items-center  transition-all ${
+          className={`w-full h-10 px-3 flex justify-between items-center transition-all ${
             index !== boardList.length - 1
               ? "border-b border-dashed border-slate-200"
               : ""
           } hover:bg-blue-50`}
         >
           <div className="flex gap-2">
-            {/* <span
-              className="flex items-center gap-1 border-solid border border-[#130ff1] rounded-2xl cursor-pointer text-white text-xs px-[6px] py-[4px] transition-all shadow-lg"
-              style={{
-                background: "linear-gradient(45deg, #130ff1, #531ce9)",
-                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              최근글
-            </span> */}
             <NewIcon />
             <span className="flex justify-start items-center gap-2">
               <Link href={`/post/${item.id}`}>

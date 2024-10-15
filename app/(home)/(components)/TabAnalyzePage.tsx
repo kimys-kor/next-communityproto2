@@ -1,5 +1,5 @@
 import { TabAnalyzeClient } from "./TabAnalyzeClient";
-import { BoardItem } from "@/app/types"; // Assuming you have a types file for shared types
+import { BoardItem } from "@/app/types";
 
 async function fetchInitialData(typ: number) {
   try {
@@ -21,7 +21,7 @@ async function fetchInitialData(typ: number) {
 }
 
 const TabAnalyzePage = async () => {
-  const initialTab = 0; // Start with the first tab as default
+  const initialTab = 0;
   const typMap = [2, 3, 4, 5];
   const initialData = await fetchInitialData(typMap[initialTab]);
 

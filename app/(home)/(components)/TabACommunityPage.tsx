@@ -1,32 +1,4 @@
 import { TabACommunityClient } from "./TabCommunityClient";
-import photoIcon from "/public/images/icon/photoIcon.png";
-import event from "/public/images/icon/event.png";
-import gameIcon from "/public/images/icon/gameIcon.png";
-import analyze from "/public/images/icon/analyze.png";
-import Image from "next/image";
-
-const tabs = [
-  {
-    label: "안구정화",
-    typ: 2,
-    icon: <Image src={photoIcon} width={20} height={20} alt="menuIcon" />,
-  },
-  {
-    label: "이벤트",
-    typ: 3,
-    icon: <Image src={event} width={20} height={20} alt="menuIcon" />,
-  },
-  {
-    label: "자유게시판",
-    typ: 4,
-    icon: <Image src={gameIcon} width={20} height={20} alt="menuIcon" />,
-  },
-  {
-    label: "분석왕",
-    typ: 5,
-    icon: <Image src={analyze} width={20} height={20} alt="menuIcon" />,
-  },
-];
 
 const fetchInitialData = async () => {
   const response = await fetch(
@@ -45,9 +17,7 @@ const fetchInitialData = async () => {
 
 const TabACommunityPage = async () => {
   const initialData = await fetchInitialData();
-  return (
-    <TabACommunityClient initialTab={0} initialData={initialData} tabs={tabs} />
-  );
+  return <TabACommunityClient initialTab={0} initialData={initialData} />;
 };
 
 export default TabACommunityPage;

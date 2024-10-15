@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { tabsCommunity } from "@/app/types";
 
 type TabContent = {
   id: number;
@@ -15,13 +15,11 @@ type TabContent = {
 interface TabACommunityClientProps {
   initialTab: number;
   initialData: any[];
-  tabs: { label: string; typ: number; icon: JSX.Element }[];
 }
 
 export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
   initialTab,
   initialData,
-  tabs,
 }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [tabContent, setTabContent] = useState<any[]>(initialData);
@@ -29,7 +27,6 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
   useEffect(() => {
     const fetchTabContent = async (typ: number, size: number) => {
       try {
-        // Clear tab content before fetching new data
         setTabContent([]);
 
         const response = await fetch(
@@ -76,7 +73,7 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
       <div className="w-full flex flex-col">
         {/* Tab buttons */}
         <div className="h-12 px-3 flex justify-start items-center gap-1 rounded-t bg-[#FAFAFA]">
-          {tabs.map((tab, index) => (
+          {tabsCommunity.map((tab, index) => (
             <div
               key={index}
               className={`border-solid border rounded-2xl cursor-pointer font-semibold text-sm px-2 py-1 transition-all hover:text-blue

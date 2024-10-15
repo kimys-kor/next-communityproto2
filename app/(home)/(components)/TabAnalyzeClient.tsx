@@ -1,25 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import SocIcon from "/public/images/icon/Msoccer.png";
-import BaseIcon from "/public/images/icon/Mbase.png";
-import BaskIcon from "/public/images/icon/Mbasketball.png";
-import VolleyIcon from "/public/images/icon/Mvolleyball.png";
-
-type BoardItem = {
-  id: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  title: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-  createdDt: Date;
-};
+import { tabsAnalyze } from "@/app/types";
+import { BoardItem } from "@/app/types";
 
 interface TabAnalyzeClientProps {
   initialTab: number;
@@ -33,29 +17,9 @@ export const TabAnalyzeClient: React.FC<TabAnalyzeClientProps> = ({
   const [activeTab, setActiveTab] = useState(initialTab);
   const [boardList, setBoardList] = useState<BoardItem[]>(initialData);
 
-  const tabs = [
-    {
-      label: "축구 분석",
-      icon: <Image src={SocIcon} width={14} height={14} alt="menuIcon" />,
-    },
-    {
-      label: "야구 분석",
-      icon: <Image src={BaseIcon} width={14} height={14} alt="menuIcon" />,
-    },
-    {
-      label: "농구 분석",
-      icon: <Image src={BaskIcon} width={14} height={14} alt="menuIcon" />,
-    },
-    {
-      label: "배구 분석",
-      icon: <Image src={VolleyIcon} width={14} height={14} alt="menuIcon" />,
-    },
-  ];
-
   useEffect(() => {
     const fetchBoardList = async (typ: number) => {
       try {
-        // Clear the boardList before fetching new data
         setBoardList([]);
 
         const response = await fetch(
@@ -89,7 +53,7 @@ export const TabAnalyzeClient: React.FC<TabAnalyzeClientProps> = ({
       <div className="w-full flex flex-col">
         {/* Tab buttons */}
         <div className="h-12 px-3 flex justify-start items-center gap-1 rounded-t bg-[#FAFAFA]">
-          {tabs.map((tab, index) => (
+          {tabsAnalyze.map((tab, index) => (
             <div
               key={index}
               className={`border-solid border rounded-2xl cursor-pointer font-semibold text-sm px-2 py-1 transition-all hover:text-blue

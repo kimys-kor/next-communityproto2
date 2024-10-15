@@ -1,4 +1,3 @@
-import Notice from "../components/cards/Notice";
 import Container from "../components/Container";
 import RightSideBanner from "../components/layouts/RightSideBanner";
 import Login from "../components/login/Login";
