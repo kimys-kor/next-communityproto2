@@ -46,6 +46,22 @@ export interface BoardItem2 {
   createdDt: Date;
 }
 
+export interface PartnerItem {
+  id: number;
+  postType: number;
+  username: string;
+  nickname: string;
+  userIp: string;
+  thumbNail: string;
+  title: string;
+  code: string;
+  hit: number;
+  hate: number;
+  likes: number;
+  replyNum: number;
+  createdDt: Date;
+}
+
 export const categoryIcons: { [key: number]: JSX.Element } = {
   2: <FaFootballBall />,
   3: <FaBaseballBall />,
@@ -69,6 +85,28 @@ export const categoryMap: { [key: number]: string } = {
   9: "자유게시판",
   10: "피해사례",
 };
+
+export async function fetchInitialPartnerData() {
+  const response = await fetch(
+    `${process.env.API_URL}/guest/partnerList?page=0&size=12`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch initial partner content");
+  }
+
+  const data = await response.json();
+  return {
+    boardList: data.data.content,
+    totalElements: data.data.totalElements,
+    totalPages: data.data.totalPages,
+  };
+}
 
 export const getPostUrl = (postType: number, id: number): string => {
   switch (postType) {

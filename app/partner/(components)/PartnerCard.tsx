@@ -1,67 +1,19 @@
-"use client";
-import Paging from "@/app/components/Paging";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { PartnerItem } from "@/app/types";
+import PartnerCardClient from "./PartnerCardClient";
+import { fetchInitialPartnerData } from "@/app/types";
 
-interface BoardItem {
-  id: number;
-  postType: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  thumbNail: string;
-  title: string;
-  code: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-  createdDt: Date;
+interface PartnerCardProps {
+  initialData: {
+    boardList: PartnerItem[];
+    totalElements: number;
+    totalPages: number;
+  };
 }
 
-const PartnerCard: React.FC = () => {
-  const size = 12;
-  const pathname = usePathname();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const setPage = function (e: number) {
-    setCurrentPage(e);
-  };
-
-  const [boardList, setBoardList] = useState<BoardItem[]>([]);
-
-  useEffect(() => {
-    const fetchBoardContent = async () => {
-      try {
-        const response = await fetch(
-          `/api/board/partnerList?page=${currentPage - 1}&size=${size}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            cache: "no-store",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch partner content");
-        }
-
-        const data = await response.json();
-        setBoardList(data.data.content);
-        setTotalElements(data.data.totalElements);
-        setTotalPages(data.data.totalPages);
-      } catch (error) {
-        console.error("Error fetching partner content:", error);
-      }
-    };
-
-    fetchBoardContent();
-  }, [currentPage]);
+const PartnerCard = async () => {
+  const initialData = await fetchInitialPartnerData();
 
   return (
     <section className="flex flex-col gap-1">
@@ -70,79 +22,19 @@ const PartnerCard: React.FC = () => {
           <div className="text-[#555555] text-sm">
             총
             <span className="text-[#2C4AB6] font-semibold">
-              {totalElements}
+              {initialData.totalElements}
             </span>
             건
           </div>
           <div className="text-[#555555] text-sm">
             {"("}
-            <span className="text-[#2C4AB6] font-semibold">{currentPage}</span>/
-            <span> {totalPages}</span> 페이지
-            {")"}
+            <span className="text-[#2C4AB6] font-semibold">1</span>/{" "}
+            <span>{initialData.totalPages}</span> 페이지{")"}
           </div>
         </div>
       </div>
-      <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
-        {boardList.map((item) => (
-          <article
-            key={item.id}
-            className="w-full h-auto bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
-          >
-            <div className="overflow-hidden">
-              <Link href={`${pathname}/${item.id}`}>
-                {item.thumbNail == null ? (
-                  <Image
-                    width={395}
-                    height={230}
-                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-                    src={"/images/homebanner/4.jpg"}
-                    alt={item.title}
-                  />
-                ) : (
-                  <Image
-                    width={395}
-                    height={230}
-                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
-                    src={item.thumbNail}
-                    alt={item.title}
-                  />
-                )}
-              </Link>
-            </div>
-            <table className="w-full rounded-md">
-              <tbody>
-                <tr>
-                  <td className="text-center bg-blue/80 rounded-md text-white">
-                    <div className="border-solid border-b border-white p-2">
-                      사이트
-                    </div>
-                    <div className="p-2">코드</div>
-                  </td>
-                  <td className="text-center">
-                    <h3 className="border-solid border-b border-gray-400 p-2">
-                      {item.title}
-                    </h3>
-                    <p className="p-2">{item.code}</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </article>
-        ))}
-      </div>
-      <span className="w-full flex justify-end">
-        <Link href={"/partner/write"}>
-          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-            파트너 등록
-          </button>
-        </Link>
-      </span>
-      <Paging
-        page={currentPage}
-        size={size}
-        totalElements={totalElements}
-        setPage={setPage}
-      ></Paging>
+      {/* Pass initial data and props to the client component */}
+      <PartnerCardClient initialData={initialData} />
     </section>
   );
 };

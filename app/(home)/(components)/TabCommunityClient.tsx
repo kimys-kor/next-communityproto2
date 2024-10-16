@@ -96,10 +96,10 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
                 <Link
                   key={item.id}
                   href={`/sport/${item.id}`}
-                  className="flex flex-col justify-evenly items-center gap-2 px-2 hover:bg-slate-200 hover:cursor-pointer"
+                  className="flex flex-col justify-evenly items-center gap-2 px-2 hover:cursor-pointer"
                 >
                   <Image
-                    className="rounded-md"
+                    className="rounded-md h-28"
                     src={item.img}
                     width={100}
                     height={130}
