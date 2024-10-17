@@ -11,11 +11,11 @@ function Profile() {
     joinDate: "2024-08-25",
   };
 
-  const { setLoggedIn } = useAuthStore(); // Get setLoggedIn from Zustand store
+  const { setLoggedIn } = useAuthStore();
 
   const logoutSubmit = () => {
     removeCookie();
-    setLoggedIn(false); // Set loggedIn to false when logging out
+    setLoggedIn(false);
   };
 
   return (

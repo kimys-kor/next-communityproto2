@@ -24,7 +24,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
   const [totalPages, setTotalPages] = useState(Math.ceil(totalElements / size));
   const [isLoggedIn, setIsLoggedIn] = useState(
     useAuthStore.getState().loggedIn
-  ); // Get initial state
+  );
 
   useEffect(() => {
     const unsubscribe = useAuthStore.subscribe((state) => {

@@ -5,7 +5,6 @@ import IdIcon from "/public/images/idIcon.png";
 import PassIcon from "/public/images/passIcon.png";
 import Link from "next/link";
 import Image from "next/image";
-import { getCookie } from "@/app/api/authAction";
 import Profile from "../Profile";
 import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";

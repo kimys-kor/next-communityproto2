@@ -7,5 +7,5 @@ type UserState = {
 
 export const useAuthStore = create<UserState>((set) => ({
   loggedIn: false,
-  setLoggedIn: (loggedIn) => set({ loggedIn }), // Simplified setting state
+  setLoggedIn: (loggedIn) => set({ loggedIn }),
 }));
