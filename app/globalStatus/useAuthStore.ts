@@ -1,14 +1,11 @@
 import { create } from "zustand";
 
-type authStore = {
-  accessToken: string;
-  setAccessToken: (newToken: string) => void;
+type UserState = {
+  loggedIn: boolean;
+  setLoggedIn: (loggedIn: boolean) => void;
 };
 
-export const useAuthStore = create<authStore>((set) => ({
-  accessToken: "",
-  setAccessToken: (newToken) =>
-    set((state) => ({
-      accessToken: newToken,
-    })),
+export const useAuthStore = create<UserState>((set) => ({
+  loggedIn: false,
+  setLoggedIn: (loggedIn) => set({ loggedIn }), // Simplified setting state
 }));

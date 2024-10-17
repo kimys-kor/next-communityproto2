@@ -53,7 +53,6 @@ export async function removeCookie() {
     maxAge: -1,
   });
 
-  // refresh_token 삭제
   cookieStore.set("refresh_token", "", {
     secure: true,
     httpOnly: true,

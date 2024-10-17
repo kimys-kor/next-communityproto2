@@ -55,3 +55,12 @@ export interface BoardDetailClientProps {
     createdDt: string;
   };
 }
+
+export interface Comment {
+  id: number;
+  content: string;
+  username: string;
+  nickname: string;
+  deleted: boolean;
+  createdDt: string;
+}

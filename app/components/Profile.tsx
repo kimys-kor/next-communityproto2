@@ -1,14 +1,17 @@
 "use client";
 import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
+import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 
-function Profile({ setLoggedIn }: { setLoggedIn: (value: boolean) => void }) {
+function Profile() {
   const userInfo = {
     nickname: "커뮤관리자",
     Level: 1,
     point: 104200,
     joinDate: "2024-08-25",
   };
+
+  const { setLoggedIn } = useAuthStore(); // Get setLoggedIn from Zustand store
 
   const logoutSubmit = () => {
     removeCookie();
@@ -43,10 +46,9 @@ function Profile({ setLoggedIn }: { setLoggedIn: (value: boolean) => void }) {
           {userInfo.joinDate}
         </span>
       </div>
-
       <button
         onClick={logoutSubmit}
-        className="py-3 px-4  bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
+        className="py-3 px-4 bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
       >
         로그아웃
       </button>

@@ -9,23 +9,25 @@ import { getCookie } from "@/app/api/authAction";
 import Profile from "../Profile";
 import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
+import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 
 const Login: React.FC = () => {
   const [username, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const { loggedIn, setLoggedIn } = useAuthStore();
 
   useEffect(() => {
     const checkToken = async () => {
-      const access_token = await getCookie();
-      if (access_token && access_token.value.length >= 10) {
+      const token = localStorage.getItem("access_token");
+      if (token) {
         setLoggedIn(true);
       }
     };
     checkToken();
     setHasMounted(true);
-  }, [getCookie, setLoggedIn]);
+  }, [setLoggedIn]);
 
   const handleLogin = async () => {
     try {
@@ -55,7 +57,7 @@ const Login: React.FC = () => {
   return (
     <div className="max-w-128 bg-white p-8 rounded-lg w-full border-solid border-slate-200 border">
       {loggedIn ? (
-        <Profile setLoggedIn={setLoggedIn} />
+        <Profile />
       ) : (
         <form
           onSubmit={(e) => {

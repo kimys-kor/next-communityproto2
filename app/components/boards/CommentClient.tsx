@@ -1,17 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Paging from "../Paging";
 import { formatDate } from "@/app/utils";
-
-interface Comment {
-  id: number;
-  content: string;
-  username: string;
-  nickname: string;
-  deleted: boolean;
-  createdDt: string;
-}
+import { Comment } from "@/app/types";
+import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 
 interface CommentPageClientProps {
   initialData: {
@@ -30,11 +22,22 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
   const [totalElements, setTotalElements] = useState(initialData.total);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(Math.ceil(totalElements / size));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    useAuthStore.getState().loggedIn
+  ); // Get initial state
 
-  const fetchInitialComments = async (page: number) => {
+  useEffect(() => {
+    const unsubscribe = useAuthStore.subscribe((state) => {
+      setIsLoggedIn(state.loggedIn);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const fetchComments = async (page: number) => {
     try {
       const res = await fetch(
-        `${process.env.API_URL}/guest/list/comment?boardId=${boardId}&page=${page - 1}&size=${size}`
+        `/api/board/comment?boardId=${boardId}&page=${page - 1}&size=${size}`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch comments");
@@ -51,7 +54,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
   };
 
   useEffect(() => {
-    fetchInitialComments(currentPage);
+    fetchComments(currentPage);
   }, [currentPage]);
 
   const paginatedComments = comments.slice(
@@ -88,15 +91,23 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
             <div className="px-3">{item.content}</div>
           </div>
         ))}
-        <div className="py-6 px-4 bg-[#F8F9FA] flex gap-2 rounded-md">
-          <textarea className="p-2 bg-white w-10/12 h-16 md:h-28 resize-none border-[#DDDDDD] border border-solid focus:outline-none"></textarea>
-          <button
-            type="submit"
-            className="w-2/12 bg-blue hover:bg-[#2250f5] text-white font-bold rounded focus:outline-none"
-          >
-            등록
-          </button>
-        </div>
+        {isLoggedIn ? (
+          <div className="py-6 px-4 bg-[#F8F9FA] flex gap-2 rounded-md">
+            <textarea className="p-2 bg-white w-10/12 h-16 md:h-28 resize-none border-[#DDDDDD] border border-solid focus:outline-none"></textarea>
+            <button
+              type="submit"
+              className="w-2/12 bg-blue hover:bg-[#2250f5] text-white font-bold rounded focus:outline-none"
+            >
+              등록
+            </button>
+          </div>
+        ) : (
+          <div className="py-6 px-4 bg-[#F8F9FA] flex flex-col gap-2 rounded-md items-center justify-center border border-[#ddd]">
+            <p className="text-red-500 font-semibold">
+              로그인을 한 유저만 댓글을 등록할 수 있습니다
+            </p>
+          </div>
+        )}
       </section>
       <Paging
         page={currentPage}
