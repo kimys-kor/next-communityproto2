@@ -1,28 +1,19 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import masterIcon from "/public/images/masterIcon.png";
 import { BiCommentDetail } from "react-icons/bi";
 import { GrView } from "react-icons/gr";
 import { LiaThumbsUp, LiaThumbsDown } from "react-icons/lia";
 import { HiBars3 } from "react-icons/hi2";
 import { formatDate } from "@/app/utils";
-
-interface BoardDetailClientProps {
-  content: {
-    id: number;
-    username: string;
-    nickname: string;
-    title: string;
-    content: string;
-    hit: number;
-    hate: number;
-    likes: number;
-    replyNum: number;
-    createdDt: string;
-  };
-}
+import { BoardDetailClientProps } from "@/app/types";
 
 const BoardDetailClient: React.FC<BoardDetailClientProps> = ({ content }) => {
+  const pathname = usePathname();
+  const basePath = pathname?.split("/")[1] || "";
+
   return (
     <div>
       <section className="flex flex-col gap-1 mt-3">
@@ -61,7 +52,7 @@ const BoardDetailClient: React.FC<BoardDetailClientProps> = ({ content }) => {
           </section>
           <section className="flex items-center gap-1 cursor-pointer text-[##6c757d] hover:text-gray-600 text-md">
             <HiBars3 size={20} />
-            목록
+            <Link href={`/${basePath}`}>목록</Link>
           </section>
         </article>
       </section>

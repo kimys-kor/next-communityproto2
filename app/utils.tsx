@@ -19,6 +19,9 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
+import { BoardItem } from "./types";
+import { BoardItem2 } from "./types";
+
 export const categoryMap: { [key: number]: string } = {
   2: "축구분석",
   3: "야구분석",
@@ -30,6 +33,93 @@ export const categoryMap: { [key: number]: string } = {
   9: "자유게시판",
   10: "피해사례",
 };
+
+export const fetchInitialCommunityData = async () => {
+  const response = await fetch(
+    `${process.env.API_URL}/guest/list?typ=6&keyword=&page=0&size=4`,
+    { method: "GET" }
+  );
+  const data = await response.json();
+  return data.data.content.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    img: `/images/dog${(item.id % 4) + 1}.PNG`,
+    date: "24.06.12",
+    writer: item.username || "관리자",
+  }));
+};
+
+export async function fetchInitialAnalyzeData(typ: number) {
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/guest/list?typ=${typ}&keyword=&page=0&size=5`,
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch initial data");
+    }
+
+    const data = await response.json();
+    return data.data.content as BoardItem[];
+  } catch (error) {
+    console.error("Error fetching initial data:", error);
+    return [];
+  }
+}
+
+export async function fetchBoardDayContent(
+  // period: string = "day",
+  period: string = "week",
+  page: number = 0,
+  size: number = 6
+): Promise<BoardItem2[]> {
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/guest/bestList?period=${period}&page=${page}&size=${size}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch best board list");
+    }
+
+    const data = await response.json();
+    return data.data.content;
+  } catch (error) {
+    console.error("Error fetching board content:", error);
+    return [];
+  }
+}
+
+export async function fetchBoardWeekContent(
+  period: string = "week",
+  page: number = 0,
+  size: number = 6
+): Promise<BoardItem2[]> {
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/guest/bestList?period=${period}&page=${page}&size=${size}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch best board list");
+    }
+
+    const data = await response.json();
+    return data.data.content;
+  } catch (error) {
+    console.error("Error fetching board content:", error);
+    return [];
+  }
+}
 
 export async function fetchInitialPartnerData() {
   const response = await fetch(
@@ -52,6 +142,63 @@ export async function fetchInitialPartnerData() {
     totalPages: data.data.totalPages,
   };
 }
+
+export const fetchInitialBoardContent = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}/guest/content?boardId=${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch board content");
+    }
+
+    const data = await res.json();
+    if (data.status !== "OK" || !data.data) {
+      return null;
+    }
+
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching board content:", error);
+    return null;
+  }
+};
+
+export const fetchInitialComments = async (
+  boardId: string,
+  page: number,
+  size: number
+) => {
+  const res = await fetch(
+    `${process.env.API_URL}/guest/list/comment?boardId=${boardId}&page=${page}&size=${size}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch comments");
+  }
+
+  const data = await res.json();
+  if (data.status !== "OK" || !data.data) {
+    return null;
+  }
+
+  return data.data;
+};
 
 export const getPostUrl = (postType: number, id: number): string => {
   switch (postType) {

@@ -40,3 +40,18 @@ export interface PartnerItem {
   replyNum: number;
   createdDt: Date;
 }
+
+export interface BoardDetailClientProps {
+  content: {
+    id: number;
+    username: string;
+    nickname: string;
+    title: string;
+    content: string;
+    hit: number;
+    hate: number;
+    likes: number;
+    replyNum: number;
+    createdDt: string;
+  };
+}

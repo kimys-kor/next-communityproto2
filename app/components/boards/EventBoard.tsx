@@ -83,6 +83,7 @@ const EventBoard = () => {
   };
 
   const setPage = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     console.log("온체인지");
   };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Paging from "../Paging";
 import { formatDate } from "@/app/utils";
 
@@ -14,14 +14,45 @@ interface Comment {
 }
 
 interface CommentPageClientProps {
-  comments: Comment[];
+  initialData: {
+    comments: Comment[];
+    total: number;
+  };
+  boardId: string;
 }
 
-const CommentPageClient: React.FC<CommentPageClientProps> = ({ comments }) => {
-  const size = 12;
+const CommentPageClient: React.FC<CommentPageClientProps> = ({
+  initialData,
+  boardId,
+}) => {
+  const size = 5;
+  const [comments, setComments] = useState<Comment[]>(initialData.comments);
+  const [totalElements, setTotalElements] = useState(initialData.total);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(comments.length);
   const [totalPages, setTotalPages] = useState(Math.ceil(totalElements / size));
+
+  const fetchInitialComments = async (page: number) => {
+    try {
+      const res = await fetch(
+        `${process.env.API_URL}/guest/list/comment?boardId=${boardId}&page=${page - 1}&size=${size}`
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch comments");
+      }
+      const data = await res.json();
+      if (data.status === "OK" && data.data) {
+        setComments(data.data.comments);
+        setTotalElements(data.data.total);
+        setTotalPages(Math.ceil(data.data.total / size));
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitialComments(currentPage);
+  }, [currentPage]);
 
   const paginatedComments = comments.slice(
     (currentPage - 1) * size,
@@ -30,7 +61,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({ comments }) => {
 
   const setPage = (page: number) => {
     setCurrentPage(page);
-    console.log(`Page changed to: ${page}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -51,7 +82,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({ comments }) => {
                 <p>{item.nickname}</p>
               </div>
               <div className="flex gap-2 items-center">
-                <p> {formatDate(item.createdDt)}</p>
+                <p>{formatDate(item.createdDt)}</p>
               </div>
             </div>
             <div className="px-3">{item.content}</div>

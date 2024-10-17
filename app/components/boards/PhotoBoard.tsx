@@ -75,6 +75,7 @@ const PhotoBoard = () => {
   };
 
   const setPage = function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     console.log("온체인지");
   };
 

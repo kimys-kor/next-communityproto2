@@ -1,36 +1,14 @@
 import { GrView } from "react-icons/gr";
 import Link from "next/link";
-import { BoardItem2 } from "@/app/types";
-import { categoryIcons, categoryMap, getPostUrl } from "@/app/utils";
-
-async function fetchBoardContent(
-  period: string = "week",
-  page: number = 0,
-  size: number = 6
-): Promise<BoardItem2[]> {
-  try {
-    const response = await fetch(
-      `${process.env.API_URL}/guest/bestList?period=${period}&page=${page}&size=${size}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch best board list");
-    }
-
-    const data = await response.json();
-    return data.data.content;
-  } catch (error) {
-    console.error("Error fetching board content:", error);
-    return [];
-  }
-}
+import {
+  categoryIcons,
+  categoryMap,
+  getPostUrl,
+  fetchBoardWeekContent,
+} from "@/app/utils";
 
 const HomeBoardWeekCard = async () => {
-  const boardList = await fetchBoardContent();
+  const boardList = await fetchBoardWeekContent();
 
   return (
     <div>

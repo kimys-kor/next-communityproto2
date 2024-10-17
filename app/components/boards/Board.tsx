@@ -53,7 +53,10 @@ const Board = () => {
     }
   };
 
-  const setPage = () => console.log("Page changed");
+  const setPage = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log("Page changed");
+  };
 
   const options = [
     { value: "1", label: "전체" },

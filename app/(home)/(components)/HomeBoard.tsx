@@ -1,9 +1,7 @@
 import React from "react";
-import StarIcon from "/public/images/icon/starIcon.svg";
 import newBlue from "/public/images/new_blue_icon.png";
 import newPurple from "/public/images/new_purple_icon.png";
 import Image from "next/image";
-import Link from "next/link";
 import HomeBoardWeekCard from "./HomeBoardWeekCard";
 import HomeBoardDayCard from "./HomeBoardDayCard";
 
