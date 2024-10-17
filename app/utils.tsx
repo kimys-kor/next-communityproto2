@@ -1,3 +1,12 @@
+import Image from "next/image";
+import photoIcon from "/public/images/icon/photoIcon.png";
+import event from "/public/images/icon/event.png";
+import gameIcon from "/public/images/icon/gameIcon.png";
+import analyze from "/public/images/icon/analyze.png";
+import SocIcon from "/public/images/icon/Msoccer.png";
+import BaseIcon from "/public/images/icon/Mbase.png";
+import BaskIcon from "/public/images/icon/Mbasketball.png";
+import VolleyIcon from "/public/images/icon/Mvolleyball.png";
 import {
   FaFootballBall,
   FaBaseballBall,
@@ -9,70 +18,6 @@ import {
   FaComment,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import Image from "next/image";
-import photoIcon from "/public/images/icon/photoIcon.png";
-import event from "/public/images/icon/event.png";
-import gameIcon from "/public/images/icon/gameIcon.png";
-import analyze from "/public/images/icon/analyze.png";
-import SocIcon from "/public/images/icon/Msoccer.png";
-import BaseIcon from "/public/images/icon/Mbase.png";
-import BaskIcon from "/public/images/icon/Mbasketball.png";
-import VolleyIcon from "/public/images/icon/Mvolleyball.png";
-
-export interface BoardItem {
-  id: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  title: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-  createdDt: Date;
-}
-
-export interface BoardItem2 {
-  id: number;
-  postType: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  title: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-  createdDt: Date;
-}
-
-export interface PartnerItem {
-  id: number;
-  postType: number;
-  username: string;
-  nickname: string;
-  userIp: string;
-  thumbNail: string;
-  title: string;
-  code: string;
-  hit: number;
-  hate: number;
-  likes: number;
-  replyNum: number;
-  createdDt: Date;
-}
-
-export const categoryIcons: { [key: number]: JSX.Element } = {
-  2: <FaFootballBall />,
-  3: <FaBaseballBall />,
-  4: <FaBasketballBall />,
-  5: <FaVolleyballBall />,
-  6: <FaCameraRetro />,
-  7: <FaLaugh />,
-  8: <FaCrown />,
-  9: <FaComment />,
-  10: <FaExclamationTriangle />,
-};
 
 export const categoryMap: { [key: number]: string } = {
   2: "축구분석",
@@ -174,3 +119,31 @@ export const tabsAnalyze = [
     icon: <Image src={VolleyIcon} width={14} height={14} alt="menuIcon" />,
   },
 ];
+
+export const categoryIcons: { [key: number]: JSX.Element } = {
+  2: <FaFootballBall />,
+  3: <FaBaseballBall />,
+  4: <FaBasketballBall />,
+  5: <FaVolleyballBall />,
+  6: <FaCameraRetro />,
+  7: <FaLaugh />,
+  8: <FaCrown />,
+  9: <FaComment />,
+  10: <FaExclamationTriangle />,
+};
+
+export const formatDate = (createdDt: string) => {
+  const createdDate = new Date(createdDt);
+  const now = new Date();
+  const diffInMs = now.getTime() - createdDate.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+
+  if (diffInHours < 24) {
+    return `${diffInHours}시간 전`;
+  } else {
+    const year = createdDate.getFullYear();
+    const month = String(createdDate.getMonth() + 1).padStart(2, "0");
+    const day = String(createdDate.getDate()).padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  }
+};

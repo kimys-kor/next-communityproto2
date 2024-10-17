@@ -1,9 +1,7 @@
 import { GrView } from "react-icons/gr";
 import Link from "next/link";
 import { BoardItem2 } from "@/app/types";
-import { categoryIcons } from "@/app/types";
-import { categoryMap } from "@/app/types";
-import { getPostUrl } from "@/app/types";
+import { categoryIcons, categoryMap, getPostUrl } from "@/app/utils";
 
 async function fetchBoardContent(
   // period: string = "day",

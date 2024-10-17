@@ -1,6 +1,5 @@
 import BoardDetail from "@/app/components/boards/BoardDetail";
 import ProgressSliderPage from "@/app/components/ProgressSliderPage";
-import ThreeBanner from "@/app/components/ThreeBanner";
 
 function page() {
   return (

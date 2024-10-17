@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { tabsCommunity } from "@/app/types";
+import { tabsCommunity } from "@/app/utils";
 import Image from "next/image";
 
 type TabContent = {

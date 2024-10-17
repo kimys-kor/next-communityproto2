@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { tabsAnalyze } from "@/app/types";
+import { tabsAnalyze } from "@/app/utils";
 import { BoardItem } from "@/app/types";
 
 interface TabAnalyzeClientProps {

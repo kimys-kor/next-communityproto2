@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PartnerItem } from "@/app/types";
 import PartnerCardClient from "./PartnerCardClient";
-import { fetchInitialPartnerData } from "@/app/types";
+import { fetchInitialPartnerData } from "@/app/utils";
+import CommentPage from "@/app/components/boards/CommentPage";
 
 interface PartnerCardProps {
   initialData: {
@@ -33,7 +34,6 @@ const PartnerCard = async () => {
           </div>
         </div>
       </div>
-      {/* Pass initial data and props to the client component */}
       <PartnerCardClient initialData={initialData} />
     </section>
   );
