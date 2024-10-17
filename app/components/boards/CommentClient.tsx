@@ -1,9 +1,11 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import Paging from "../Paging";
 import { formatDate } from "@/app/utils";
 import { Comment } from "@/app/types";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { commentSaveServerAction } from "@/app/api/authAction";
 
 interface CommentPageClientProps {
   initialData: {
@@ -25,6 +27,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
   const [isLoggedIn, setIsLoggedIn] = useState(
     useAuthStore.getState().loggedIn
   );
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     const unsubscribe = useAuthStore.subscribe((state) => {
@@ -57,10 +60,24 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
     fetchComments(currentPage);
   }, [currentPage]);
 
-  const paginatedComments = comments.slice(
-    (currentPage - 1) * size,
-    currentPage * size
-  );
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim()) return;
+
+    const commentData = {
+      boardId,
+      username: "masterkim",
+      content: newComment,
+    };
+
+    const result = await commentSaveServerAction(commentData);
+    if (result.status === "OK") {
+      fetchComments(1);
+      setCurrentPage(1);
+      setNewComment("");
+    } else {
+      console.error("Failed to submit comment:", result.message);
+    }
+  };
 
   const setPage = (page: number) => {
     setCurrentPage(page);
@@ -78,7 +95,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
             </span>
           </div>
         </div>
-        {paginatedComments.map((item) => (
+        {comments.map((item) => (
           <div key={item.id} className="py-5 flex flex-col gap-3 text-subtext">
             <div className="py-4 px-3 flex justify-between items-center bg-[#f8f9fa] border-t border-solid border-[#ddd]">
               <div className="flex gap-2 items-center">
@@ -93,10 +110,15 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
         ))}
         {isLoggedIn ? (
           <div className="py-6 px-4 bg-[#F8F9FA] flex gap-2 rounded-md">
-            <textarea className="p-2 bg-white w-10/12 h-16 md:h-28 resize-none border-[#DDDDDD] border border-solid focus:outline-none"></textarea>
+            <textarea
+              className="p-2 bg-white w-10/12 h-16 md:h-28 resize-none border-[#DDDDDD] border border-solid focus:outline-none"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            ></textarea>
             <button
-              type="submit"
+              type="button"
               className="w-2/12 bg-blue hover:bg-[#2250f5] text-white font-bold rounded focus:outline-none"
+              onClick={handleCommentSubmit}
             >
               등록
             </button>

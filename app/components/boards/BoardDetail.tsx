@@ -10,8 +10,6 @@ const BoardDetail: React.FC = async () => {
   const match = headerPathname?.match(/(\d+)/);
   const id = match ? match[0] : "";
 
-  console.log(headerPathname);
-
   const boardContent = await fetchInitialBoardContent(id);
   if (!boardContent) {
     return notFound();

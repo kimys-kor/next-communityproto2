@@ -64,3 +64,9 @@ export interface Comment {
   deleted: boolean;
   createdDt: string;
 }
+
+export type CommentRequest = {
+  boardId: string;
+  username: string;
+  content: string;
+};

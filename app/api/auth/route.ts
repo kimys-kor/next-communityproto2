@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       const accessToken = apiResponse.headers.get("Authorization");
 
       if (accessToken != null) {
-        cookieStore.set("access_token", accessToken, {
+        cookieStore.set("Authorization", accessToken, {
           secure: true,
           httpOnly: true,
           maxAge: 1800,
@@ -33,7 +33,6 @@ export async function POST(request: Request) {
 
       if (setCookieHeader) {
         const response = NextResponse.json({ message: "ok" });
-        // Set the cookie in the response header
         response.headers.set("Set-Cookie", setCookieHeader);
         return response;
       }

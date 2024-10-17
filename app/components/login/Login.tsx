@@ -8,6 +8,7 @@ import Image from "next/image";
 import Profile from "../Profile";
 import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
+import { getCookie } from "@/app/api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 
 const Login: React.FC = () => {
@@ -19,8 +20,8 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem("access_token");
-      if (token) {
+      const access_token = await getCookie();
+      if (access_token && access_token.value.length >= 10) {
         setLoggedIn(true);
       }
     };
