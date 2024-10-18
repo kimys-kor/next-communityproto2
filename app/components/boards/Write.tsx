@@ -2,9 +2,7 @@
 
 import PostEditor from "@/app/components/texteditor/PostEditor";
 import React, { useRef, useState } from "react";
-import ReactQuill from "react-quill";
 import { useForm, Resolver } from "react-hook-form";
-import ImageUploader from "@/app/image-uploader/ImageUploader";
 
 type FormData = {
   title: string;
@@ -17,8 +15,6 @@ interface WriteProps {
 
 const Write: React.FC<WriteProps> = ({ title }) => {
   const [content, setContent] = useState("");
-  const quillRef = useRef<ReactQuill>(null);
-
   const handleContentChange = (value: string) => {
     setContent(value);
   };
@@ -68,7 +64,6 @@ const Write: React.FC<WriteProps> = ({ title }) => {
                   type="checkbox"
                   id="notice"
                   className=""
-                  required
                 />
                 공지
               </label>
@@ -90,11 +85,7 @@ const Write: React.FC<WriteProps> = ({ title }) => {
           </div>
         </div>
         <section>
-          <PostEditor
-            forwardedRef={quillRef}
-            value={content}
-            onChange={handleContentChange}
-          />
+          <PostEditor value={content} onChange={handleContentChange} />
         </section>
         <div className="w-full flex justify-end gap-2">
           <button className="border-solid border border-blue text-blue px-4 py-2 w-24 h-12 hover:bg-indigo-100">
