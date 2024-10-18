@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -7,7 +6,7 @@ import styled from "styled-components";
 
 import ReactQuill, { ReactQuillProps } from "react-quill";
 import { BeatLoader } from "react-spinners";
-import { ChangeEvent, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import ImageUploader from "../../image-uploader/ImageUploader";
 import { colors, formats } from "@/app/types";
 
@@ -28,16 +27,24 @@ const Editor = dynamic(
       const handleImageUpload = (imageUrls: string[]) => {
         if (typeof forwardedRef !== "function") {
           const editor = (forwardedRef?.current as ReactQuill).getEditor();
-          imageUrls.forEach((imgUrl: string) => {
-            const range = editor.getSelection();
-            const index = range ? range.index : 0;
-            editor.insertEmbed(
-              index,
-              "image",
-              `${process.env.NEXT_PUBLIC_API_URL + imgUrl}`
+
+          if (Array.isArray(imageUrls) && imageUrls.length > 0) {
+            imageUrls.forEach((imgUrl: string) => {
+              const range = editor.getSelection();
+              const index = range ? range.index : 0;
+              editor.insertEmbed(
+                index,
+                "image",
+                `${process.env.NEXT_PUBLIC_API_URL + imgUrl}`
+              );
+              editor.setSelection({ index: index + 1, length: 0 });
+            });
+          } else {
+            console.error(
+              "imageUrls is not an array or it is empty:",
+              imageUrls
             );
-            editor.setSelection({ index: index + 1, length: 0 });
-          });
+          }
         }
       };
 
@@ -52,7 +59,7 @@ const Editor = dynamic(
         // Ensure the new window has access to handle the image upload
         newWindow?.addEventListener("message", (event) => {
           // Assuming the ImageUploader sends image URLs back via `postMessage`
-          if (event.origin === window.location.origin) {
+          if (event.origin === window.location.origin && event.data.imageUrls) {
             handleImageUpload(event.data.imageUrls);
           }
         });
