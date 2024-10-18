@@ -43,15 +43,24 @@ const ImageUploader: React.FC<ImageUploaderProps> = () => {
   const handleUpload = async () => {
     setUploading(true);
     try {
-      // Simulate an upload process
-      const uploadedUrls = selectedFiles.map(
-        (file) => `/uploads/${file.name}` // Replace with your actual upload logic
-      );
+      const formData = new FormData();
+      selectedFiles.forEach((file) => {
+        formData.append("files", file);
+      });
 
-      // Send URLs back to the parent window
+      const response = await fetch("/api/images", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload images");
+      }
+
+      const uploadedUrls = await response.json();
+
       window.opener.postMessage({ imageUrls: uploadedUrls }, "*");
 
-      // Close the uploader window
       window.close();
     } catch (error) {
       console.error("Error uploading images", error);
