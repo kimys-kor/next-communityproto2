@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import axios, { AxiosError } from "axios";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import styled from "styled-components";
@@ -9,38 +8,12 @@ import styled from "styled-components";
 import ReactQuill, { ReactQuillProps } from "react-quill";
 import { BeatLoader } from "react-spinners";
 import { ChangeEvent, useMemo, useRef, useState } from "react";
-import ImageUploader from "./ImageUploader";
+import ImageUploader from "../../image-uploader/ImageUploader";
+import { colors, formats } from "@/app/types";
 
 interface ForwardedQuillComponent extends ReactQuillProps {
   forwardedRef: React.Ref<ReactQuill>;
 }
-
-const colors = [
-  "transparent",
-  "white",
-  "red",
-  "yellow",
-  "green",
-  "blue",
-  "purple",
-  "gray",
-  "black",
-];
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "link",
-  "color",
-  "image",
-  "background",
-  "align",
-];
 
 const Editor = dynamic(
   async () => {
@@ -52,9 +25,6 @@ const Editor = dynamic(
       forwardedRef,
       ...props
     }: ForwardedQuillComponent) {
-      const [isUploaderOpen, setIsUploaderOpen] = useState(false);
-      const fileInput = useRef<HTMLInputElement | null>(null);
-
       const handleImageUpload = (imageUrls: string[]) => {
         if (typeof forwardedRef !== "function") {
           const editor = (forwardedRef?.current as ReactQuill).getEditor();
@@ -72,7 +42,20 @@ const Editor = dynamic(
       };
 
       const handleImageUploadClick = () => {
-        setIsUploaderOpen(true);
+        // Open a new window with a URL to the image uploader
+        const newWindow = window.open(
+          "/image-uploader", // This should be the path or URL of your ImageUploader component/page
+          "_blank",
+          "width=600,height=400"
+        );
+
+        // Ensure the new window has access to handle the image upload
+        newWindow?.addEventListener("message", (event) => {
+          // Assuming the ImageUploader sends image URLs back via `postMessage`
+          if (event.origin === window.location.origin) {
+            handleImageUpload(event.data.imageUrls);
+          }
+        });
       };
 
       const modules = useMemo(
@@ -107,12 +90,6 @@ const Editor = dynamic(
             modules={modules}
             {...props}
           />
-          {isUploaderOpen && (
-            <ImageUploader
-              onClose={() => setIsUploaderOpen(false)}
-              onUpload={handleImageUpload}
-            />
-          )}
         </Container>
       );
     }

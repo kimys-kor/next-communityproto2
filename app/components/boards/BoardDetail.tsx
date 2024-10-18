@@ -7,8 +7,11 @@ import { fetchInitialBoardContent } from "@/app/utils";
 const BoardDetail: React.FC = async () => {
   const headersList = headers();
   const headerPathname = headersList.get("x-pathname");
-  const match = headerPathname?.match(/(\d+)/);
-  const id = match ? match[0] : "";
+  const id = headerPathname?.split("/").pop() || "";
+
+  if (!id) {
+    return notFound();
+  }
 
   const boardContent = await fetchInitialBoardContent(id);
   if (!boardContent) {

@@ -2,14 +2,12 @@ import Container from "@/app/components/Container";
 import Footer from "@/app/components/layouts/Footer";
 import RightSideBanner from "@/app/components/layouts/RightSideBanner";
 import Login from "@/app/components/login/Login";
-import IconTabs from "@/app/components/sportRank/IconTabs";
 
 import Headers from "@/app/components/layouts/headers/Headers";
-import { Suspense } from "react";
-import ProfileSk from "@/app/components/skeleton/ProfileSk";
 import NoticeCard from "@/app/components/cards/NoticeCard";
 import NewPostCard from "@/app/components/cards/NewPostCard";
 import NewPartnerCard from "@/app/components/cards/NewPartnerCard";
+import MobBottomNav from "@/app/components/MobBottomNav";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,6 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Container>
       </div>
       <Footer />
+      <MobBottomNav />
     </>
   );
 }

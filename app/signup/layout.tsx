@@ -1,6 +1,10 @@
-import Headers from "@/app/components/layouts/headers/Headers";
-import Footer from "@/app/components/layouts/Footer";
+import MobBottomNav from "@/app/components/MobBottomNav";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return (
+    <>
+      {children}
+      <MobBottomNav />
+    </>
+  );
 }

@@ -1,12 +1,12 @@
 import Container from "../components/Container";
 import RightSideBanner from "../components/layouts/RightSideBanner";
 import Login from "../components/login/Login";
-import IconTabs from "../components/sportRank/IconTabs";
 import Headers from "@/app/components/layouts/headers/Headers";
 import Footer from "@/app/components/layouts/Footer";
 import NoticeCard from "@/app/components/cards/NoticeCard";
 import NewPostCard from "@/app/components/cards/NewPostCard";
 import NewPartnerCard from "@/app/components/cards/NewPartnerCard";
+import MobBottomNav from "@/app/components/MobBottomNav";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,6 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <RightSideBanner></RightSideBanner>
       </Container>
       <Footer />
+      <MobBottomNav />
     </>
   );
 }

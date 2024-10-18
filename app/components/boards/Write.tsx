@@ -4,7 +4,7 @@ import PostEditor from "@/app/components/texteditor/PostEditor";
 import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import { useForm, Resolver } from "react-hook-form";
-import ImageUploader from "@/app/components/texteditor/ImageUploader";
+import ImageUploader from "@/app/image-uploader/ImageUploader";
 
 type FormData = {
   title: string;

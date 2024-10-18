@@ -70,3 +70,30 @@ export type CommentRequest = {
   username: string;
   content: string;
 };
+
+export const colors = [
+  "transparent",
+  "white",
+  "red",
+  "yellow",
+  "green",
+  "blue",
+  "purple",
+  "gray",
+  "black",
+];
+export const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "color",
+  "image",
+  "background",
+  "align",
+];

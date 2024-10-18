@@ -1,3 +1,10 @@
+import MobBottomNav from "@/app/components/MobBottomNav";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return (
+    <>
+      {children}
+      <MobBottomNav />
+    </>
+  );
 }
