@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -13,14 +13,6 @@ const nextConfig = {
     unoptimized: true,
     formats: ["image/avif", "image/webp"],
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/:path*",
-  //       destination: "http://localhost:8080/:path*",
-  //     },
-  //   ];
-  // },
 };
 
 export default nextConfig;
