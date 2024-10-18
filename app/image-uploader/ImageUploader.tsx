@@ -1,127 +1,138 @@
-import React, { useState, useRef, ChangeEvent, DragEvent } from "react";
-import axios from "axios";
-import Image from "next/image";
+"use client";
+import { useState, useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudUploadAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 interface ImageUploaderProps {
-  onClose: () => void;
-  onUpload: (imageUrls: string[]) => void;
+  onUpload?: (imageUrls: string[]) => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onClose, onUpload }) => {
-  const [images, setImages] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const ImageUploader: React.FC<ImageUploaderProps> = () => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const files = Array.from(event.dataTransfer.files);
-    setImages((prevImages) => [...prevImages, ...files]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    addFiles(files);
   };
 
-  const handleImageRemove = (index: number) => {
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages.splice(index, 1);
-      return updatedImages;
-    });
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
   };
 
-  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const files = Array.from(event.target.files);
-      setImages((prevImages) => [...prevImages, ...files]);
-    }
+  const handleDragLeave = () => {
+    setIsDragging(false);
   };
 
-  const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = Array.from(e.dataTransfer.files);
+    addFiles(files);
   };
+
+  const addFiles = useCallback((files: File[]) => {
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setPreviewUrls((prevPreviews) => [...prevPreviews, ...previews]);
+  }, []);
 
   const handleUpload = async () => {
-    if (images.length === 0) return;
-
-    const formData = new FormData();
-    images.forEach((file) => formData.append("file", file, file.name));
-
+    setUploading(true);
     try {
-      const res = await axios.post("/api/main/image-upload/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      onUpload(res.data);
-      onClose(); // Close the modal after upload
+      // Simulate an upload process
+      const uploadedUrls = selectedFiles.map(
+        (file) => `/uploads/${file.name}` // Replace with your actual upload logic
+      );
+
+      // Send URLs back to the parent window
+      window.opener.postMessage({ imageUrls: uploadedUrls }, "*");
+
+      // Close the uploader window
+      window.close();
     } catch (error) {
-      console.error(error);
+      console.error("Error uploading images", error);
+    } finally {
+      setUploading(false);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
   };
 
   return (
-    <div className="modal-container">
-      <div className="modal-overlay" onClick={onClose}></div>
-      <div className="modal-content">
-        <div className="container py-4 mx-auto">
-          <div
-            className="p-4 text-center border-2 border-gray-400 border-dashed"
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={handleDrop}
-          >
-            <p className="mb-4 text-lg">사진을 드래그 하세요</p>
-            {images.length > 0 && (
-              <div className="flex flex-wrap">
-                {images.map((image, index) => (
-                  <div key={index} className="w-1/4 p-2">
-                    <div className="relative">
-                      <Image
-                        src={URL.createObjectURL(image)}
-                        width={200}
-                        height={190}
-                        alt={`Image ${index + 1}`}
-                        className="object-cover w-full h-32"
-                      />
-                      <button
-                        className="absolute top-0 right-0 p-2 text-white bg-red-500 rounded-full"
-                        onClick={() => handleImageRemove(index)}
-                      >
-                        X
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="mt-4">
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileSelect}
-            />
-            <button
-              className="p-2 text-xs text-white bg-purple-500 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75"
-              onClick={handleButtonClick}
-            >
-              이미지 첨부
-            </button>
-            <button
-              className="ml-2 p-2 text-xs text-white bg-green-500 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
-              onClick={handleUpload}
-            >
-              업로드
-            </button>
-            <button
-              className="ml-2 p-2 text-xs text-white bg-gray-500 rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
-              onClick={onClose}
-            >
-              취소
-            </button>
-          </div>
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen px-6 bg-sky-100">
+      <h2 className="text-3xl font-semibold text-sky-600">사진 첨부하기</h2>
+      <div className="py-2 w-full flex justify-end">
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleFileChange}
+          className="hidden"
+          id="fileInput"
+        />
+        <label
+          htmlFor="fileInput"
+          className="cursor-pointer text-white bg-sky-500 hover:bg-sky-600 px-6 py-2 font-semibold rounded"
+        >
+          파일 선택
+        </label>
       </div>
+      <div
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        className={`border-4 border-dashed rounded-lg p-6 w-full flex flex-col items-center justify-center mb-4 transition-colors ${
+          isDragging ? "border-sky-400 bg-sky-200" : "border-sky-300 bg-white"
+        }`}
+      >
+        {!selectedFiles.length ? (
+          <div className="flex flex-col items-center justify-center">
+            <FontAwesomeIcon
+              icon={faCloudUploadAlt}
+              size="3x"
+              className="text-sky-400 mb-4"
+            />
+            <p className="text-sky-500">사진을 드래그 하세요</p>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-4 mb-6">
+            {previewUrls.map((url, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={url}
+                  alt={`미리보기 ${index}`}
+                  className="w-32 h-32 object-cover border border-gray-300 rounded shadow-md"
+                />
+                <button
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full transform -translate-x-1 -translate-y-1 hover:bg-red-600"
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <button
+        onClick={handleUpload}
+        disabled={uploading || selectedFiles.length === 0}
+        className={`px-6 py-2 font-semibold text-white rounded ${
+          uploading || selectedFiles.length === 0
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-sky-500 hover:bg-sky-600"
+        }`}
+      >
+        {uploading ? "업로드 중..." : "업로드"}
+      </button>
     </div>
   );
 };

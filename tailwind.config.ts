@@ -48,6 +48,8 @@ const config: Config = {
         lightblue: "#F7F8FB",
         bgblue: "#E7EBFF",
         sideblue: "#3767FB",
+        lightcyan: "#E0FFFF",
+        lightskyblue: "##87CEFA",
         deepsky: "#808BAB",
         description: "#888888",
         cpurple: "#8800FF",
