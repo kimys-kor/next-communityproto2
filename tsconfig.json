@@ -26,7 +26,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/components/layouts/headers/Logo.js"
+    "app/components/layouts/headers/Logo.js",
+    "app/components/texteditor/fontsize.js",
+    "app/components/texteditor/fontsize.js"
   ],
   "exclude": ["node_modules"]
 }

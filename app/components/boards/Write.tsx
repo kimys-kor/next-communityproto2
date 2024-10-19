@@ -37,21 +37,10 @@ const Write: React.FC<WriteProps> = ({ title }) => {
     };
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({ resolver });
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    saveContent();
-  });
-
   return (
     <div className="p-4">
       <h1 className="text-xl py-2">{title} 작성</h1>
-      <form onSubmit={onSubmit} className="border-gray-300 flex flex-col gap-3">
+      <section className="border-gray-300 flex flex-col gap-3">
         <div className="flex flex-col border-solid border-t">
           <div className="flex justify-between items-center h-16 border-b border-solid border-gray-200">
             <div className="w-1/3 h-full flex justify-center items-center bg-[#F2F4F9]">
@@ -59,12 +48,7 @@ const Write: React.FC<WriteProps> = ({ title }) => {
             </div>
             <div className="w-full flex justify-center items-center h-10 pl-2">
               <label className="flex items-center gap-1">
-                <input
-                  {...register("notice")}
-                  type="checkbox"
-                  id="notice"
-                  className=""
-                />
+                <input type="checkbox" id="notice" className="" />
                 공지
               </label>
             </div>
@@ -75,7 +59,6 @@ const Write: React.FC<WriteProps> = ({ title }) => {
             </div>
             <div className="w-full flex justify-center items-center h-10 pl-2">
               <input
-                {...register("title")}
                 type="text"
                 id="title"
                 className="truncate appearance-none border border-solid w-[100%] px-7 py-3 text-base text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -98,7 +81,7 @@ const Write: React.FC<WriteProps> = ({ title }) => {
             작성완료
           </button>
         </div>
-      </form>
+      </section>
     </div>
   );
 };
