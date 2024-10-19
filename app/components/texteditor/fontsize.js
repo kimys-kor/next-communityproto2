@@ -1,12 +1,12 @@
 import { Extension } from "@tiptap/core";
-import TextStyle from "@tiptap/extension-text-style"; // Ensure TextStyle is imported
+import TextStyle from "@tiptap/extension-text-style";
 
 export const FontSize = Extension.create({
   name: "fontSize",
 
   addOptions() {
     return {
-      types: ["textStyle"], // Apply only to text styles
+      types: ["textStyle"],
     };
   },
 

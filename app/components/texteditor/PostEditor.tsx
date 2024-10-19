@@ -3,10 +3,6 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
 import { FontSize } from "./FontSize";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Italic from "@tiptap/extension-italic";
-import Heading from "@tiptap/extension-heading";
 import TextAlign from "@tiptap/extension-text-align";
 import ImageExtension from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
@@ -175,15 +171,22 @@ const MenuBar = ({ editor }: any) => {
 const Tiptap = ({ value, onChange }: TipTapProps) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Italic,
+      StarterKit.configure({
+        history: false,
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
       TextStyle,
       FontSize,
-      BulletList,
-      OrderedList,
-      Heading.configure({
-        levels: [1, 2, 3],
-      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
         defaultAlignment: "left",
@@ -201,7 +204,12 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
           "prose sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
       },
     },
+    immediatelyRender: false,
   });
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col border border-solid border-gray-200">
