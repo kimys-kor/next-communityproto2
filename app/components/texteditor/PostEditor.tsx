@@ -2,10 +2,12 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
-import { FontSize } from "./fontsize.js";
+import { FontSize } from "./FontSize";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
+import Italic from "@tiptap/extension-italic";
 import Heading from "@tiptap/extension-heading";
+import TextAlign from "@tiptap/extension-text-align";
 import ImageExtension from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,16 +18,17 @@ import {
   faListUl,
   faHeading,
   faImage,
+  faAlignLeft,
+  faAlignCenter,
+  faAlignRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 
-// TipTapProps Interface
 interface TipTapProps {
   value: string;
   onChange: (content: string) => void;
 }
 
-// MenuBar Component
 const MenuBar = ({ editor }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -57,7 +60,7 @@ const MenuBar = ({ editor }: any) => {
   if (!editor) return null;
 
   return (
-    <div className="flex items-center gap-2 bg-gray-100 p-2 w-full">
+    <div className="flex items-center gap-2 bg-gray-100 p-2 w-full border-b border-solid border-gray-200">
       {/* Bold button */}
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -103,7 +106,34 @@ const MenuBar = ({ editor }: any) => {
         <FontAwesomeIcon icon={faListOl} />
       </button>
 
-      {/* Image button */}
+      {/* Align Left button */}
+      <button
+        onClick={() => editor.chain().focus().setTextAlign("left").run()}
+        className={`p-2 rounded ${editor.isActive({ textAlign: "left" }) ? "bg-gray-300" : ""}`}
+        title="Align left"
+      >
+        <FontAwesomeIcon icon={faAlignLeft} />
+      </button>
+
+      {/* Align Center button */}
+      <button
+        onClick={() => editor.chain().focus().setTextAlign("center").run()}
+        className={`p-2 rounded ${editor.isActive({ textAlign: "center" }) ? "bg-gray-300" : ""}`}
+        title="Align center"
+      >
+        <FontAwesomeIcon icon={faAlignCenter} />
+      </button>
+
+      {/* Align Right button */}
+      <button
+        onClick={() => editor.chain().focus().setTextAlign("right").run()}
+        className={`p-2 rounded ${editor.isActive({ textAlign: "right" }) ? "bg-gray-300" : ""}`}
+        title="Align right"
+      >
+        <FontAwesomeIcon icon={faAlignRight} />
+      </button>
+
+      {/* Image button (single functionality for image upload) */}
       <button
         className="p-2 rounded"
         onClick={handleIconClick}
@@ -118,7 +148,7 @@ const MenuBar = ({ editor }: any) => {
         className="hidden"
       />
 
-      {/* Text color picker */}
+      {/* Text color picker (intact as requested) */}
       <input
         type="color"
         onInput={handleTextColorChange}
@@ -142,17 +172,21 @@ const MenuBar = ({ editor }: any) => {
   );
 };
 
-// Main Tiptap Component
 const Tiptap = ({ value, onChange }: TipTapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      TextStyle, // Required for FontSize extension
-      FontSize, // Custom FontSize extension
+      Italic,
+      TextStyle,
+      FontSize,
       BulletList,
       OrderedList,
       Heading.configure({
-        levels: [2],
+        levels: [1, 2, 3],
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+        defaultAlignment: "left",
       }),
       ImageExtension,
       Color,
@@ -164,18 +198,15 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     editorProps: {
       attributes: {
         class:
-          "shadow appearance-none min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
+          "prose sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
       },
     },
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col border border-solid border-gray-200">
       <MenuBar editor={editor} />
-      <EditorContent
-        className="min-h-[500px] border border-solid border-gray-200"
-        editor={editor}
-      />
+      <EditorContent className="min-h-[500px] " editor={editor} />
     </div>
   );
 };
