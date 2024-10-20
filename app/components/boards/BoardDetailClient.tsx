@@ -9,10 +9,15 @@ import { LiaThumbsUp, LiaThumbsDown } from "react-icons/lia";
 import { HiBars3 } from "react-icons/hi2";
 import { formatDate } from "@/app/utils";
 import { BoardDetailClientProps } from "@/app/types";
+import DOMPurify from "dompurify";
 
 const BoardDetailClient: React.FC<BoardDetailClientProps> = ({ content }) => {
   const pathname = usePathname();
   const basePath = pathname?.split("/")[1] || "";
+
+  const sanitizedData = () => ({
+    __html: DOMPurify.sanitize(content.content),
+  });
 
   return (
     <div>
@@ -57,7 +62,8 @@ const BoardDetailClient: React.FC<BoardDetailClientProps> = ({ content }) => {
         </article>
       </section>
       <section className="px-3 py-10 flex flex-col gap-5 ">
-        <article>{content.content}</article>
+        {/* Render sanitized HTML content */}
+        <article dangerouslySetInnerHTML={sanitizedData()}></article>
       </section>
     </div>
   );

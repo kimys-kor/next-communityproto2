@@ -27,6 +27,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   useEffect(() => {
     const fetchBoardContent = async () => {
+      setBoardList([]);
       try {
         const response = await fetch(
           `/api/board/partnerList?page=${currentPage - 1}&size=${size}`,

@@ -1,17 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
 import { PartnerItem } from "@/app/types";
 import PartnerCardClient from "./PartnerCardClient";
 import { fetchInitialPartnerData } from "@/app/utils";
-import CommentPage from "@/app/components/boards/CommentPage";
-
-interface PartnerCardProps {
-  initialData: {
-    boardList: PartnerItem[];
-    totalElements: number;
-    totalPages: number;
-  };
-}
 
 const PartnerCard = async () => {
   const initialData = await fetchInitialPartnerData();
