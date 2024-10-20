@@ -10,7 +10,6 @@ import Color from "@tiptap/extension-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
-  faItalic,
   faListOl,
   faListUl,
   faHeading,
@@ -20,6 +19,7 @@ import {
   faAlignRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
+import ImageUploader from "@/app/image-uploader/ImageUploader";
 
 interface TipTapProps {
   value: string;
@@ -30,16 +30,20 @@ const MenuBar = ({ editor }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          editor.chain().focus().setImage({ src: reader.result }).run();
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+    const files = Array.from(e.target.files);
+
+    // Process multiple files
+    files.forEach((file) => {
+      if (file instanceof Blob || file instanceof File) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") {
+            editor.chain().focus().setImage({ src: reader.result }).run();
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   };
 
   const handleIconClick = () => {
@@ -66,15 +70,6 @@ const MenuBar = ({ editor }: any) => {
       >
         <FontAwesomeIcon icon={faBold} />
       </button>
-
-      {/* Italic button */}
-      {/* <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`p-2 rounded ${editor.isActive("italic") ? "bg-gray-300" : ""}`}
-        title="Italic"
-      >
-        <FontAwesomeIcon icon={faItalic} />
-      </button> */}
 
       {/* Heading button */}
       <button
@@ -130,7 +125,7 @@ const MenuBar = ({ editor }: any) => {
         <FontAwesomeIcon icon={faAlignRight} />
       </button>
 
-      {/* Image button (single functionality for image upload) */}
+      {/* Image button (multiple image functionality) */}
       <button
         className="p-2 rounded"
         onClick={handleIconClick}
@@ -143,6 +138,7 @@ const MenuBar = ({ editor }: any) => {
         ref={fileInputRef}
         onChange={handleImageChange}
         className="hidden"
+        multiple // Allow multiple images
       />
 
       {/* Text color picker */}
@@ -176,6 +172,19 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
         class:
           "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
       },
+      handleDrop(view, event, slice, moved) {
+        const dataTransfer = event.dataTransfer;
+        // Ensure dataTransfer is not null and contains files
+        if (
+          dataTransfer &&
+          dataTransfer.files &&
+          dataTransfer.files.length > 0
+        ) {
+          event.preventDefault();
+          handleMultipleImagesUpload(dataTransfer.files, editor);
+        }
+        return false;
+      },
     },
     extensions: [
       StarterKit.configure({
@@ -208,6 +217,18 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     },
     immediatelyRender: false,
   });
+
+  const handleMultipleImagesUpload = (files: FileList, editorInstance: any) => {
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          editorInstance.chain().focus().setImage({ src: reader.result }).run();
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
 
   if (!editor) {
     return null;
