@@ -5,6 +5,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import { FontSize } from "./FontSize";
 import TextAlign from "@tiptap/extension-text-align";
 import ImageExtension from "@tiptap/extension-image";
+import ImageResize from "tiptap-extension-resize-image";
 import Color from "@tiptap/extension-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -67,13 +68,13 @@ const MenuBar = ({ editor }: any) => {
       </button>
 
       {/* Italic button */}
-      <button
+      {/* <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={`p-2 rounded ${editor.isActive("italic") ? "bg-gray-300" : ""}`}
         title="Italic"
       >
         <FontAwesomeIcon icon={faItalic} />
-      </button>
+      </button> */}
 
       {/* Heading button */}
       <button
@@ -144,7 +145,7 @@ const MenuBar = ({ editor }: any) => {
         className="hidden"
       />
 
-      {/* Text color picker (intact as requested) */}
+      {/* Text color picker */}
       <input
         type="color"
         onInput={handleTextColorChange}
@@ -170,6 +171,12 @@ const MenuBar = ({ editor }: any) => {
 
 const Tiptap = ({ value, onChange }: TipTapProps) => {
   const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
+      },
+    },
     extensions: [
       StarterKit.configure({
         history: false,
@@ -188,21 +195,16 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       TextStyle,
       FontSize,
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "image"],
         defaultAlignment: "left",
       }),
       ImageExtension,
+      ImageResize,
       Color,
     ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
-    },
-    editorProps: {
-      attributes: {
-        class:
-          "prose sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
-      },
     },
     immediatelyRender: false,
   });
@@ -214,7 +216,7 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
   return (
     <div className="flex flex-col border border-solid border-gray-200">
       <MenuBar editor={editor} />
-      <EditorContent className="min-h-[500px] " editor={editor} />
+      <EditorContent className="min-h-[500px]" editor={editor} />
     </div>
   );
 };
