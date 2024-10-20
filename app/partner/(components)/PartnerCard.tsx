@@ -5,6 +5,8 @@ import { fetchInitialPartnerData } from "@/app/utils";
 const PartnerCard = async () => {
   const initialData = await fetchInitialPartnerData();
 
+  console.log(initialData.boardList, "1111");
+
   return (
     <section className="flex flex-col gap-1">
       <div className="flex justify-between items-center w-full border-b-2 border-blue border-solid">
