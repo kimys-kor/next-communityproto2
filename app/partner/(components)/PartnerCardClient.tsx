@@ -46,7 +46,6 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
         const data = await response.json();
         setBoardList(data.data.content);
-        console.log(data.data.content, "2222");
         setTotalElements(data.data.totalElements);
         setTotalPages(data.data.totalPages);
       } catch (error) {

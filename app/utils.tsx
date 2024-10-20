@@ -70,7 +70,8 @@ export async function fetchInitialAnalyzeData(typ: number) {
 
 export async function fetchBoardDayContent(
   // period: string = "day",
-  period: string = "week",
+  // period: string = "week",
+  period: string = "month",
   page: number = 0,
   size: number = 6
 ): Promise<BoardItem2[]> {
@@ -96,7 +97,8 @@ export async function fetchBoardDayContent(
 }
 
 export async function fetchBoardWeekContent(
-  period: string = "week",
+  // period: string = "week",
+  period: string = "month",
   page: number = 0,
   size: number = 6
 ): Promise<BoardItem2[]> {

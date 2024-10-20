@@ -42,9 +42,8 @@ const Write: React.FC<WriteProps> = ({ title }) => {
   };
 
   const saveContent = async () => {
-    // Validation for title and content
     if (!postTitle.trim() || !content.trim()) {
-      toast.error("제목과 내용을 입력해주세요."); // Show error if title or content is empty
+      toast.error("제목과 내용을 입력해주세요.");
       return;
     }
 
@@ -52,19 +51,19 @@ const Write: React.FC<WriteProps> = ({ title }) => {
 
     const postData: savePostRequest = {
       postType: 1, // Hardcoded to 1
-      notification: notification || false, // Default to false if not selected
+      notification: notification || false,
       title: postTitle,
       content: content,
-      thumbNail: thumbNail, // Extracted thumbnail or null
+      thumbNail: thumbNail,
     };
 
     try {
       const result = await postSaveServerAction(postData);
       if (result.status === "OK") {
-        toast.success("게시물이 성공적으로 저장되었습니다!"); // Success notification
-        router.push(`/${basePath}`); // Redirect user to basePath
+        toast.success("게시물이 성공적으로 저장되었습니다!");
+        router.push(`/${basePath}`);
       } else {
-        toast.error("게시물 저장에 실패했습니다."); // Show error if saving fails
+        toast.error("게시물 저장에 실패했습니다.");
       }
     } catch (error) {
       console.error("Error saving post:", error);

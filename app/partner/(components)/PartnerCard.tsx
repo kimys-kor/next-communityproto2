@@ -1,11 +1,8 @@
-import { PartnerItem } from "@/app/types";
 import PartnerCardClient from "./PartnerCardClient";
 import { fetchInitialPartnerData } from "@/app/utils";
 
 const PartnerCard = async () => {
   const initialData = await fetchInitialPartnerData();
-
-  console.log(initialData.boardList, "1111");
 
   return (
     <section className="flex flex-col gap-1">

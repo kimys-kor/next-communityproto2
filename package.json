@@ -39,7 +39,6 @@
     "next-auth": "^4.24.7",
     "nodemon": "^2.0.22",
     "npm": "^10.8.1",
-    "quill-image-resize-module-ts": "^3.0.3",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.0",
