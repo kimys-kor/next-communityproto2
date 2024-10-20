@@ -19,30 +19,118 @@ import {
   faAlignRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
-import ImageUploader from "@/app/image-uploader/ImageUploader";
 
 interface TipTapProps {
   value: string;
   onChange: (content: string) => void;
 }
 
-const MenuBar = ({ editor }: any) => {
+const Tiptap = ({ value, onChange }: TipTapProps) => {
+  const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
+      },
+      handleDrop(view, event, slice, moved) {
+        const dataTransfer = event.dataTransfer;
+        // Ensure dataTransfer is not null and contains files
+        if (
+          dataTransfer &&
+          dataTransfer.files &&
+          dataTransfer.files.length > 0
+        ) {
+          event.preventDefault();
+          handleMultipleImagesUpload(dataTransfer.files, editor);
+        }
+        return false;
+      },
+    },
+    extensions: [
+      StarterKit.configure({
+        history: false,
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
+      TextStyle,
+      FontSize,
+      TextAlign.configure({
+        types: ["heading", "paragraph", "image"],
+        defaultAlignment: "left",
+      }),
+      ImageExtension,
+      ImageResize,
+      Color,
+    ],
+    content: value,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
+    immediatelyRender: false,
+  });
+
+  const uploadImagesToServer = async (files: File[]): Promise<string[]> => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await fetch("/api/images", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to upload images.");
+    }
+
+    const result = await response.json();
+    return result.data; // Extract the 'data' field, which contains the array of image URLs
+  };
+
+  const handleMultipleImagesUpload = async (
+    files: FileList,
+    editorInstance: any
+  ) => {
+    const uploadedImageUrls = await uploadImagesToServer(Array.from(files)); // Cast files to File[]
+
+    // Insert uploaded image URLs into the editor
+    uploadedImageUrls.forEach((url: string) => {
+      editorInstance.chain().focus().setImage({ src: url }).run();
+    });
+  };
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col border border-solid border-gray-200">
+      <MenuBar editor={editor} uploadImagesToServer={uploadImagesToServer} />
+      <EditorContent className="min-h-[500px]" editor={editor} />
+    </div>
+  );
+};
+
+const MenuBar = ({ editor, uploadImagesToServer }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (e: any) => {
-    const files = Array.from(e.target.files);
+  const handleImageChange = async (e: any) => {
+    const files = Array.from(e.target.files) as File[]; // Ensure files are treated as an array of File objects
+    const uploadedImageUrls = await uploadImagesToServer(files);
 
-    // Process multiple files
-    files.forEach((file) => {
-      if (file instanceof Blob || file instanceof File) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          if (typeof reader.result === "string") {
-            editor.chain().focus().setImage({ src: reader.result }).run();
-          }
-        };
-        reader.readAsDataURL(file);
-      }
+    // Insert uploaded images into the editor
+    uploadedImageUrls.forEach((url: string) => {
+      editor.chain().focus().setImage({ src: url }).run();
     });
   };
 
@@ -138,7 +226,7 @@ const MenuBar = ({ editor }: any) => {
         ref={fileInputRef}
         onChange={handleImageChange}
         className="hidden"
-        multiple // Allow multiple images
+        multiple
       />
 
       {/* Text color picker */}
@@ -161,83 +249,6 @@ const MenuBar = ({ editor }: any) => {
         <option value="24px">24px</option>
         <option value="28px">28px</option>
       </select>
-    </div>
-  );
-};
-
-const Tiptap = ({ value, onChange }: TipTapProps) => {
-  const editor = useEditor({
-    editorProps: {
-      attributes: {
-        class:
-          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
-      },
-      handleDrop(view, event, slice, moved) {
-        const dataTransfer = event.dataTransfer;
-        // Ensure dataTransfer is not null and contains files
-        if (
-          dataTransfer &&
-          dataTransfer.files &&
-          dataTransfer.files.length > 0
-        ) {
-          event.preventDefault();
-          handleMultipleImagesUpload(dataTransfer.files, editor);
-        }
-        return false;
-      },
-    },
-    extensions: [
-      StarterKit.configure({
-        history: false,
-        bulletList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-        orderedList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-        heading: {
-          levels: [1, 2, 3],
-        },
-      }),
-      TextStyle,
-      FontSize,
-      TextAlign.configure({
-        types: ["heading", "paragraph", "image"],
-        defaultAlignment: "left",
-      }),
-      ImageExtension,
-      ImageResize,
-      Color,
-    ],
-    content: value,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
-    },
-    immediatelyRender: false,
-  });
-
-  const handleMultipleImagesUpload = (files: FileList, editorInstance: any) => {
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          editorInstance.chain().focus().setImage({ src: reader.result }).run();
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  if (!editor) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-col border border-solid border-gray-200">
-      <MenuBar editor={editor} />
-      <EditorContent className="min-h-[500px]" editor={editor} />
     </div>
   );
 };
