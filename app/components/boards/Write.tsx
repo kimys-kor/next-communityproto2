@@ -59,6 +59,12 @@ const Write: React.FC<WriteProps> = ({ title }) => {
 
     try {
       const result = await postSaveServerAction(postData);
+
+      if (result.status === 401) {
+        toast.error("로그인을 해주세요."); // Show "Please log in" message for 401 errors
+        return;
+      }
+
       if (result.status === "OK") {
         toast.success("게시물이 성공적으로 저장되었습니다!");
         router.push(`/${basePath}`);
