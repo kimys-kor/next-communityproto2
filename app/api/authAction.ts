@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { CommentRequest } from "@/app/types";
+import { savePostRequest, CommentRequest } from "@/app/types";
 
 export async function loginServerAction(data: FormData) {
   try {
@@ -54,6 +54,40 @@ export const commentSaveServerAction = async (data: CommentRequest) => {
       console.error("Failed to submit comment. Status:", response.status);
       console.error("Response body:", errorText);
       throw new Error("Failed to submit comment");
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error in commentSaveServerAction:", error);
+    return { status: "ERROR", message: "Failed to submit comment" };
+  }
+};
+
+export const postSaveServerAction = async (data: savePostRequest) => {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("Authorization")?.value;
+
+  if (!accessToken) {
+    console.error("Authorization token is missing from cookies.");
+    return { status: "ERROR", message: "Authorization token is missing." };
+  }
+
+  try {
+    const response = await fetch(`${process.env.API_URL}/user/save/post`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Failed to save Post. Status:", response.status);
+      console.error("Response body:", errorText);
+      throw new Error("Failed to save Post");
     }
 
     const result = await response.json();

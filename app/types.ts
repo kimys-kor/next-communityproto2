@@ -71,6 +71,14 @@ export type CommentRequest = {
   content: string;
 };
 
+export type savePostRequest = {
+  postType: number;
+  notification: boolean;
+  title: string;
+  content: string;
+  thumbNail: string | null;
+};
+
 export const colors = [
   "transparent",
   "white",

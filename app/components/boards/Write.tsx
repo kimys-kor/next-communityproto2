@@ -1,12 +1,16 @@
 "use client";
-
 import PostEditor from "@/app/components/texteditor/PostEditor";
-import React, { useEffect, useRef, useState } from "react";
-import { useForm, Resolver } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { postSaveServerAction } from "@/app/api/authAction";
+import toast from "react-hot-toast";
+import { usePathname, useRouter } from "next/navigation";
 
-type FormData = {
+type savePostRequest = {
+  postType: number;
+  notification: boolean;
   title: string;
-  notice: boolean;
+  content: string;
+  thumbNail: string | null;
 };
 
 interface WriteProps {
@@ -15,30 +19,57 @@ interface WriteProps {
 
 const Write: React.FC<WriteProps> = ({ title }) => {
   const [content, setContent] = useState("");
+  const [notification, setNotification] = useState(false);
+  const [postTitle, setPostTitle] = useState("");
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const basePath = pathname?.split("/")[1] || "";
+
   const handleContentChange = (value: string) => {
     setContent(value);
   };
 
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
-
-  const saveContent = () => {
-    console.log("Content saved:", content);
+  const handleNotificationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNotification(e.target.checked);
   };
 
-  const resolver: Resolver<FormData> = async (values) => {
-    return {
-      values: values.title ? values : {},
-      errors: !values.title
-        ? {
-            title: {
-              type: "required",
-              message: "This is required.",
-            },
-          }
-        : {},
+  const extractThumbnail = (htmlContent: string): string | null => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, "text/html");
+    const imgTag = doc.querySelector("img");
+    return imgTag ? imgTag.getAttribute("src") : null;
+  };
+
+  const saveContent = async () => {
+    // Validation for title and content
+    if (!postTitle.trim() || !content.trim()) {
+      toast.error("제목과 내용을 입력해주세요."); // Show error if title or content is empty
+      return;
+    }
+
+    const thumbNail = extractThumbnail(content);
+
+    const postData: savePostRequest = {
+      postType: 1, // Hardcoded to 1
+      notification: notification || false, // Default to false if not selected
+      title: postTitle,
+      content: content,
+      thumbNail: thumbNail, // Extracted thumbnail or null
     };
+
+    try {
+      const result = await postSaveServerAction(postData);
+      if (result.status === "OK") {
+        toast.success("게시물이 성공적으로 저장되었습니다!"); // Success notification
+        router.push(`/${basePath}`); // Redirect user to basePath
+      } else {
+        toast.error("게시물 저장에 실패했습니다."); // Show error if saving fails
+      }
+    } catch (error) {
+      console.error("Error saving post:", error);
+      toast.error("오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -52,7 +83,12 @@ const Write: React.FC<WriteProps> = ({ title }) => {
             </div>
             <div className="w-full flex justify-center items-center h-10 pl-2">
               <label className="flex items-center gap-1">
-                <input type="checkbox" id="notice" className="" />
+                <input
+                  type="checkbox"
+                  id="notification"
+                  checked={notification}
+                  onChange={handleNotificationChange}
+                />
                 공지
               </label>
             </div>
@@ -66,8 +102,10 @@ const Write: React.FC<WriteProps> = ({ title }) => {
                 type="text"
                 id="title"
                 className="truncate appearance-none border border-solid w-[100%] px-7 py-3 text-base text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
                 required
-              ></input>
+              />
             </div>
           </div>
         </div>
@@ -79,7 +117,7 @@ const Write: React.FC<WriteProps> = ({ title }) => {
             취소
           </button>
           <button
-            type="submit"
+            onClick={saveContent}
             className="bg-blue text-white px-4 py-2 w-24 h-12 hover:bg-blue"
           >
             작성완료
