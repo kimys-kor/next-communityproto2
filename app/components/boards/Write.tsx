@@ -1,7 +1,7 @@
 "use client";
 
 import PostEditor from "@/app/components/texteditor/PostEditor";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Resolver } from "react-hook-form";
 
 type FormData = {
@@ -18,6 +18,10 @@ const Write: React.FC<WriteProps> = ({ title }) => {
   const handleContentChange = (value: string) => {
     setContent(value);
   };
+
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
 
   const saveContent = () => {
     console.log("Content saved:", content);
