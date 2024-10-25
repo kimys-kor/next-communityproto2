@@ -20,7 +20,7 @@ const fetchBoardList = async () => {
   }
 
   const data = await response.json();
-  return data.data.content as BoardItem[]; // Cast to BoardItem array
+  return data.data.content as BoardItem[];
 };
 
 const NoticeCard = async () => {

@@ -3,6 +3,46 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { savePostRequest, CommentRequest } from "@/app/types";
+import { NextResponse } from "next/server";
+
+export const refreshTokenServerAction = async () => {
+  const apiResponse = await fetch(process.env.API_URL + "/user/refresh", {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (apiResponse.ok) {
+    const accessToken = apiResponse.headers.get("Authorization");
+    const cookieStore = cookies();
+
+    if (accessToken != null) {
+      cookieStore.set("Authorization", accessToken, {
+        secure: true,
+        httpOnly: true,
+        maxAge: 1800,
+      });
+    }
+
+    const setCookieHeader = apiResponse.headers.get("set-cookie");
+    const jsonData = await apiResponse.json();
+
+    const response = NextResponse.json({
+      message: "ok",
+      data: jsonData.data,
+    });
+
+    if (setCookieHeader) {
+      response.headers.set("Set-Cookie", setCookieHeader);
+    }
+
+    return response;
+  } else {
+    return NextResponse.json(
+      { error: "Refresh failed" },
+      { status: apiResponse.status }
+    );
+  }
+};
 
 export const commentSaveServerAction = async (data: CommentRequest) => {
   const cookieStore = cookies();

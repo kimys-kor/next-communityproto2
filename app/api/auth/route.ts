@@ -3,6 +3,13 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+    }
+    const cookieStore = cookies();
+    const allCookies = cookieStore.getAll();
+    allCookies.forEach((cookie) => cookieStore.delete(cookie.name));
+
     const { username, password } = await request.json();
 
     const apiResponse = await fetch(process.env.API_URL + "/guest/login", {
@@ -18,7 +25,6 @@ export async function POST(request: Request) {
     });
 
     if (apiResponse.ok) {
-      const cookieStore = cookies();
       const accessToken = apiResponse.headers.get("Authorization");
 
       if (accessToken != null) {
@@ -32,7 +38,6 @@ export async function POST(request: Request) {
       const setCookieHeader = apiResponse.headers.get("set-cookie");
       const jsonData = await apiResponse.json();
 
-      // Return user data along with the response
       const response = NextResponse.json({
         message: "ok",
         data: jsonData.data,

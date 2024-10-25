@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { refreshTokenServerAction } from "@/app/api/authAction";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -8,6 +9,8 @@ export async function GET(request: Request) {
   const size = searchParams.get("size");
 
   try {
+    refreshTokenServerAction();
+    refreshTokenServerAction();
     const response = await fetch(
       process.env.API_URL +
         `/guest/list?typ=${typ}&keyword=${keyword}&page=${page}&size=${size}`,

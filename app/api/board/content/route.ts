@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
+import { refreshTokenServerAction } from "@/app/api/authAction";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const boardId = searchParams.get("boardId");
 
   try {
+    refreshTokenServerAction();
     const response = await fetch(
       process.env.API_URL + `/guest/content?boardId${boardId}`,
       {

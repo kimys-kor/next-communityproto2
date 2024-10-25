@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { refreshTokenServerAction } from "@/app/api/authAction";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -6,6 +7,7 @@ export async function GET(request: Request) {
   const size = searchParams.get("size");
 
   try {
+    refreshTokenServerAction();
     const response = await fetch(
       process.env.API_URL + `/guest/partnerList?page=${page}&size=${size}`,
       {
