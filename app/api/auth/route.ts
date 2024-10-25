@@ -34,16 +34,8 @@ export async function POST(request: Request) {
 
       const jsonData = await apiResponse.json();
 
-      const {
-        username,
-        phoneNum,
-        fullName,
-        nickname,
-        point,
-        status,
-        role,
-        sck,
-      } = jsonData.data;
+      const { username, phoneNum, fullName, nickname, point, status, role } =
+        jsonData.data;
       useUserStore.getState().setUser({
         username,
         phoneNum,
@@ -52,12 +44,7 @@ export async function POST(request: Request) {
         point,
         status,
         role,
-        sck,
       });
-
-      if (sck === "prprprploolo1234") {
-        sessionStorage.setItem("sck", "prprprploolo1234");
-      }
 
       if (setCookieHeader) {
         const response = NextResponse.json({ message: "ok" });

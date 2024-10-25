@@ -9,7 +9,6 @@ interface UserData {
   point: number;
   status: string;
   role: string;
-  sck: string;
 }
 
 interface UserStore {
