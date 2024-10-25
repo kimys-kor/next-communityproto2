@@ -17,7 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Login></Login>
           <NoticeCard />
           <NewPostCard />
-          <NewPostCard />
           <NewPartnerCard />
           {/* <IconTabs></IconTabs> */}
         </aside>
