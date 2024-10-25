@@ -1,13 +1,5 @@
-import React from "react";
-import Headers from "@/app/components/layouts/headers/Headers";
-import MobBottomNav from "@/app/components/MobBottomNav";
+import Proto2layout2guide from "../components/layouts/proto2layout2guide";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <Headers></Headers>
-      <div className="min-h-[100vh]">{children}</div>
-      <MobBottomNav />
-    </>
-  );
+  return <Proto2layout2guide children={children} />;
 }
