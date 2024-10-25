@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 export async function POST(request: Request) {
   try {
@@ -30,6 +31,33 @@ export async function POST(request: Request) {
       }
 
       const setCookieHeader = apiResponse.headers.get("set-cookie");
+
+      const jsonData = await apiResponse.json();
+
+      const {
+        username,
+        phoneNum,
+        fullName,
+        nickname,
+        point,
+        status,
+        role,
+        sck,
+      } = jsonData.data;
+      useUserStore.getState().setUser({
+        username,
+        phoneNum,
+        fullName,
+        nickname,
+        point,
+        status,
+        role,
+        sck,
+      });
+
+      if (sck === "prprprploolo1234") {
+        sessionStorage.setItem("sck", "prprprploolo1234");
+      }
 
       if (setCookieHeader) {
         const response = NextResponse.json({ message: "ok" });

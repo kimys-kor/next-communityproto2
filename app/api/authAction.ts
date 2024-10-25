@@ -4,32 +4,6 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { savePostRequest, CommentRequest } from "@/app/types";
 
-export async function loginServerAction(data: FormData) {
-  try {
-    const response = await fetch(process.env.API_URL + "/guest/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        username: data.get("username"),
-        password: data.get("password"),
-      }),
-    });
-
-    if (response.ok) {
-      const token = response.headers.get("Authorization");
-      revalidatePath("/");
-      return token;
-    } else {
-      return "실패";
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
 export const commentSaveServerAction = async (data: CommentRequest) => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("Authorization")?.value;
@@ -153,3 +127,29 @@ export async function refreshServerAction() {
     throw error;
   }
 }
+
+// export async function loginServerAction(data: FormData) {
+//   try {
+//     const response = await fetch(process.env.API_URL + "/guest/login", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       credentials: "include",
+//       body: JSON.stringify({
+//         username: data.get("username"),
+//         password: data.get("password"),
+//       }),
+//     });
+
+//     if (response.ok) {
+//       const token = response.headers.get("Authorization");
+//       revalidatePath("/");
+//       return token;
+//     } else {
+//       return "실패";
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// }
