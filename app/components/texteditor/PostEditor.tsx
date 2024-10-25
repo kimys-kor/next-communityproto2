@@ -24,7 +24,6 @@ import {
 import { useCallback, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-// Custom link extension to ensure links open in new tab
 const CustomLink = Link.extend({
   addAttributes() {
     return {
@@ -48,15 +47,21 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       FontSize,
       TextAlign,
       CustomLink,
-      ImageExtension,
+      ImageExtension.configure({
+        HTMLAttributes: {
+          class: "editor-image",
+        },
+      }),
       ImageResize,
       Color,
-      HardBreak,
+      HardBreak.configure({
+        keepMarks: false,
+      }),
     ],
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
+          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] overflow-y border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
       },
       handleDrop(view, event, slice, moved) {
         const dataTransfer = event.dataTransfer;
@@ -82,7 +87,7 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       handleKeyDown(view, event) {
         if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault();
-          editor?.chain().focus().setHardBreak().run();
+          editor?.commands.setHardBreak();
           return true;
         }
         return false;
@@ -250,7 +255,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
       >
         <FontAwesomeIcon icon={faAlignRight} />
       </button>
-
       <button
         className="p-2 rounded"
         onClick={handleIconClick}
@@ -278,11 +282,11 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         className="ml-2 p-1 border border-gray-400 rounded"
         title="Font Size"
       >
-        <option value="12px">12px</option>
-        <option value="16px">16px</option>
-        <option value="20px">20px</option>
         <option value="24px">24px</option>
         <option value="28px">28px</option>
+        <option value="32px">32px</option>
+        <option value="48px">48px</option>
+        <option value="56px">56px</option>
       </select>
 
       <button className="p-2 rounded" onClick={addLink} title="Add Link">
