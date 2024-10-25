@@ -14,7 +14,7 @@ import SubMenu from "./(component)/SubMenu";
 export default function Page() {
   const breadcrumbItems = {
     title: "스포츠분석",
-    subMenu: "축구분석",
+    subMenu: "해외축구분석",
   };
 
   return (
