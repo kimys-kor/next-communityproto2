@@ -50,18 +50,20 @@ const Write: React.FC<WriteProps> = ({ title }) => {
     const thumbNail = extractThumbnail(content);
 
     const postData: savePostRequest = {
-      postType: 1, // Hardcoded to 1
+      postType: 1,
       notification: notification || false,
       title: postTitle,
       content: content,
       thumbNail: thumbNail,
     };
 
+    console.log(postData.content);
+
     try {
       const result = await postSaveServerAction(postData);
 
       if (result.status === 401) {
-        toast.error("로그인을 해주세요."); // Show "Please log in" message for 401 errors
+        toast.error("로그인을 해주세요.");
         return;
       }
 

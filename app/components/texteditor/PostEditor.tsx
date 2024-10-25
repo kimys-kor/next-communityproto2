@@ -4,6 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
 import { FontSize } from "./FontSize";
 import TextAlign from "@tiptap/extension-text-align";
+import Link from "@tiptap/extension-link";
 import ImageExtension from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import Color from "@tiptap/extension-color";
@@ -17,8 +18,10 @@ import {
   faAlignLeft,
   faAlignCenter,
   faAlignRight,
+  faLink,
 } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 interface TipTapProps {
   value: string;
@@ -34,7 +37,6 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       },
       handleDrop(view, event, slice, moved) {
         const dataTransfer = event.dataTransfer;
-        // Ensure dataTransfer is not null and contains files
         if (
           dataTransfer &&
           dataTransfer.files &&
@@ -67,6 +69,16 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
         types: ["heading", "paragraph", "image"],
         defaultAlignment: "left",
       }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+          class: "text-blue",
+        },
+      }),
       ImageExtension,
       ImageResize,
       Color,
@@ -77,6 +89,10 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     },
     immediatelyRender: false,
   });
+
+  if (!editor) {
+    return null;
+  }
 
   const uploadImagesToServer = async (files: File[]): Promise<string[]> => {
     const formData = new FormData();
@@ -90,28 +106,24 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     });
 
     if (!response.ok) {
+      toast.error("로그인을 해주세요");
       throw new Error("Failed to upload images.");
     }
 
     const result = await response.json();
-    return result.data; // Extract the 'data' field, which contains the array of image URLs
+    return result.data;
   };
 
   const handleMultipleImagesUpload = async (
     files: FileList,
     editorInstance: any
   ) => {
-    const uploadedImageUrls = await uploadImagesToServer(Array.from(files)); // Cast files to File[]
+    const uploadedImageUrls = await uploadImagesToServer(Array.from(files));
 
-    // Insert uploaded image URLs into the editor
     uploadedImageUrls.forEach((url: string) => {
       editorInstance.chain().focus().setImage({ src: url }).run();
     });
   };
-
-  if (!editor) {
-    return null;
-  }
 
   return (
     <div className="flex flex-col border border-solid border-gray-200">
@@ -123,12 +135,12 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
 
 const MenuBar = ({ editor, uploadImagesToServer }: any) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [linkUrl, setLinkUrl] = useState<string>("");
 
   const handleImageChange = async (e: any) => {
-    const files = Array.from(e.target.files) as File[]; // Ensure files are treated as an array of File objects
+    const files = Array.from(e.target.files) as File[];
     const uploadedImageUrls = await uploadImagesToServer(files);
 
-    // Insert uploaded images into the editor
     uploadedImageUrls.forEach((url: string) => {
       editor.chain().focus().setImage({ src: url }).run();
     });
@@ -146,11 +158,39 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
     editor.chain().focus().setFontSize(size).run();
   };
 
+  const addLink = useCallback(() => {
+    const url = prompt("Enter the URL", linkUrl);
+
+    if (url) {
+      // Check if the URL starts with 'http://', 'https://', or is a relative path
+      let finalUrl = url;
+
+      // If the user entered a relative URL, treat it as is (it will use the current domain)
+      // If the user didn't specify a protocol, prepend 'http://'
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        finalUrl = "http://" + url;
+      }
+
+      // Set the link with target="_blank" to open in a new window
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: finalUrl, target: "_blank" })
+        .run();
+
+      setLinkUrl(""); // Reset the link URL state
+    }
+  }, [editor, linkUrl]);
+
+  const removeLink = () => {
+    editor.chain().focus().unsetLink().run();
+  };
+
   if (!editor) return null;
 
   return (
     <div className="flex items-center gap-2 bg-gray-100 p-2 w-full border-b border-solid border-gray-200">
-      {/* Bold button */}
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={`p-2 rounded ${editor.isActive("bold") ? "bg-gray-300" : ""}`}
@@ -159,7 +199,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faBold} />
       </button>
 
-      {/* Heading button */}
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={`p-2 rounded ${editor.isActive("heading", { level: 2 }) ? "bg-gray-300" : ""}`}
@@ -168,7 +207,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faHeading} />
       </button>
 
-      {/* Bullet List button */}
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={`p-2 rounded ${editor.isActive("bulletList") ? "bg-gray-300" : ""}`}
@@ -177,7 +215,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faListUl} />
       </button>
 
-      {/* Ordered List button */}
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={`p-2 rounded ${editor.isActive("orderedList") ? "bg-gray-300" : ""}`}
@@ -186,7 +223,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faListOl} />
       </button>
 
-      {/* Align Left button */}
       <button
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
         className={`p-2 rounded ${editor.isActive({ textAlign: "left" }) ? "bg-gray-300" : ""}`}
@@ -195,7 +231,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faAlignLeft} />
       </button>
 
-      {/* Align Center button */}
       <button
         onClick={() => editor.chain().focus().setTextAlign("center").run()}
         className={`p-2 rounded ${editor.isActive({ textAlign: "center" }) ? "bg-gray-300" : ""}`}
@@ -204,7 +239,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faAlignCenter} />
       </button>
 
-      {/* Align Right button */}
       <button
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
         className={`p-2 rounded ${editor.isActive({ textAlign: "right" }) ? "bg-gray-300" : ""}`}
@@ -213,7 +247,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <FontAwesomeIcon icon={faAlignRight} />
       </button>
 
-      {/* Image button (multiple image functionality) */}
       <button
         className="p-2 rounded"
         onClick={handleIconClick}
@@ -229,7 +262,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         multiple
       />
 
-      {/* Text color picker */}
       <input
         type="color"
         onInput={handleTextColorChange}
@@ -237,7 +269,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         title="Text Color"
       />
 
-      {/* Font size options */}
       <select
         onChange={(e) => handleFontSizeChange(e.target.value)}
         className="ml-2 p-1 border border-gray-400 rounded"
@@ -249,6 +280,14 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <option value="24px">24px</option>
         <option value="28px">28px</option>
       </select>
+
+      <button className="p-2 rounded" onClick={addLink} title="Add Link">
+        <FontAwesomeIcon icon={faLink} />
+      </button>
+
+      <button className="p-2 rounded" onClick={removeLink} title="Remove Link">
+        <FontAwesomeIcon icon={faLink} style={{ transform: "rotate(45deg)" }} />
+      </button>
     </div>
   );
 };
