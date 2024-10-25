@@ -8,7 +8,6 @@ import Link from "@tiptap/extension-link";
 import ImageExtension from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import Color from "@tiptap/extension-color";
-import HardBreak from "@tiptap/extension-hard-break";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
@@ -22,17 +21,6 @@ import {
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useRef, useState } from "react";
-import toast from "react-hot-toast";
-
-const CustomLink = Link.extend({
-  addAttributes() {
-    return {
-      href: { default: null },
-      target: { default: "_blank" },
-      rel: { default: "noopener noreferrer" },
-    };
-  },
-});
 
 interface TipTapProps {
   value: string;
@@ -41,27 +29,10 @@ interface TipTapProps {
 
 const Tiptap = ({ value, onChange }: TipTapProps) => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      FontSize,
-      TextAlign,
-      CustomLink,
-      ImageExtension.configure({
-        HTMLAttributes: {
-          class: "editor-image",
-        },
-      }),
-      ImageResize,
-      Color,
-      HardBreak.configure({
-        keepMarks: false,
-      }),
-    ],
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] overflow-y border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
+          "prose prose-sm sm:prose-sm lg:prose-lg xl:prose-2xl shadow appearance-none min-w-full min-h-[500px] border rounded w-full py-2 px-3 bg-white text-black text-sm mt-0 md:mt-3 leading-tight focus:outline-none focus:shadow-outline",
       },
       handleDrop(view, event, slice, moved) {
         const dataTransfer = event.dataTransfer;
@@ -75,24 +46,42 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
         }
         return false;
       },
-      handleDOMEvents: {
-        click: (view, event) => {
-          const target = event.target as HTMLAnchorElement;
-          if (target.tagName === "A" && target.href) {
-            window.open(target.href, "_blank");
-            event.preventDefault();
-          }
-        },
-      },
-      handleKeyDown(view, event) {
-        if (event.key === "Enter" && !event.shiftKey) {
-          event.preventDefault();
-          editor?.commands.setHardBreak();
-          return true;
-        }
-        return false;
-      },
     },
+    extensions: [
+      StarterKit.configure({
+        history: false,
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+        },
+        heading: {
+          levels: [1, 2, 3],
+        },
+      }),
+      TextStyle,
+      FontSize,
+      TextAlign.configure({
+        types: ["heading", "paragraph", "image"],
+        defaultAlignment: "left",
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+          class: "text-blue",
+        },
+      }),
+      ImageExtension,
+      ImageResize,
+      Color,
+    ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
@@ -116,7 +105,6 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     });
 
     if (!response.ok) {
-      toast.error("로그인을 해주세요");
       throw new Error("Failed to upload images.");
     }
 
@@ -172,23 +160,24 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
     const url = prompt("Enter the URL", linkUrl);
 
     if (url) {
+      // Check if the URL starts with 'http://', 'https://', or is a relative path
       let finalUrl = url;
+
+      // If the user entered a relative URL, treat it as is (it will use the current domain)
+      // If the user didn't specify a protocol, prepend 'http://'
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         finalUrl = "http://" + url;
       }
 
+      // Set the link with target="_blank" to open in a new window
       editor
         .chain()
         .focus()
         .extendMarkRange("link")
-        .setLink({
-          href: finalUrl,
-          target: "_blank",
-          rel: "noopener noreferrer",
-        })
+        .setLink({ href: finalUrl, target: "_blank" })
         .run();
 
-      setLinkUrl("");
+      setLinkUrl(""); // Reset the link URL state
     }
   }, [editor, linkUrl]);
 
@@ -255,6 +244,7 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
       >
         <FontAwesomeIcon icon={faAlignRight} />
       </button>
+
       <button
         className="p-2 rounded"
         onClick={handleIconClick}
@@ -283,9 +273,9 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         title="Font Size"
       >
         <option value="24px">24px</option>
-        <option value="28px">28px</option>
         <option value="32px">32px</option>
-        <option value="48px">48px</option>
+        <option value="38px">38px</option>
+        <option value="42px">42px</option>
         <option value="56px">56px</option>
       </select>
 
