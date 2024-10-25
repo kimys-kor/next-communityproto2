@@ -51,7 +51,7 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       ImageExtension,
       ImageResize,
       Color,
-      HardBreak, // Ensures <br> behavior
+      HardBreak,
     ],
     editorProps: {
       attributes: {
