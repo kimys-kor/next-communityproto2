@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PartnerItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 interface PartnerCardClientProps {
   initialData: {
@@ -24,6 +25,8 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   );
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const [totalPages, setTotalPages] = useState(initialData.totalPages);
+
+  const userInfo = useUserStore((state) => state.user);
 
   useEffect(() => {
     const fetchBoardContent = async () => {
@@ -106,13 +109,16 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
           </article>
         ))}
       </div>
-      <span className="w-full flex justify-end">
-        <Link href={"/partner/write"}>
-          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-            파트너 등록
-          </button>
-        </Link>
-      </span>
+      {userInfo?.role === "ROLE_MASTER" ? (
+        <span className="w-full flex justify-end">
+          <Link href={"/partner/write"}>
+            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+              파트너 등록
+            </button>
+          </Link>
+        </span>
+      ) : null}
+
       <Paging
         page={currentPage}
         size={size}

@@ -10,6 +10,7 @@ import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
 import { getCookie } from "@/app/api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 const Login: React.FC = () => {
   const [username, setEmail] = useState("");
@@ -43,6 +44,8 @@ const Login: React.FC = () => {
       });
       if (response.ok) {
         setLoggedIn(true);
+        const { data } = await response.json();
+        sessionStorage.setItem("userInfo", JSON.stringify(data));
       } else {
         toast.error("아이디와 비밀번호를 확인해주세요");
       }

@@ -1,49 +1,43 @@
 "use client";
+import { useEffect, useState } from "react";
 import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 
 function Profile() {
-  const userInfo = {
-    nickname: "커뮤관리자",
-    Level: 1,
-    point: 104200,
-    joinDate: "2024-08-25",
-  };
-
   const { setLoggedIn } = useAuthStore();
+  const [userInfo, setUserInfo] = useState<any | null>(null); // Local state for userInfo
+
+  useEffect(() => {
+    const storedUserInfo = sessionStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
 
   const logoutSubmit = () => {
     removeCookie();
     setLoggedIn(false);
+    sessionStorage.removeItem("userInfo");
   };
 
   return (
     <section className="p-2 flex flex-col gap-2 items-center justify-center">
       <Avatar />
-      <h1 className="text-xl font-medium">{userInfo.nickname}</h1>
-      <div className="flex justify-center items-center gap-2">
-        <div className="text-sm text-subtext2">
-          레벨
-          <span className="text-base text-blue font-medium">
-            {" "}
-            {userInfo.Level}
-          </span>
-        </div>
-        <div className={`h-4 w-[1px] bg-gray-300`} />
-        <div className="text-sm text-subtext2">
-          포인트
-          <span className="text-base text-blue font-medium">
-            {" "}
-            {userInfo.point}
-          </span>
-        </div>
-      </div>
+      <h1 className="text-xl font-medium">{userInfo?.nickname || "Guest"}</h1>
+      <div className="flex justify-center items-center gap-2"></div>
       <div>
-        가입일
+        이름:
         <span className="text-base text-black font-medium">
           {" "}
-          {userInfo.joinDate}
+          {userInfo?.fullName || "Unknown"}
+        </span>
+      </div>
+      <div>
+        포인트:
+        <span className="text-base text-blue font-medium">
+          {" "}
+          {userInfo?.point ?? 0}
         </span>
       </div>
       <button

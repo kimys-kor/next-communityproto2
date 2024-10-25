@@ -1,4 +1,3 @@
-// stores/userStore.ts
 import { create } from "zustand";
 
 interface UserData {

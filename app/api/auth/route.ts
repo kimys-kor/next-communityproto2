@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 export async function POST(request: Request) {
   try {
@@ -31,28 +30,19 @@ export async function POST(request: Request) {
       }
 
       const setCookieHeader = apiResponse.headers.get("set-cookie");
-
       const jsonData = await apiResponse.json();
 
-      const { username, phoneNum, fullName, nickname, point, status, role } =
-        jsonData.data;
-      useUserStore.getState().setUser({
-        username,
-        phoneNum,
-        fullName,
-        nickname,
-        point,
-        status,
-        role,
+      // Return user data along with the response
+      const response = NextResponse.json({
+        message: "ok",
+        data: jsonData.data,
       });
 
       if (setCookieHeader) {
-        const response = NextResponse.json({ message: "ok" });
         response.headers.set("Set-Cookie", setCookieHeader);
-        return response;
       }
 
-      return NextResponse.json({ message: "ok" });
+      return response;
     } else {
       return NextResponse.json(
         { error: "Login failed" },
