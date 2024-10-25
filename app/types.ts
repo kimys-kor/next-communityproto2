@@ -1,3 +1,14 @@
+export interface UserInfo {
+  username: string;
+  phoneNum: string;
+  fullName: string;
+  nickname: string;
+  point: number;
+  status: string;
+  role: string;
+  sck: string | null;
+}
+
 export interface BoardItem {
   id: number;
   username: string;

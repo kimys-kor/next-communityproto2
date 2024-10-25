@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { UserInfo } from "../types";
 
 function Profile() {
   const { setLoggedIn } = useAuthStore();
-  const [userInfo, setUserInfo] = useState<any | null>(null); // Local state for userInfo
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
     const storedUserInfo = sessionStorage.getItem("userInfo");
