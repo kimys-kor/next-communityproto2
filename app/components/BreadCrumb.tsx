@@ -23,7 +23,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ breadcrumbData }) => {
   }, [pathname]);
 
   return (
-    <nav className="w-full bg-white rounded-2xl flex items-center shadow-lg transition-all duration-300">
+    <nav className="w-full bg-white rounded-2xl flex items-center shadow-lg transition-all duration-300 mt-3 mb-2">
       <div className="h-9 md:h-12 font-bold bg-gradient-to-r from-sky-500 to-sky-600 w-1/5 rounded-l-2xl flex justify-center items-center text-white">
         <p className="tracking-wider text-sm md:text-xl font-medium">
           {breadcrumbData.title}

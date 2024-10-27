@@ -1,4 +1,3 @@
-import Board from "@/app/components/boards/Board";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 import Breadcrumb from "@/app/components/BreadCrumb";
@@ -18,7 +17,6 @@ function page() {
         <ProgressSliderPage></ProgressSliderPage>
       </div>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <Board />
     </div>
   );
 }

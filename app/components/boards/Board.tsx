@@ -186,6 +186,7 @@ const Board = () => {
       </div>
 
       <Paging
+        scroll={"top"}
         page={page}
         size={size}
         totalElements={totalElements}

@@ -1,4 +1,3 @@
-import Board from "@/app/components/boards/Board";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
@@ -25,7 +24,6 @@ export default function Page() {
         />
       </div>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <Board />
     </div>
   );
 }

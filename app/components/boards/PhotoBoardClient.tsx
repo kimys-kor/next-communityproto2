@@ -6,54 +6,22 @@ import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { BoardItem } from "@/app/types";
 
-const PhotoBoard = () => {
+interface PhotoBoardClientProps {
+  items: BoardItem;
+  totalElements: number;
+  currentPage: number;
+  totalPages: number;
+}
+
+const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({
+  items,
+  totalElements,
+  currentPage,
+  totalPages,
+}) => {
   const pathname = usePathname();
-
-  // 가상의 데이터
-  const items = [
-    {
-      id: 1,
-      title: "게시물 제목",
-      name: "사용자 이름",
-      date: "2024.06.19",
-      views: 100,
-      likes: 20,
-      dislikes: 5,
-      thumbnail: "/images/dog1.PNG",
-    },
-    {
-      id: 2,
-      title: "다른 게시물 제목",
-      name: "다른 사용자",
-      date: "2024.06.18",
-      views: 150,
-      likes: 30,
-      dislikes: 10,
-      thumbnail: "/images/dog2.PNG",
-    },
-    {
-      id: 3,
-      title: "다른 게시물 제목",
-      name: "다른 사용자",
-      date: "2024.06.18",
-      views: 150,
-      likes: 30,
-      dislikes: 10,
-      thumbnail: "/images/dog3.PNG",
-    },
-    {
-      id: 4,
-      title: "다른 게시물 제목",
-      name: "사용자",
-      date: "2024.06.18",
-      views: 150,
-      likes: 30,
-      dislikes: 10,
-      thumbnail: "/images/dog4.PNG",
-    },
-  ];
-
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
 
@@ -67,16 +35,16 @@ const PhotoBoard = () => {
   };
 
   const handleSelectItem = (id: number) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
-    }
+    setSelectedItems((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((itemId) => itemId !== id)
+        : [...prevSelected, id]
+    );
   };
 
-  const setPage = function () {
+  const setPage = (pageNumber: number) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    console.log("온체인지");
+    console.log("Page changed:", pageNumber);
   };
 
   const options = [
@@ -90,9 +58,9 @@ const PhotoBoard = () => {
     console.log("Selected value:", value);
   };
 
-  async function handleSearch() {
-    console.log("전체검색");
-  }
+  const handleSearch = () => {
+    console.log("Search initiated");
+  };
 
   return (
     <section className="flex flex-col gap-1 mt-3">
@@ -105,16 +73,21 @@ const PhotoBoard = () => {
             className="h-4 w-4"
           />
           <div className="text-[#555555] text-sm">
-            총<span className="text-[#2C4AB6] font-semibold"> 34,006</span>건
+            총{" "}
+            <span className="text-[#2C4AB6] font-semibold">
+              {totalElements}
+            </span>{" "}
+            건
           </div>
           <div className="text-[#555555] text-sm">
             {"("}
-            <span className="text-[#2C4AB6] font-semibold">1</span>/
-            <span> 52</span> 페이지
-            {")"}
+            <span className="text-[#2C4AB6] font-semibold">
+              {currentPage}
+            </span>{" "}
+            / <span>{totalPages}</span> 페이지{")"}
           </div>
         </div>
-        <article className="flex justify-center gap-2 ">
+        <article className="flex justify-center gap-2">
           <SelectBox
             options={options}
             onChange={handleChange}
@@ -167,9 +140,14 @@ const PhotoBoard = () => {
           </button>
         </Link>
       </span>
-      <Paging page={1} count={15} setPage={setPage} />
+      <Paging
+        scroll={"top"}
+        page={currentPage}
+        count={totalPages}
+        setPage={setPage}
+      />
     </section>
   );
 };
 
-export default PhotoBoard;
+export default PhotoBoardClient;

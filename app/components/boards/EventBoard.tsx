@@ -190,7 +190,7 @@ const EventBoard = () => {
           </button>
         </Link>
       </span>
-      <Paging page={1} count={15} setPage={setPage} />
+      <Paging scroll={"top"} page={1} count={15} setPage={setPage} />
     </section>
   );
 };

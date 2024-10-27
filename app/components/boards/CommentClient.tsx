@@ -136,7 +136,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
         size={size}
         totalElements={totalElements}
         setPage={setPage}
-        scroll="bottom"
+        scroll={"bottom"}
       />
     </div>
   );
