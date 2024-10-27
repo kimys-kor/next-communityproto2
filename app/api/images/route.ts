@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { refreshTokenServerAction } from "@/app/api/authAction";
 
 export const config = {
   api: {
@@ -9,7 +8,6 @@ export const config = {
 };
 
 export async function POST(request: Request) {
-  refreshTokenServerAction();
   const cookieStore = cookies();
   const accessToken = cookieStore.get("Authorization")?.value;
 

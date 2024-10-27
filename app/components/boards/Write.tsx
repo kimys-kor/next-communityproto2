@@ -1,7 +1,6 @@
 "use client";
-
 import PostEditor from "@/app/components/texteditor/PostEditor";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { postSaveServerAction } from "@/app/api/authAction";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,9 +15,10 @@ type savePostRequest = {
 
 interface WriteProps {
   title: string;
+  postType: number;
 }
 
-const Write: React.FC<WriteProps> = ({ title }) => {
+const Write: React.FC<WriteProps> = ({ title, postType }) => {
   const [content, setContent] = useState("");
   const [notification, setNotification] = useState(false);
   const [postTitle, setPostTitle] = useState("");
@@ -51,14 +51,12 @@ const Write: React.FC<WriteProps> = ({ title }) => {
     const thumbNail = extractThumbnail(content);
 
     const postData: savePostRequest = {
-      postType: 1,
+      postType,
       notification: notification || false,
       title: postTitle,
       content: content,
       thumbNail: thumbNail,
     };
-
-    console.log(postData.content);
 
     try {
       const result = await postSaveServerAction(postData);

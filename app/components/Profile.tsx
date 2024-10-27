@@ -1,19 +1,24 @@
 "use client";
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
-import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { UserInfo } from "../types";
 
 function Profile() {
   const { setLoggedIn } = useAuthStore();
-  const { userInfo, clearUserInfo } = useUserStore();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  useEffect(() => {
+    const storedUserInfo = sessionStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
 
   const logoutSubmit = () => {
     removeCookie();
     setLoggedIn(false);
-    clearUserInfo();
+    sessionStorage.removeItem("userInfo");
   };
 
   return (
