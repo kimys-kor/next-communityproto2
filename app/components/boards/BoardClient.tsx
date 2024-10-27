@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { BoardItem } from "../../types";
@@ -7,7 +6,6 @@ import Paging from "@/app/components/Paging";
 import Link from "next/link";
 import NewIcon from "../NewIcon";
 import toast from "react-hot-toast";
-import { useUserStore } from "@/app/globalStatus/useUserStore"; // Import the user store
 
 interface BoardClientProps {
   initialItems: BoardItem[];
@@ -28,14 +26,15 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { userInfo } = useUserStore(); // Access userInfo from Zustand
-
+  // State to manage userInfo from session storage
+  const [userInfo, setUserInfo] = useState<any | null>(null);
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
   const [totalElements, setTotalElements] = useState(initialTotalElements);
 
   const totalPages = Math.ceil(totalElements / size);
 
+  // Fetch data function
   const fetchData = async (pageNumber: number) => {
     try {
       const response = await fetch(
@@ -56,17 +55,28 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   };
 
+  // Update `page` state based on query parameters and fetch data
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setPage(pageFromQuery);
     fetchData(pageFromQuery);
   }, [searchParams]);
 
+  // Retrieve userInfo from sessionStorage when component mounts
+  useEffect(() => {
+    const storedUserInfo = sessionStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
+
+  // Handle page change
   const handlePageChange = (newPage: number) => {
     router.replace(`${pathname}?page=${newPage}`);
     setPage(newPage);
   };
 
+  // Check if item is new based on `createdDt` date
   const isNew = (dateString: string) => {
     const itemDate = new Date(dateString);
     const now = new Date();
