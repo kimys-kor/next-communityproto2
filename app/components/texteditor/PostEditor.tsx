@@ -62,6 +62,12 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
         heading: {
           levels: [1, 2, 3],
         },
+        paragraph: {
+          HTMLAttributes: {
+            // 기본텍스트 크기, 띄어쓰기 간격 조절
+            class: "text-2xl min-h-[3rem]",
+          },
+        },
       }),
       TextStyle,
       FontSize,
