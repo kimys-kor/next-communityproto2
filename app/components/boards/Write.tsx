@@ -1,4 +1,5 @@
 "use client";
+
 import PostEditor from "@/app/components/texteditor/PostEditor";
 import React, { useEffect, useState } from "react";
 import { postSaveServerAction } from "@/app/api/authAction";
@@ -120,7 +121,10 @@ const Write: React.FC<WriteProps> = ({ title }) => {
           <PostEditor value={content} onChange={handleContentChange} />
         </section>
         <div className="w-full flex justify-end gap-2">
-          <button className="border-solid border border-blue text-blue px-4 py-2 w-24 h-12 hover:bg-indigo-100">
+          <button
+            onClick={() => router.back()} // Go to the previous page on cancel
+            className="border-solid border border-blue text-blue px-4 py-2 w-24 h-12 hover:bg-indigo-100"
+          >
             취소
           </button>
           <button

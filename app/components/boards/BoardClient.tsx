@@ -7,6 +7,7 @@ import Paging from "@/app/components/Paging";
 import Link from "next/link";
 import NewIcon from "../NewIcon";
 import toast from "react-hot-toast";
+import { useUserStore } from "@/app/globalStatus/useUserStore"; // Import the user store
 
 interface BoardClientProps {
   initialItems: BoardItem[];
@@ -26,6 +27,8 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const { userInfo } = useUserStore(); // Access userInfo from Zustand
 
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
@@ -71,6 +74,9 @@ const BoardClient: React.FC<BoardClientProps> = ({
     return diffInHours <= 24;
   };
 
+  // Define `where` dynamically as the current pathname + "/write"
+  const where = `${pathname}/write`;
+
   return (
     <section className="flex flex-col gap-1 mt-3">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
@@ -78,13 +84,14 @@ const BoardClient: React.FC<BoardClientProps> = ({
           <div className="text-[#555555] text-sm">
             총
             <span className="text-[#2C4AB6] font-semibold">
-              {totalElements}
+              {" "}
+              {totalElements}{" "}
             </span>
             건
           </div>
           <div className="text-[#555555] text-sm">
             {"("}
-            <span className="text-[#2C4AB6] font-semibold">1</span>/{" "}
+            <span className="text-[#2C4AB6] font-semibold">{page}</span> /{" "}
             <span>{totalPages}</span> 페이지{")"}
           </div>
         </div>
@@ -135,6 +142,17 @@ const BoardClient: React.FC<BoardClientProps> = ({
           ))}
         </tbody>
       </table>
+
+      {/* Conditionally Render the "게시글 등록" Button */}
+      {userInfo?.sck ? (
+        <span className="w-full flex justify-end">
+          <Link href={where}>
+            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+              게시글 등록
+            </button>
+          </Link>
+        </span>
+      ) : null}
 
       <Paging
         page={page}

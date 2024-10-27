@@ -1,9 +1,9 @@
-import Board from "@/app/components/boards/Board";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
 import Breadcrumb from "@/app/components/BreadCrumb";
 import SubMenu from "../(component)/SubMenu";
+import BoardContainer from "@/app/components/boards/BoardContainer";
 
 export default function Page() {
   const breadcrumbItems = {
@@ -25,7 +25,7 @@ export default function Page() {
         />
       </div>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <Board />
+      <BoardContainer typ={8} page={1} size={15} />
     </div>
   );
 }
