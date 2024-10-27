@@ -37,7 +37,7 @@ const Navbar = () => {
         { href: "/sport", label: "해외축구분석" },
         { href: "/sport/asia", label: "아시아축구분석" },
         { href: "/sport/mlb", label: "MLB분석" },
-        { href: "/sport/baseball", label: "한일야구분석" },
+        { href: "/sport/baseball", label: "KBO/NPB분석" },
         { href: "/sport/nba", label: "NBA분석" },
         { href: "/sport/basket", label: "국내외농구분석" },
         { href: "/sport/volley", label: "배구분석" },

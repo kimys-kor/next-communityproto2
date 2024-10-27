@@ -120,7 +120,7 @@ const Write: React.FC<WriteProps> = ({ title, postType }) => {
         </section>
         <div className="w-full flex justify-end gap-2">
           <button
-            onClick={() => router.back()} // Go to the previous page on cancel
+            onClick={() => router.back()}
             className="border-solid border border-blue text-blue px-4 py-2 w-24 h-12 hover:bg-indigo-100"
           >
             취소

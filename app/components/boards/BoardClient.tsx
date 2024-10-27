@@ -26,7 +26,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // State to manage userInfo from session storage
   const [userInfo, setUserInfo] = useState<any | null>(null);
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
@@ -34,7 +33,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   const totalPages = Math.ceil(totalElements / size);
 
-  // Fetch data function
   const fetchData = async (pageNumber: number) => {
     try {
       const response = await fetch(
@@ -55,14 +53,12 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   };
 
-  // Update `page` state based on query parameters and fetch data
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setPage(pageFromQuery);
     fetchData(pageFromQuery);
   }, [searchParams]);
 
-  // Retrieve userInfo from sessionStorage when component mounts
   useEffect(() => {
     const storedUserInfo = sessionStorage.getItem("userInfo");
     if (storedUserInfo) {
@@ -70,13 +66,11 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   }, []);
 
-  // Handle page change
   const handlePageChange = (newPage: number) => {
     router.replace(`${pathname}?page=${newPage}`);
     setPage(newPage);
   };
 
-  // Check if item is new based on `createdDt` date
   const isNew = (dateString: string) => {
     const itemDate = new Date(dateString);
     const now = new Date();
@@ -84,7 +78,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
     return diffInHours <= 24;
   };
 
-  // Define `where` dynamically as the current pathname + "/write"
   const where = `${pathname}/write`;
 
   return (
@@ -153,7 +146,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
         </tbody>
       </table>
 
-      {/* Conditionally Render the "게시글 등록" Button */}
       {userInfo?.sck ? (
         <span className="w-full flex justify-end">
           <Link href={where}>
