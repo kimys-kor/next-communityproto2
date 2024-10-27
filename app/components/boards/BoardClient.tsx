@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { BoardItem } from "../../types";
 import Paging from "@/app/components/Paging";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import NewIcon from "../NewIcon";
 import toast from "react-hot-toast";
 
@@ -23,7 +23,10 @@ const BoardClient: React.FC<BoardClientProps> = ({
   size,
   typ,
 }) => {
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
   const [totalElements, setTotalElements] = useState(initialTotalElements);
@@ -48,11 +51,18 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   };
 
+  // Update page state and fetch data when URL query changes
   useEffect(() => {
-    if (page !== initialPage || boardList.length === 0) {
-      fetchData(page);
-    }
-  }, [page, initialPage]);
+    const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
+    setPage(pageFromQuery);
+    fetchData(pageFromQuery);
+  }, [searchParams]);
+
+  // Change page and update URL without full reload
+  const handlePageChange = (newPage: number) => {
+    router.replace(`${pathname}?page=${newPage}`);
+    setPage(newPage);
+  };
 
   const isNew = (dateString: string) => {
     const itemDate = new Date(dateString);
@@ -116,7 +126,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
         page={page}
         size={size}
         totalElements={totalElements}
-        setPage={setPage}
+        setPage={handlePageChange}
       />
     </section>
   );

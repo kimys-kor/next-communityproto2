@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PartnerItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
 
@@ -17,6 +18,9 @@ interface PartnerCardClientProps {
 const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   initialData,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const size = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [boardList, setBoardList] = useState<PartnerItem[]>(
@@ -27,6 +31,13 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   const [userInfo, setUserInfo] = useState<any | null>(null);
 
   useEffect(() => {
+    // Retrieve the page from query parameters on initial load
+    const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
+    setCurrentPage(pageFromQuery);
+  }, [searchParams]);
+
+  useEffect(() => {
+    // Fetch the user info from session storage
     const storedUserInfo = sessionStorage.getItem("userInfo");
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
@@ -35,7 +46,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   useEffect(() => {
     const fetchBoardContent = async () => {
-      setBoardList([]);
+      setBoardList([]); // Clear the list before fetching new data
       try {
         const response = await fetch(
           `/api/board/partnerList?page=${currentPage - 1}&size=${size}`,
@@ -63,6 +74,13 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
     fetchBoardContent();
   }, [currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+
+    // Update the URL query parameter without reloading the page
+    router.replace(`/partner?page=${newPage}`);
+  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -128,7 +146,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
         page={currentPage}
         size={size}
         totalElements={totalElements}
-        setPage={setCurrentPage}
+        setPage={handlePageChange}
       />
     </div>
   );
