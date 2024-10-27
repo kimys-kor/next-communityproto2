@@ -70,15 +70,15 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
         {boardList.map((item) => (
           <article
             key={item.id}
-            className="w-full h-auto bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
+            className="w-full h-64 bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
           >
-            <div className="overflow-hidden">
+            <div className="h-3/4 overflow-hidden">
               <Link href={`/partner/${item.id}`}>
                 {item.thumbNail == null ? (
                   <Image
                     width={395}
                     height={230}
-                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    className="w-full h-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
                     src={"/images/homebanner/4.jpg"}
                     alt={item.title}
                   />
@@ -86,14 +86,14 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
                   <Image
                     width={395}
                     height={230}
-                    className="w-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                    className="w-full h-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
                     src={item.thumbNail}
                     alt={item.title}
                   />
                 )}
               </Link>
             </div>
-            <table className="w-full rounded-md">
+            <table className="h-1/4 w-full rounded-md">
               <tbody>
                 <tr>
                   <td className="text-center bg-blue/80 rounded-md text-white">
