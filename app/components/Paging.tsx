@@ -51,7 +51,10 @@ const Paging: FC<PagingProps> = ({ page, size, totalElements, setPage }) => {
                 <MdOutlineKeyboardDoubleArrowRight></MdOutlineKeyboardDoubleArrowRight>
               </span>
             }
-            onChange={setPage}
+            onChange={(pageNumber) => {
+              setPage(pageNumber);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           />
         </StyledPagination>
       </div>
