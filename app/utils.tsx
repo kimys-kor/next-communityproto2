@@ -34,6 +34,41 @@ export const categoryMap: { [key: number]: string } = {
   10: "피해사례",
 };
 
+export const fetchInitialBoardListData = async (
+  typ: number,
+  page: number,
+  size: number
+) => {
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/guest/list?typ=${typ}&keyword=&page=${page}&size=${size}`,
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch initial data");
+    }
+
+    const data = await response.json();
+    const { content, totalElements } = data.data;
+
+    return {
+      content: content as BoardItem[],
+      totalElements,
+      page,
+      size,
+    };
+  } catch (error) {
+    console.error("Error fetching initial data:", error);
+    return {
+      content: [],
+      totalElements: 0,
+      page: 0,
+      size: 0,
+    };
+  }
+};
+
 export const fetchInitialCommunityData = async () => {
   const response = await fetch(
     `${process.env.API_URL}/guest/list?typ=6&keyword=&page=0&size=4`,

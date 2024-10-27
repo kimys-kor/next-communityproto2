@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import Paging from "@/app/components/Paging";
 import SelectBox from "@/app/components/SelectBox";
 import SearchBox from "@/app/components/search/SearchBox";
@@ -8,39 +9,45 @@ import { usePathname } from "next/navigation";
 import { GrView } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
 import NewIcon from "../NewIcon";
+import toast from "react-hot-toast";
 
 const Board = () => {
   const pathname = usePathname();
 
-  // Sample data
-  const items = [
-    {
-      id: 1,
-      title: "게시물 제목",
-      name: "사용자 이름",
-      date: "2024.09.19 18:00",
-      views: 101,
-      likes: 20,
-    },
-    {
-      id: 2,
-      title: "다른 게시물 제목",
-      name: "다른 사용자",
-      date: "2024.06.18",
-      views: 150,
-      likes: 30,
-    },
-    // Add more items as needed...
-  ];
-
+  const [items, setItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const size = 15;
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `/api/board/list?typ=2&keyword=&page=${page}&size=${size}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch board list");
+      }
+      const data = await response.json();
+      setItems(data.data.content);
+      setTotalElements(data.data.totalElements);
+      console.log(items);
+    } catch (error) {
+      console.error("Error fetching board list:", error);
+      toast.error("Failed to fetch board list");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [page]);
 
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(items.map((item) => item.id));
+      setSelectedItems(items.map((item: any) => item.id));
     }
     setSelectAll(!selectAll);
   };
@@ -51,11 +58,6 @@ const Board = () => {
     } else {
       setSelectedItems([...selectedItems, id]);
     }
-  };
-
-  const setPage = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    console.log("Page changed");
   };
 
   const options = [
@@ -85,11 +87,15 @@ const Board = () => {
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
         <div className="text-xs md:text-sm flex gap-2 text-[#555555]">
           <span>
-            총 <span className="text-[#2C4AB6] font-semibold">34,006</span>건
+            총{" "}
+            <span className="text-[#2C4AB6] font-semibold">
+              {totalElements}
+            </span>
+            건
           </span>
           <span>
-            (<span className="text-[#2C4AB6] font-semibold">1</span> / 52
-            페이지)
+            (<span className="text-[#2C4AB6] font-semibold">{page}</span> /{" "}
+            {Math.ceil(totalElements / size)} 페이지)
           </span>
         </div>
         <div className="flex gap-2">
@@ -124,7 +130,7 @@ const Board = () => {
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
+          {items.map((item: any) => (
             <tr
               key={item.id}
               className="border-b border-solid border-gray-200 flex bg-white hover:bg-[#f1f3fa] hover:text-blue"
@@ -179,7 +185,12 @@ const Board = () => {
         </Link>
       </div>
 
-      <Paging page={1} count={15} setPage={setPage} />
+      <Paging
+        page={page}
+        size={size}
+        totalElements={totalElements}
+        setPage={setPage}
+      />
     </section>
   );
 };
