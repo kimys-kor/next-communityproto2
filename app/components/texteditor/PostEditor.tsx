@@ -165,16 +165,12 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
     const url = prompt("Enter the URL", linkUrl);
 
     if (url) {
-      // Check if the URL starts with 'http://', 'https://', or is a relative path
       let finalUrl = url;
 
-      // If the user entered a relative URL, treat it as is (it will use the current domain)
-      // If the user didn't specify a protocol, prepend 'http://'
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         finalUrl = "http://" + url;
       }
 
-      // Set the link with target="_blank" to open in a new window
       editor
         .chain()
         .focus()
@@ -182,7 +178,7 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         .setLink({ href: finalUrl, target: "_blank" })
         .run();
 
-      setLinkUrl(""); // Reset the link URL state
+      setLinkUrl("");
     }
   }, [editor, linkUrl]);
 
