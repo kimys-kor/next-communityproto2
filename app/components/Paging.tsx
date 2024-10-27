@@ -1,27 +1,38 @@
 import { FC } from "react";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
-import { MdOutlineKeyboardDoubleArrowLeft } from "react-icons/md";
-
-// activePage : 현재 페이지
-// itemsCountPerPage : 한 페이지 당 보여줄 아이템 수
-//  totalItemsCount : 총 아이템 수
-// pageRangeDisplayed : paginator에서 보여줄 최대 페이지 범위
-// prevPageText : 이전 페이지로 가기를 나타내는 텍스트
-// nextPageText : 다음 페이지로 가기를 나타내는 텍스트
-// onChange : 페이지가 바뀔 때 핸들링하는 함수
+import {
+  MdOutlineKeyboardArrowRight,
+  MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+  MdOutlineKeyboardDoubleArrowLeft,
+} from "react-icons/md";
 
 interface PagingProps {
   page: number;
   size: number;
   totalElements: number;
   setPage: (pageNumber: number) => void;
+  scroll: "top" | "bottom";
 }
 
-const Paging: FC<PagingProps> = ({ page, size, totalElements, setPage }) => {
+const Paging: FC<PagingProps> = ({
+  page,
+  size,
+  totalElements,
+  setPage,
+  scroll,
+}) => {
+  const handlePageChange = (pageNumber: number) => {
+    setPage(pageNumber);
+
+    if (scroll === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (scroll === "bottom") {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto mt-1 px-4 text-gray-600 md:px-8 mb-5">
       <div className="justify-center sm:flex" aria-label="Pagination">
@@ -33,28 +44,25 @@ const Paging: FC<PagingProps> = ({ page, size, totalElements, setPage }) => {
             pageRangeDisplayed={5}
             prevPageText={
               <span className="inline-flex items-center gap-x-2">
-                <MdOutlineKeyboardArrowLeft></MdOutlineKeyboardArrowLeft>
+                <MdOutlineKeyboardArrowLeft />
               </span>
             }
             nextPageText={
               <span className="inline-flex items-center gap-x-2">
-                <MdOutlineKeyboardArrowRight></MdOutlineKeyboardArrowRight>
+                <MdOutlineKeyboardArrowRight />
               </span>
             }
             firstPageText={
               <span className="inline-flex items-center gap-x-2">
-                <MdOutlineKeyboardDoubleArrowLeft></MdOutlineKeyboardDoubleArrowLeft>
+                <MdOutlineKeyboardDoubleArrowLeft />
               </span>
             }
             lastPageText={
               <span className="inline-flex items-center gap-x-2">
-                <MdOutlineKeyboardDoubleArrowRight></MdOutlineKeyboardDoubleArrowRight>
+                <MdOutlineKeyboardDoubleArrowRight />
               </span>
             }
-            onChange={(pageNumber) => {
-              setPage(pageNumber);
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onChange={handlePageChange}
           />
         </StyledPagination>
       </div>
@@ -78,13 +86,13 @@ const StyledPagination = styled.div`
 
   ul.pagination {
     display: flex;
-    gap: 0; /* Remove gaps so only border width separates items */
+    gap: 0;
   }
 
   ul.pagination li {
     display: inline-block;
-    width: 2.3rem; /* Set the width of each button */
-    height: 2.3rem; /* Set the height of each button */
+    width: 2.3rem;
+    height: 2.3rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,14 +100,14 @@ const StyledPagination = styled.div`
   }
 
   ul.pagination li a {
-    border: 1px solid #ccc; /* Add border to each button */
-    border-left: 0; /* Remove the left border for all buttons */
-    border-right: 0; /* Remove the right border for all buttons */
-    border-radius: 0; /* Set border-radius to 0 for internal buttons */
+    border: 1px solid #ccc;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
     text-decoration: none;
     color: black;
-    width: 100%; /* Ensure the anchor tag takes up the full width */
-    height: 100%; /* Ensure the anchor tag takes up the full height */
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,29 +116,19 @@ const StyledPagination = styled.div`
       color 0.2s;
   }
 
-  /* First button should have left border and rounded left */
   ul.pagination li:first-child a {
     border-left: 1px solid #ccc;
-    border-radius: 1.5rem 0 0 1.5rem; /* Round left corners */
+    border-radius: 1.5rem 0 0 1.5rem;
   }
 
-  /* Last button should have right border and rounded right */
   ul.pagination li:last-child a {
     border-right: 1px solid #ccc;
-    border-radius: 0 1.5rem 1.5rem 0; /* Round right corners */
+    border-radius: 0 1.5rem 1.5rem 0;
   }
 
-  /* Active and hover states */
   ul.pagination li a:hover,
   ul.pagination li.active a {
     background-color: #e0e7ff;
     color: white;
-  }
-
-  /* Ensure the first and last buttons are rounded correctly */
-  ul.pagination li:first-child a:hover,
-  ul.pagination li:last-child a:hover,
-  ul.pagination li:first-child a.active,
-  ul.pagination li:last-child a.active {
   }
 `;

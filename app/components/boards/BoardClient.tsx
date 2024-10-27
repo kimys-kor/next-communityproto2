@@ -31,6 +31,8 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const [page, setPage] = useState(initialPage);
   const [totalElements, setTotalElements] = useState(initialTotalElements);
 
+  const totalPages = Math.ceil(totalElements / size);
+
   const fetchData = async (pageNumber: number) => {
     try {
       const response = await fetch(
@@ -51,14 +53,12 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   };
 
-  // Update page state and fetch data when URL query changes
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setPage(pageFromQuery);
     fetchData(pageFromQuery);
   }, [searchParams]);
 
-  // Change page and update URL without full reload
   const handlePageChange = (newPage: number) => {
     router.replace(`${pathname}?page=${newPage}`);
     setPage(newPage);
@@ -74,10 +74,19 @@ const BoardClient: React.FC<BoardClientProps> = ({
   return (
     <section className="flex flex-col gap-1 mt-3">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
-        <div>
-          총{" "}
-          <span className="text-[#2C4AB6] font-semibold">{totalElements}</span>
-          건
+        <div className="flex gap-2">
+          <div className="text-[#555555] text-sm">
+            총
+            <span className="text-[#2C4AB6] font-semibold">
+              {totalElements}
+            </span>
+            건
+          </div>
+          <div className="text-[#555555] text-sm">
+            {"("}
+            <span className="text-[#2C4AB6] font-semibold">1</span>/{" "}
+            <span>{totalPages}</span> 페이지{")"}
+          </div>
         </div>
       </header>
 
@@ -102,6 +111,11 @@ const BoardClient: React.FC<BoardClientProps> = ({
                   {isNew(boardItem.createdDt.toString()) && <NewIcon />}
                   <Link href={`${pathname}/${boardItem.id}`}>
                     {boardItem.title}
+                    {boardItem.replyNum > 0 && (
+                      <span className="text-blue ml-2 text-sm">
+                        +{boardItem.replyNum}
+                      </span>
+                    )}
                   </Link>
                 </div>
               </td>
@@ -127,6 +141,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
         size={size}
         totalElements={totalElements}
         setPage={handlePageChange}
+        scroll={"top"}
       />
     </section>
   );

@@ -31,13 +31,11 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   const [userInfo, setUserInfo] = useState<any | null>(null);
 
   useEffect(() => {
-    // Retrieve the page from query parameters on initial load
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setCurrentPage(pageFromQuery);
   }, [searchParams]);
 
   useEffect(() => {
-    // Fetch the user info from session storage
     const storedUserInfo = sessionStorage.getItem("userInfo");
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo));
@@ -46,7 +44,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   useEffect(() => {
     const fetchBoardContent = async () => {
-      setBoardList([]); // Clear the list before fetching new data
+      setBoardList([]);
       try {
         const response = await fetch(
           `/api/board/partnerList?page=${currentPage - 1}&size=${size}`,
@@ -77,8 +75,6 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-
-    // Update the URL query parameter without reloading the page
     router.replace(`/partner?page=${newPage}`);
   };
 
@@ -114,17 +110,22 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
             <table className="h-1/4 w-full rounded-md">
               <tbody>
                 <tr>
-                  <td className="text-center bg-blue/80 rounded-md text-white">
-                    <div className="border-solid border-b border-white p-2">
+                  <td className="text-center bg-blue/80 rounded-md text-white font-bold">
+                    <div className="border-b border-white border-solid p-2">
                       사이트
                     </div>
                     <div className="p-2">코드</div>
                   </td>
                   <td className="text-center">
-                    <h3 className="border-solid border-b border-gray-400 p-2">
+                    <h3 className="p-2 font-semibold border-solid border-b border-gray-300 text-gray-700">
                       {item.title}
+                      {item.replyNum > 0 && (
+                        <span className="text-blue ml-2 text-sm">
+                          +{item.replyNum}
+                        </span>
+                      )}
                     </h3>
-                    <p className="p-2">{item.code}</p>
+                    <p className="p-2 text-gray-600">{item.code}</p>
                   </td>
                 </tr>
               </tbody>
@@ -147,6 +148,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
         size={size}
         totalElements={totalElements}
         setPage={handlePageChange}
+        scroll={"top"}
       />
     </div>
   );

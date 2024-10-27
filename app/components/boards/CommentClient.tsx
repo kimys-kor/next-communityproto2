@@ -89,7 +89,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
       <section className="px-3 py-5 flex flex-col gap-5">
         <div className="flex justify-between items-center text-lg">
           <div>
-            댓글{" "}
+            총댓글{" "}
             <span className="text-[#2C4AB6] font-semibold">
               {totalElements}
             </span>
@@ -136,6 +136,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
         size={size}
         totalElements={totalElements}
         setPage={setPage}
+        scroll="bottom"
       />
     </div>
   );

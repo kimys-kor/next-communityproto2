@@ -4,7 +4,7 @@ import Image from "next/image";
 import Breadcrumb from "@/app/components/BreadCrumb";
 
 import SubMenu from "./(component)/SubMenu";
-import BoardPage from "./(component)/BoardPage";
+import BoardContainer from "../components/boards/BoardContainer";
 
 export default function Page() {
   const breadcrumbItems = {
@@ -25,7 +25,7 @@ export default function Page() {
       />
 
       <Breadcrumb breadcrumbData={breadcrumbItems} />
-      <BoardPage />
+      <BoardContainer typ={2} page={1} size={15} />
     </div>
   );
 }
