@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PartnerItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 interface PartnerCardClientProps {
   initialData: {
@@ -28,19 +29,13 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   );
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const [totalPages, setTotalPages] = useState(initialData.totalPages);
-  const [userInfo, setUserInfo] = useState<any | null>(null);
+
+  const { userInfo } = useUserStore();
 
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setCurrentPage(pageFromQuery);
   }, [searchParams]);
-
-  useEffect(() => {
-    const storedUserInfo = sessionStorage.getItem("userInfo");
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
-  }, []);
 
   useEffect(() => {
     const fetchBoardContent = async () => {

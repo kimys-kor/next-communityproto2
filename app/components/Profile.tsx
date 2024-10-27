@@ -11,9 +11,9 @@ function Profile() {
   const { userInfo, clearUserInfo } = useUserStore();
 
   const logoutSubmit = () => {
-    removeCookie(); // Clears any login cookies
+    removeCookie();
     setLoggedIn(false);
-    clearUserInfo(); // Clears the user data in Zustand
+    clearUserInfo();
   };
 
   return (
