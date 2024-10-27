@@ -42,7 +42,7 @@ export const TabAnalyzeClient: React.FC<TabAnalyzeClientProps> = ({
       }
     };
 
-    const typMap = [2, 3, 4, 5];
+    const typMap = [2, 4, 6, 7];
     const typ = typMap[activeTab];
 
     fetchBoardList(typ);
