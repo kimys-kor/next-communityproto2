@@ -15,16 +15,16 @@ const ScrollButtons: React.FC = () => {
   };
 
   return (
-    <div className="hidden md:fixed md:flex bottom-4 right-4  flex-col items-center space-y-2">
+    <div className="fixed flex md:fixed md:flex bottom-20 md:bottom-4 right-4  flex-col items-center space-y-2">
       <button
         onClick={scrollToTop}
-        className="p-2 bg-indigo-500/50 text-white rounded-full shadow-lg hover:bg-indigo-600 transition duration-300"
+        className="p-2 bg-blue/50 text-white rounded-full shadow-lg hover:bg-sky-600 transition duration-300"
       >
         <FaArrowUp size={24} />
       </button>
       <button
         onClick={scrollToBottom}
-        className="p-2 bg-indigo-500/50 text-white rounded-full shadow-lg hover:bg-indigo-600 transition duration-300"
+        className="p-2 bg-blue/50 text-white rounded-full shadow-lg hover:bg-sky-600 transition duration-300"
       >
         <FaArrowDown size={24} />
       </button>
