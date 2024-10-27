@@ -18,6 +18,7 @@ const Login: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const { loggedIn, setLoggedIn } = useAuthStore();
+  const { setUserInfo } = useUserStore();
 
   useEffect(() => {
     const checkToken = async () => {
@@ -45,7 +46,7 @@ const Login: React.FC = () => {
       if (response.ok) {
         setLoggedIn(true);
         const { data } = await response.json();
-        sessionStorage.setItem("userInfo", JSON.stringify(data));
+        setUserInfo(data);
       } else {
         toast.error("아이디와 비밀번호를 확인해주세요");
       }

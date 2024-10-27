@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface UserData {
+type UserInfo = {
   username: string;
   phoneNum: string;
   fullName: string;
@@ -8,16 +8,17 @@ interface UserData {
   point: number;
   status: string;
   role: string;
-}
+  sck?: string;
+};
 
-interface UserStore {
-  user: UserData | null;
-  setUser: (userData: UserData) => void;
-  clearUser: () => void;
-}
+type UserStore = {
+  userInfo: UserInfo | null;
+  setUserInfo: (userInfo: UserInfo | null) => void;
+  clearUserInfo: () => void;
+};
 
 export const useUserStore = create<UserStore>((set) => ({
-  user: null,
-  setUser: (userData) => set({ user: userData }),
-  clearUser: () => set({ user: null }),
+  userInfo: null,
+  setUserInfo: (userInfo) => set({ userInfo }),
+  clearUserInfo: () => set({ userInfo: null }),
 }));
