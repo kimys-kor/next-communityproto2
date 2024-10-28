@@ -7,6 +7,7 @@ import { PhotoItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
+import TransferPopup from "@/app/components/boards/TransferPopup";
 
 interface PartnerCardClientProps {
   initialData: {
@@ -32,6 +33,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [showTransferPopup, setShowTransferPopup] = useState(false);
 
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
@@ -92,12 +94,56 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
   };
 
   const handleMoveSelected = () => {
-    console.log("Move selected items:", selectedItems);
+    if (selectedItems.length === 0) {
+      alert("No items selected for moving.");
+      return;
+    }
+    setShowTransferPopup(true);
+  };
+
+  const handleTransferConfirm = async (postType: number) => {
+    try {
+      const response = await fetch("/api/board/transferPost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idList: selectedItems,
+          postType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to transfer selected posts");
+      }
+
+      const result = await response.json();
+      console.log("Transfer result:", result);
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+
+      setSelectedItems([]);
+      setSelectAll(false);
+      setShowTransferPopup(false);
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error transferring selected items:", error);
+      alert("An error occurred while transferring the selected posts.");
+    }
   };
 
   const handleDeleteSelected = async () => {
     if (selectedItems.length === 0) {
-      alert("No items selected for deletion.");
+      alert("선택한 아이템이 없습니다.");
+      return;
+    }
+
+    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+    if (!confirmed) {
       return;
     }
 
@@ -122,7 +168,6 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
       setBoardList((prevBoardList) =>
         prevBoardList.filter((item) => !selectedItems.includes(item.id))
       );
-
       setSelectedItems([]);
       setSelectAll(false);
     } catch (error) {
@@ -153,7 +198,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
           </div>
           {userInfo?.sck && (
             <div className="flex items-center gap-5">
-              <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800 ">
+              <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
                 <input
                   type="checkbox"
                   checked={selectAll}
@@ -164,14 +209,14 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
               </label>
               <button
                 onClick={handleMoveSelected}
-                className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800 "
+                className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800"
               >
                 <FaArrowRight />
                 <span>Move</span>
               </button>
               <button
                 onClick={handleDeleteSelected}
-                className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800 "
+                className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
               >
                 <FaTrash />
                 <span>Delete</span>
@@ -238,6 +283,14 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
         setPage={handlePageChange}
         scroll={"top"}
       />
+
+      {/* Transfer Popup */}
+      {showTransferPopup && (
+        <TransferPopup
+          onClose={() => setShowTransferPopup(false)}
+          onConfirm={handleTransferConfirm}
+        />
+      )}
     </div>
   );
 };
