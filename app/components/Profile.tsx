@@ -4,12 +4,14 @@ import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
+import Link from "next/link";
 
 interface ProfileProps {
   userInfo: {
     nickname: string;
     fullName: string;
     point: number;
+    sck?: boolean;
   };
 }
 
@@ -39,6 +41,20 @@ function Profile({ userInfo }: ProfileProps) {
           {userInfo?.point ?? 0}
         </span>
       </div>
+      <Link href={"/myinfo"} className="cursor-pointer hover:text-blue">
+        정보수정
+      </Link>
+
+      {/* Conditionally rendered link for protected admins */}
+      {userInfo?.sck && (
+        <Link
+          href={"/protectedadmins"}
+          className="cursor-pointer text-blue hover:text-deepblue"
+        >
+          관리자페이지
+        </Link>
+      )}
+
       <button
         onClick={logoutSubmit}
         className="py-3 px-4 bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"

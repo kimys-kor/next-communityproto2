@@ -7,6 +7,7 @@ import PasswordChange from "./PasswordChange";
 import Image from "next/image";
 import logo from "/public/images/logo.png";
 import DeleteAccount from "./DeleteAccount";
+import Link from "next/link";
 
 const MyInfoTab = () => {
   const [activeTab, setActiveTab] = useState(1);
@@ -19,7 +20,9 @@ const MyInfoTab = () => {
     <div className="w-full flex flex-col justify-center items-center">
       <article className="mt-5 w-full lg:w-auto flex flex-col justify-center items-center lg:items-start lg:px-20">
         <div className="w-80 flex justify-center items-center">
-          <Image alt="logo" width={260} height={100} src={logo} />
+          <Link href={"/"} className="cursor-pointer">
+            <Image alt="logo" width={260} height={100} src={logo} />
+          </Link>
         </div>
         <div className="w-80 pt-5 text-lg font-medium text-blue flex justify-center items-center">
           <p className="text-3xl">정보수정</p>
