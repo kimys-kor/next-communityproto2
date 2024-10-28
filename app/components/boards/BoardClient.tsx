@@ -30,6 +30,8 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
   const [totalElements, setTotalElements] = useState(initialTotalElements);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
 
   const totalPages = Math.ceil(totalElements / size);
 
@@ -80,10 +82,35 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   const where = `${pathname}/write`;
 
+  // Function to handle individual item selection
+  const handleSelectItem = (id: number) => {
+    setSelectedItems((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((itemId) => itemId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  // Function to handle select all action
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(boardList.map((item) => item.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
   return (
     <section className="flex flex-col gap-1 mt-3">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
         <div className="flex gap-2">
+          <input
+            type="checkbox"
+            checked={selectAll}
+            onChange={handleSelectAll}
+            className="h-4 w-4"
+          />
           <div className="text-[#555555] text-sm">
             총
             <span className="text-[#2C4AB6] font-semibold">
@@ -103,6 +130,9 @@ const BoardClient: React.FC<BoardClientProps> = ({
       <table className="min-w-full bg-white text-[14px]">
         <thead className="bg-[#F2F5FF]">
           <tr className="flex border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
+            {userInfo?.sck && (
+              <th className="w-10 py-3 px-2 text-center">선택</th>
+            )}
             <th className="grow py-3 px-2 text-center">제목</th>
             <th className="w-20 py-3 px-2 text-center">이름</th>
             <th className="hidden md:block w-32 py-3 px-2 text-center">날짜</th>
@@ -116,6 +146,16 @@ const BoardClient: React.FC<BoardClientProps> = ({
               key={boardItem.id}
               className="border-b border-solid border-gray-200 flex bg-white hover:bg-[#f1f3fa] hover:text-blue"
             >
+              {userInfo?.sck && (
+                <td className="w-10 py-4 px-2 text-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.includes(boardItem.id)}
+                    onChange={() => handleSelectItem(boardItem.id)}
+                    className="h-4 w-4"
+                  />
+                </td>
+              )}
               <td className="grow py-4 px-2 font-medium">
                 <div className="flex items-center gap-1">
                   {isNew(boardItem.createdDt.toString()) && <NewIcon />}
@@ -146,7 +186,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
         </tbody>
       </table>
 
-      {userInfo?.sck ? (
+      {userInfo?.sck && (
         <span className="w-full flex justify-end">
           <Link href={where}>
             <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
@@ -154,7 +194,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
             </button>
           </Link>
         </span>
-      ) : null}
+      )}
 
       <Paging
         page={page}

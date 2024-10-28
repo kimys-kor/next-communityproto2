@@ -1,7 +1,7 @@
 import Breadcrumb from "@/app/components/BreadCrumb";
 import React from "react";
 import ThreeBanner from "@/app/components/ThreeBanner";
-import PhotoBoard from "../components/boards/PhotoBoardContainer";
+import PhotoBoard from "../components/boards/PhotoBoard";
 import SubMenu from "./(component)/SubMenu";
 
 function page() {
