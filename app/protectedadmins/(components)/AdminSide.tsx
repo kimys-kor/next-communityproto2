@@ -56,11 +56,9 @@ export default function AdminSide() {
       <ul className="mt-10 text-lg font-medium space-y-2">
         {menuItems.map((item, index) => (
           <div key={index} className="mb-4">
-            {/* Main Menu Item */}
             <li className="px-4 py-3 rounded-md bg-blue-500 text-black font-bold hover:bg-blue-600 transition-colors">
               {item.name}
             </li>
-            {/* Submenu Items */}
             <ul className="mt-2 pl-4 space-y-1">
               {item.subMenu.map((subItem, subIndex) => (
                 <Link
