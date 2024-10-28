@@ -14,13 +14,13 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    name: "게시판관리 ",
+    name: "게시판관리",
     subMenu: [
       { name: "금지어설정", link: "/protectedadmins/posts/forbiddenwords" },
     ],
   },
   {
-    name: "댓글관리 ",
+    name: "댓글관리",
     subMenu: [
       { name: "금지어설정", link: "/protectedadmins/comments/forbiddenwords" },
     ],
@@ -49,14 +49,17 @@ const menuItems: MenuItem[] = [
 
 export default function AdminSide() {
   return (
-    <div className="bg-gray-100 rounded-lg p-4 h-screen">
-      <Link className="hover:text-blue text-lg" href={"/"}>
+    <div className="bg-gray-100 rounded-lg p-4 h-screen w-full max-w-full lg:max-w-xs overflow-y-auto">
+      <Link
+        className="hover:text-blue text-lg font-semibold block mb-4 lg:mb-6"
+        href="/"
+      >
         유저페이지
       </Link>
-      <ul className="mt-10 text-lg font-medium space-y-2">
+      <ul className="text-lg font-medium space-y-4">
         {menuItems.map((item, index) => (
           <div key={index} className="mb-4">
-            <li className="px-4 py-3 rounded-md bg-blue-500 text-black font-bold hover:bg-blue-600 transition-colors">
+            <li className="px-4 py-3 rounded-md bg-blue-500 text-black font-bold hover:bg-blue transition-colors text-base md:text-lg">
               {item.name}
             </li>
             <ul className="mt-2 pl-4 space-y-1">
@@ -66,7 +69,7 @@ export default function AdminSide() {
                   key={subIndex}
                   className="block w-full"
                 >
-                  <li className="px-4 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors">
+                  <li className="px-3 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors text-sm md:text-base">
                     {subItem.name}
                   </li>
                 </Link>
