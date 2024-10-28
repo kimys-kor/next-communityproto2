@@ -95,7 +95,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   const handleMoveSelected = () => {
     if (selectedItems.length === 0) {
-      alert("No items selected for moving.");
+      alert("이동하실 게시물을 선택하세요");
       return;
     }
     setShowTransferPopup(true);

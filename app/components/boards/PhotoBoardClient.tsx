@@ -8,6 +8,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { PhotoItem } from "@/app/types";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { FaTrash, FaArrowRight } from "react-icons/fa";
+import TransferPopup from "@/app/components/boards/TransferPopup";
 
 interface PhotoBoardClientProps {
   initialData: {
@@ -28,9 +30,9 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
   );
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showTransferPopup, setShowTransferPopup] = useState(false);
   const size = 12; // items per page
 
-  // Function to handle selecting all items
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([]);
@@ -40,7 +42,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     setSelectAll(!selectAll);
   };
 
-  // Function to handle individual item selection
   const handleSelectItem = (id: number) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(id)
@@ -49,7 +50,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     );
   };
 
-  // Function to handle page change
   const handlePageChange = async (newPage: number) => {
     setCurrentPage(newPage);
     try {
@@ -74,6 +74,77 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     }
   };
 
+  const handleMoveSelected = () => {
+    if (selectedItems.length === 0) {
+      alert("이동하실 게시물을 선택하세요");
+      return;
+    }
+    setShowTransferPopup(true);
+  };
+
+  const handleTransferConfirm = async (postType: number) => {
+    try {
+      const response = await fetch("/api/board/transferPost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems, postType }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to transfer selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+      setShowTransferPopup(false);
+    } catch (error) {
+      console.error("Error transferring selected items:", error);
+      alert("An error occurred while transferring the selected posts.");
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for deletion.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the selected items?"
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/board/deletePost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error deleting selected items:", error);
+      alert("An error occurred while deleting the selected posts.");
+    }
+  };
+
   const options = [
     { value: "1", label: "전체" },
     { value: "2", label: "제목" },
@@ -91,43 +162,73 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
 
   return (
     <section className="flex flex-col gap-1 mt-3">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
-        <div className="flex items-center gap-2">
-          {userInfo?.sck && (
-            <input
-              type="checkbox"
-              checked={selectAll}
-              onChange={handleSelectAll}
-              className="h-4 w-4"
+      {/* Header with selection and search options */}
+      <div className="w-full">
+        <div
+          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full
+        "
+        >
+          <div className="flex items-center gap-2">
+            <div className="text-[#555555] text-sm">
+              총
+              <span className="text-[#2C4AB6] font-semibold">
+                {" "}
+                {totalElements}
+              </span>
+              건
+            </div>
+            <div className="text-[#555555] text-sm">
+              {"("}
+              <span className="text-[#2C4AB6] font-semibold">
+                {currentPage}
+              </span>
+              /<span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
+            </div>
+          </div>
+
+          <article className="flex justify-center gap-2">
+            <SelectBox
+              options={options}
+              onChange={handleChange}
+              defaultValue="1"
             />
-          )}
-          <div className="text-[#555555] text-sm">
-            총
-            <span className="text-[#2C4AB6] font-semibold">
-              {" "}
-              {totalElements}
-            </span>
-            건
-          </div>
-          <div className="text-[#555555] text-sm">
-            {"("}
-            <span className="text-[#2C4AB6] font-semibold">{currentPage}</span>/
-            <span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
-          </div>
+            <SearchBox
+              handleSearch={handleSearch}
+              placeholderText="검색어 입력"
+            />
+          </article>
         </div>
-        <article className="flex justify-center gap-2 ">
-          <SelectBox
-            options={options}
-            onChange={handleChange}
-            defaultValue="1"
-          />
-          <SearchBox
-            handleSearch={handleSearch}
-            placeholderText="검색어 입력"
-          />
-        </article>
+        {userInfo?.sck && (
+          <div className="mt-5 flex justify-end items-center gap-5">
+            <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="hidden"
+              />
+              <span>전체선택</span>
+            </label>
+            <button
+              onClick={handleMoveSelected}
+              className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800"
+            >
+              <FaArrowRight />
+              <span>이동</span>
+            </button>
+            <button
+              onClick={handleDeleteSelected}
+              className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
+            >
+              <FaTrash />
+              <span>삭제</span>
+            </button>
+          </div>
+        )}
       </div>
-      <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-5">
+
+      {/* Photo board items */}
+      <ul className="mt-5 min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-5">
         {boardList.map((item) => (
           <li key={item.id} className="bg-white rounded-lg cursor-pointer">
             <div className="overflow-hidden rounded-lg relative">
@@ -163,6 +264,8 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
           </li>
         ))}
       </ul>
+
+      {/* Registration button */}
       {userInfo?.sck && (
         <span className="mt-5 w-full flex justify-end">
           <Link href={`${pathname}/write`}>
@@ -172,13 +275,23 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
           </Link>
         </span>
       )}
+
+      {/* Pagination component */}
       <Paging
         page={currentPage}
         size={size}
         totalElements={totalElements}
         setPage={handlePageChange}
-        scroll={"top"}
+        scroll="top"
       />
+
+      {/* Transfer popup for move action */}
+      {showTransferPopup && (
+        <TransferPopup
+          onClose={() => setShowTransferPopup(false)}
+          onConfirm={handleTransferConfirm}
+        />
+      )}
     </section>
   );
 };
