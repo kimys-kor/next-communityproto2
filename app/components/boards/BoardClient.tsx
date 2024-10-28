@@ -6,6 +6,7 @@ import Paging from "@/app/components/Paging";
 import Link from "next/link";
 import NewIcon from "../NewIcon";
 import toast from "react-hot-toast";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 interface BoardClientProps {
   initialItems: BoardItem[];
@@ -26,7 +27,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [userInfo, setUserInfo] = useState<any | null>(null);
+  const { userInfo } = useUserStore();
   const [boardList, setBoardList] = useState<BoardItem[]>(initialItems);
   const [page, setPage] = useState(initialPage);
   const [totalElements, setTotalElements] = useState(initialTotalElements);
@@ -61,13 +62,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
     fetchData(pageFromQuery);
   }, [searchParams]);
 
-  useEffect(() => {
-    const storedUserInfo = sessionStorage.getItem("userInfo");
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
-  }, []);
-
   const handlePageChange = (newPage: number) => {
     router.replace(`${pathname}?page=${newPage}`);
     setPage(newPage);
@@ -82,7 +76,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   const where = `${pathname}/write`;
 
-  // Function to handle individual item selection
   const handleSelectItem = (id: number) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(id)
@@ -91,7 +84,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
     );
   };
 
-  // Function to handle select all action
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([]);
@@ -105,17 +97,18 @@ const BoardClient: React.FC<BoardClientProps> = ({
     <section className="flex flex-col gap-1 mt-3">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
         <div className="flex gap-2">
-          <input
-            type="checkbox"
-            checked={selectAll}
-            onChange={handleSelectAll}
-            className="h-4 w-4"
-          />
-          <div className="text-[#555555] text-sm">
+          <div className="text-[#555555] text-sm flex items-center gap-2">
+            {userInfo?.sck && (
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="h-4 w-4"
+              />
+            )}
             총
             <span className="text-[#2C4AB6] font-semibold">
-              {" "}
-              {totalElements}{" "}
+              {totalElements}
             </span>
             건
           </div>
@@ -130,9 +123,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
       <table className="min-w-full bg-white text-[14px]">
         <thead className="bg-[#F2F5FF]">
           <tr className="flex border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
-            {userInfo?.sck && (
-              <th className="w-10 py-3 px-2 text-center">선택</th>
-            )}
             <th className="grow py-3 px-2 text-center">제목</th>
             <th className="w-20 py-3 px-2 text-center">이름</th>
             <th className="hidden md:block w-32 py-3 px-2 text-center">날짜</th>
