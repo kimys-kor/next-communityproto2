@@ -3,6 +3,7 @@ import React from "react";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import PhotoBoard from "../components/boards/PhotoBoard";
 import SubMenu from "./(component)/SubMenu";
+import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 
 function page() {
   const breadcrumbItems = {
@@ -14,6 +15,7 @@ function page() {
     <div className="flex flex-col gap-3 max-w-[1200px]">
       <SubMenu />
       <ThreeBanner></ThreeBanner>
+      <ProgressSliderPage></ProgressSliderPage>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <PhotoBoard postType={9} />
     </div>
