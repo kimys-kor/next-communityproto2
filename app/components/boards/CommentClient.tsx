@@ -1,11 +1,12 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Paging from "../Paging";
 import { formatDate } from "@/app/utils";
 import { Comment } from "@/app/types";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 import { commentSaveServerAction } from "@/app/api/authAction";
+import { FaTrash } from "react-icons/fa";
 
 interface CommentPageClientProps {
   initialData: {
@@ -28,6 +29,9 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
     useAuthStore.getState().loggedIn
   );
   const [newComment, setNewComment] = useState("");
+  const [selectedComments, setSelectedComments] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const { userInfo } = useUserStore();
 
   useEffect(() => {
     const unsubscribe = useAuthStore.subscribe((state) => {
@@ -79,6 +83,56 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
     }
   };
 
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedComments([]);
+    } else {
+      setSelectedComments(comments.map((comment) => comment.id));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectComment = (id: number) => {
+    setSelectedComments((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((commentId) => commentId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedComments.length === 0) {
+      alert("선택한 댓글이 없습니다.");
+      return;
+    }
+
+    const confirmed = window.confirm("정말 댓글을 삭제 하시겠습니까?");
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/board/deleteComment", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idList: selectedComments }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete selected comments");
+      }
+
+      setComments((prevComments) =>
+        prevComments.filter((comment) => !selectedComments.includes(comment.id))
+      );
+      setSelectedComments([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error deleting comments:", error);
+      alert("An error occurred while deleting the selected comments.");
+    }
+  };
+
   const setPage = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -95,10 +149,41 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
             </span>
           </div>
         </div>
+
+        {/* Conditionally rendered action buttons for select all and delete */}
+        {userInfo?.sck && (
+          <div className="flex justify-end gap-5 mb-3">
+            <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="hidden"
+              />
+              <span>전체선택</span>
+            </label>
+            <button
+              onClick={handleDeleteSelected}
+              className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
+            >
+              <FaTrash />
+              <span>삭제</span>
+            </button>
+          </div>
+        )}
+
         {comments.map((item) => (
           <div key={item.id} className="py-5 flex flex-col gap-3 text-subtext">
             <div className="py-4 px-3 flex justify-between items-center bg-[#f8f9fa] border-t border-solid border-[#ddd]">
               <div className="flex gap-2 items-center">
+                {userInfo?.sck && (
+                  <input
+                    type="checkbox"
+                    checked={selectedComments.includes(item.id)}
+                    onChange={() => handleSelectComment(item.id)}
+                    className="h-4 w-4 mr-2"
+                  />
+                )}
                 <p>{item.nickname}</p>
               </div>
               <div className="flex gap-2 items-center">
@@ -108,6 +193,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
             <div className="px-3">{item.content}</div>
           </div>
         ))}
+
         {isLoggedIn ? (
           <div className="py-6 px-4 bg-[#F8F9FA] flex gap-2 rounded-md">
             <textarea
@@ -131,6 +217,7 @@ const CommentPageClient: React.FC<CommentPageClientProps> = ({
           </div>
         )}
       </section>
+
       <Paging
         page={currentPage}
         size={size}
