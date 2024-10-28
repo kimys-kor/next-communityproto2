@@ -17,7 +17,6 @@ function page() {
       <SubMenu />
       <ProgressSliderPage></ProgressSliderPage>
       <ThreeBanner></ThreeBanner>
-      {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
       <BoardContainer typ={12} page={1} size={15} />
     </div>
