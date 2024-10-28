@@ -1,9 +1,9 @@
-import CaseWrite from "@/app/components/boards/CaseWrite";
+import Write from "@/app/components/boards/Write";
 
 function Page() {
   return (
     <div className="flex flex-col max-w-[1200px] gap-1">
-      <CaseWrite></CaseWrite>
+      <Write postType={13} title={"피해사례"}></Write>
     </div>
   );
 }

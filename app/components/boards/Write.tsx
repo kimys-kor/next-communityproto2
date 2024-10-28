@@ -25,7 +25,7 @@ const Write: React.FC<WriteProps> = ({ title, postType }) => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const basePath = pathname?.split("/")[1] || "";
+  const basePath = pathname?.replace(/\/write$/, "") || "";
 
   const handleContentChange = (value: string) => {
     setContent(value);
@@ -68,7 +68,7 @@ const Write: React.FC<WriteProps> = ({ title, postType }) => {
 
       if (result.status === "OK") {
         toast.success("게시물이 성공적으로 저장되었습니다!");
-        router.push(`/${basePath}`);
+        router.push(`${basePath}`);
       } else {
         toast.error("게시물 저장에 실패했습니다.");
       }

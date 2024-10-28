@@ -164,24 +164,21 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     <section className="flex flex-col gap-1 mt-3">
       {/* Header with selection and search options */}
       <div className="w-full">
-        <div
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full
-        "
-        >
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
           <div className="flex items-center gap-2">
             <div className="text-[#555555] text-sm">
-              총
+              총{" "}
               <span className="text-[#2C4AB6] font-semibold">
                 {" "}
-                {totalElements}
-              </span>
+                {totalElements}{" "}
+              </span>{" "}
               건
             </div>
             <div className="text-[#555555] text-sm">
               {"("}
               <span className="text-[#2C4AB6] font-semibold">
                 {currentPage}
-              </span>
+              </span>{" "}
               /<span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
             </div>
           </div>
@@ -245,7 +242,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
                   width={326}
                   height={230}
                   className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
-                  src={item.thumbNail}
+                  src={item.thumbNail || "/images/default-thumbnail.jpg"} // Replace with a fallback image
                   alt={item.title}
                 />
               </Link>
