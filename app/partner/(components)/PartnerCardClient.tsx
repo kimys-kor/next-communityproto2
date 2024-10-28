@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PhotoItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { FaTrash, FaArrowRight } from "react-icons/fa";
 
 interface PartnerCardClientProps {
   initialData: {
@@ -90,32 +91,93 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
     setSelectAll(!selectAll);
   };
 
+  const handleMoveSelected = () => {
+    console.log("Move selected items:", selectedItems);
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for deletion.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/board/deletePost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idList: selectedItems,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete selected posts");
+      }
+
+      const result = await response.json();
+      console.log("Deletion result:", result);
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+
+      setSelectedItems([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error deleting selected items:", error);
+      alert("An error occurred while deleting the selected posts.");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-5">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
-        <div className="flex gap-2 items-center">
+        <div className="w-full flex gap-2 items-center justify-between">
+          <div className="flex items-center">
+            <span className="text-[#555555] text-sm">
+              총{" "}
+              <span className="text-[#2C4AB6] font-semibold">
+                {totalElements}
+              </span>{" "}
+              건
+            </span>
+            <span className="text-[#555555] text-sm">
+              {"("}
+              <span className="text-[#2C4AB6] font-semibold">
+                {currentPage}
+              </span>{" "}
+              / <span>{totalPages}</span> 페이지{")"}
+            </span>
+          </div>
           {userInfo?.sck && (
-            <input
-              type="checkbox"
-              checked={selectAll}
-              onChange={handleSelectAll}
-              className="h-4 w-4 accent-blue-600 cursor-pointer"
-            />
+            <div className="flex items-center gap-5">
+              <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800 ">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                  className="hidden"
+                />
+                <span>전체선택</span>
+              </label>
+              <button
+                onClick={handleMoveSelected}
+                className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800 "
+              >
+                <FaArrowRight />
+                <span>Move</span>
+              </button>
+              <button
+                onClick={handleDeleteSelected}
+                className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800 "
+              >
+                <FaTrash />
+                <span>Delete</span>
+              </button>
+            </div>
           )}
-          <span className="text-[#555555] text-sm">
-            총{" "}
-            <span className="text-[#2C4AB6] font-semibold">
-              {totalElements}
-            </span>{" "}
-            건
-          </span>
-          <span className="text-[#555555] text-sm">
-            {"("}
-            <span className="text-[#2C4AB6] font-semibold">
-              {currentPage}
-            </span>{" "}
-            / <span>{totalPages}</span> 페이지{")"}
-          </span>
         </div>
       </header>
 
