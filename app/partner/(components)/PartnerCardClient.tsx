@@ -212,14 +212,14 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
                 className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800"
               >
                 <FaArrowRight />
-                <span>Move</span>
+                <span>이동</span>
               </button>
               <button
                 onClick={handleDeleteSelected}
                 className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
               >
                 <FaTrash />
-                <span>Delete</span>
+                <span>삭제</span>
               </button>
             </div>
           )}

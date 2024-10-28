@@ -7,6 +7,8 @@ import Link from "next/link";
 import NewIcon from "../NewIcon";
 import toast from "react-hot-toast";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { FaTrash, FaArrowRight } from "react-icons/fa";
+import TransferPopup from "@/app/components/boards/TransferPopup";
 
 interface BoardClientProps {
   initialItems: BoardItem[];
@@ -33,6 +35,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
   const [totalElements, setTotalElements] = useState(initialTotalElements);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [showTransferPopup, setShowTransferPopup] = useState(false);
 
   const totalPages = Math.ceil(totalElements / size);
 
@@ -40,9 +43,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
     try {
       const response = await fetch(
         `/api/board/list?typ=${typ}&keyword=&page=${pageNumber - 1}&size=${size}`,
-        {
-          cache: "no-store",
-        }
+        { cache: "no-store" }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch board list");
@@ -74,8 +75,6 @@ const BoardClient: React.FC<BoardClientProps> = ({
     return diffInHours <= 24;
   };
 
-  const where = `${pathname}/write`;
-
   const handleSelectItem = (id: number) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(id)
@@ -93,19 +92,83 @@ const BoardClient: React.FC<BoardClientProps> = ({
     setSelectAll(!selectAll);
   };
 
+  const handleMoveSelected = () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for moving.");
+      return;
+    }
+    setShowTransferPopup(true);
+  };
+
+  const handleTransferConfirm = async (postType: number) => {
+    try {
+      const response = await fetch("/api/board/transferPost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems, postType }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to transfer selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+      setShowTransferPopup(false);
+      router.refresh();
+    } catch (error) {
+      console.error("Error transferring selected items:", error);
+      alert("An error occurred while transferring the selected posts.");
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for deletion.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the selected items?"
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/board/deletePost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error deleting selected items:", error);
+      alert("An error occurred while deleting the selected posts.");
+    }
+  };
+
   return (
     <section className="flex flex-col gap-1 mt-3">
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm flex items-center gap-2">
-            {userInfo?.sck && (
-              <input
-                type="checkbox"
-                checked={selectAll}
-                onChange={handleSelectAll}
-                className="h-4 w-4"
-              />
-            )}
             총
             <span className="text-[#2C4AB6] font-semibold">
               {totalElements}
@@ -118,11 +181,42 @@ const BoardClient: React.FC<BoardClientProps> = ({
             <span>{totalPages}</span> 페이지{")"}
           </div>
         </div>
+        {userInfo?.sck && (
+          <div className="flex items-center gap-5">
+            <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="hidden"
+              />
+              <span>전체선택</span>
+            </label>
+            <button
+              onClick={handleMoveSelected}
+              className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800"
+            >
+              <FaArrowRight />
+              <span>이동</span>
+            </button>
+            <button
+              onClick={handleDeleteSelected}
+              className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
+            >
+              <FaTrash />
+              <span>삭제</span>
+            </button>
+          </div>
+        )}
       </header>
 
+      {/* Table rendering the board items */}
       <table className="min-w-full bg-white text-[14px]">
         <thead className="bg-[#F2F5FF]">
           <tr className="flex border-t-2 border-[#2C4AB6] text-[#2C4AB6] font-semibold">
+            {userInfo?.sck && (
+              <th className="w-14 py-3 px-2 text-center">선택</th>
+            )}
             <th className="grow py-3 px-2 text-center">제목</th>
             <th className="w-20 py-3 px-2 text-center">이름</th>
             <th className="hidden md:block w-32 py-3 px-2 text-center">날짜</th>
@@ -177,10 +271,10 @@ const BoardClient: React.FC<BoardClientProps> = ({
       </table>
 
       {userInfo?.sck && (
-        <span className="w-full flex justify-end">
-          <Link href={where}>
+        <span className="mt-5 w-full flex justify-end">
+          <Link href={`${pathname}/write`}>
             <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-              게시글 등록
+              글작성하기
             </button>
           </Link>
         </span>
@@ -191,8 +285,15 @@ const BoardClient: React.FC<BoardClientProps> = ({
         size={size}
         totalElements={totalElements}
         setPage={handlePageChange}
-        scroll={"top"}
+        scroll="top"
       />
+
+      {showTransferPopup && (
+        <TransferPopup
+          onClose={() => setShowTransferPopup(false)}
+          onConfirm={handleTransferConfirm}
+        />
+      )}
     </section>
   );
 };
