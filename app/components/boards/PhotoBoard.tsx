@@ -12,7 +12,7 @@ const PhotoBoard = async ({ postType }: PhotoBoardProps) => {
   if (postType === 9) {
     return <PhotoBoardClient initialData={initialData} />;
   } else if (postType === 14) {
-    return <EventBoardClient />;
+    return <EventBoardClient initialData={initialData} />;
   } else {
     return <div>Invalid post type</div>;
   }

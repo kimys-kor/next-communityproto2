@@ -74,7 +74,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     }
   };
 
-  // Dummy data for SelectBox
   const options = [
     { value: "1", label: "전체" },
     { value: "2", label: "제목" },
@@ -130,10 +129,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
       </div>
       <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-5">
         {boardList.map((item) => (
-          <li
-            key={item.id}
-            className="bg-white rounded-lg cursor-pointer shadow-md"
-          >
+          <li key={item.id} className="bg-white rounded-lg cursor-pointer">
             <div className="overflow-hidden rounded-lg relative">
               {userInfo?.sck && (
                 <input
