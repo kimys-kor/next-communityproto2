@@ -36,7 +36,7 @@ export interface BoardItem2 {
   createdDt: Date;
 }
 
-export interface PartnerItem {
+export interface PhotoItem {
   id: number;
   postType: number;
   username: string;

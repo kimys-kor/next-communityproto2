@@ -181,6 +181,28 @@ export async function fetchInitialPartnerData() {
   };
 }
 
+export async function fetchInitialPhotoData(postType: number) {
+  const response = await fetch(
+    `${process.env.API_URL}/guest/photoList?postType=${postType}&page=0&size=12`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch initial partner content");
+  }
+
+  const data = await response.json();
+  return {
+    boardList: data.data.content,
+    totalElements: data.data.totalElements,
+    totalPages: data.data.totalPages,
+  };
+}
+
 export const fetchInitialBoardContent = async (id: string) => {
   try {
     const res = await fetch(

@@ -15,7 +15,7 @@ function page() {
       <SubMenu />
       <ThreeBanner></ThreeBanner>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <PhotoBoard />
+      <PhotoBoard postType={9} />
     </div>
   );
 }

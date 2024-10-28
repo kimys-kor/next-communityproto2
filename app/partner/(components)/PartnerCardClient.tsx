@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PartnerItem } from "@/app/types";
+import { PhotoItem } from "@/app/types";
 import Paging from "@/app/components/Paging";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 interface PartnerCardClientProps {
   initialData: {
-    boardList: PartnerItem[];
+    boardList: PhotoItem[];
     totalElements: number;
     totalPages: number;
   };
@@ -24,7 +24,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   const { userInfo } = useUserStore();
   const [currentPage, setCurrentPage] = useState(1);
-  const [boardList, setBoardList] = useState<PartnerItem[]>(
+  const [boardList, setBoardList] = useState<PhotoItem[]>(
     initialData.boardList
   );
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
