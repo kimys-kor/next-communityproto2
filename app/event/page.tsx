@@ -1,5 +1,4 @@
 import React from "react";
-import EventBoard from "@/app/components/boards/EventBoard";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import Breadcrumb from "@/app/components/BreadCrumb";
 import PhotoBoard from "../components/boards/PhotoBoard";
@@ -14,7 +13,6 @@ function page() {
     <div className="flex flex-col max-w-[1200px] gap-6">
       <ThreeBanner />
       <Breadcrumb breadcrumbData={breadcrumbItems} />
-      {/* <EventBoard /> */}
       <PhotoBoard postType={14} />
     </div>
   );
