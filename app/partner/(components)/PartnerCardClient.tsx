@@ -162,7 +162,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
       {userInfo?.sck && (
         <span className="w-full flex justify-end mt-3">
           <Link href="/partner/write">
-            <button className="bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg text-[13px] px-4 py-2">
+            <button className="bg-blue hover:bg-[#2250f5] text-white font-bold rounded focus:outline-none text-[13px] px-3 py-3">
               파트너 등록
             </button>
           </Link>
