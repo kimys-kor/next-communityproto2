@@ -15,7 +15,7 @@ function Headers() {
   }
 
   return (
-    <header className="box-border fixed w-full h-28 md:h-32 bg-white z-10 border-solid md:border-b border-blue">
+    <header className="box-border fixed w-full h-28 md:h-32 bg-white z-50 border-solid md:border-b border-blue">
       <div className="max-w-[1300px] mx-auto">
         <section className="w-full h-14 md:h-16 flex items-center justify-between gap-3 md:gap-0 px-2">
           <Link className="" prefetch href="/">

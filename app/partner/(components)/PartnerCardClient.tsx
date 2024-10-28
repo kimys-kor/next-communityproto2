@@ -73,7 +73,6 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
     router.replace(`/partner?page=${newPage}`);
   };
 
-  // Handle selecting an individual item
   const handleSelectItem = (id: number) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(id)
@@ -82,7 +81,6 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
     );
   };
 
-  // Handle select all functionality
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([]);
@@ -94,7 +92,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
 
   return (
     <div className="flex flex-col gap-5">
-      <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555] ">
+      <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
         <div className="flex gap-2 items-center">
           {userInfo?.sck && (
             <input
@@ -121,13 +119,13 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
         </div>
       </header>
 
-      <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {boardList.map((item) => (
           <article
             key={item.id}
-            className="w-full h-64 bg-white/25 flex flex-col gap-4 items-center border border-solid border-slate-200"
+            className="w-full max-w-[300px] min-w-[250px] h-auto max-h-[220px] bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 rounded-lg overflow-hidden flex flex-col items-center text-center mx-auto"
           >
-            <div className="relative h-3/4 w-full overflow-hidden">
+            <div className="relative h-[140px] w-full overflow-hidden">
               {userInfo?.sck && (
                 <input
                   type="checkbox"
@@ -138,37 +136,25 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
               )}
               <Link href={`/partner/${item.id}`}>
                 <Image
-                  width={395}
-                  height={230}
-                  className="w-full h-full transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+                  width={250}
+                  height={140}
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-105"
                   src={item.thumbNail || "/images/homebanner/4.jpg"}
                   alt={item.title}
                 />
               </Link>
             </div>
-            <table className="h-1/4 w-full rounded-md">
-              <tbody>
-                <tr>
-                  <td className="text-center bg-blue/80 rounded-md text-white font-bold">
-                    <div className="border-b border-white border-solid p-2">
-                      사이트
-                    </div>
-                    <div className="p-2">코드</div>
-                  </td>
-                  <td className="text-center">
-                    <h3 className="p-2 font-semibold border-solid border-b border-gray-300 text-gray-700">
-                      {item.title}
-                      {item.replyNum > 0 && (
-                        <span className="text-blue ml-2 text-sm">
-                          +{item.replyNum}
-                        </span>
-                      )}
-                    </h3>
-                    <p className="p-2 text-gray-600">{item.code}</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="p-2 flex flex-col items-center">
+              <h3 className="font-semibold text-md text-gray-800">
+                {item.title}
+              </h3>
+              <p className="text-gray-500 mt-1 text-sm">Code: {item.code}</p>
+              {item.replyNum > 0 && (
+                <p className="text-xs mt-1 text-blue-700 font-bold">
+                  +{item.replyNum} Replies
+                </p>
+              )}
+            </div>
           </article>
         ))}
       </div>
@@ -176,7 +162,7 @@ const PartnerCardClient: React.FC<PartnerCardClientProps> = ({
       {userInfo?.sck && (
         <span className="w-full flex justify-end mt-3">
           <Link href="/partner/write">
-            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-2">
+            <button className="bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg text-[13px] px-4 py-2">
               파트너 등록
             </button>
           </Link>
