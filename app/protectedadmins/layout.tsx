@@ -1,9 +1,15 @@
 import Container from "../components/Container";
-import RightSideBanner from "../components/layouts/RightSideBanner";
 import AdminSide from "./(components)/AdminSide";
-import Headers from "@/app/components/layouts/headers/Headers";
-import Footer from "@/app/components/layouts/Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return (
+    <>
+      <div className="min-h-[100vh]">
+        <aside className="md:w-1/4 hidden md:flex flex-col gap-10 max-w-[300px] h-full">
+          <AdminSide />
+        </aside>
+        <section className="w-full md:w-3/4">{children}</section>
+      </div>
+    </>
+  );
 }
