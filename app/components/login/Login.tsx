@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import IdIcon from "/public/images/idIcon.png";
 import PassIcon from "/public/images/passIcon.png";
@@ -8,27 +7,34 @@ import Image from "next/image";
 import Profile from "../Profile";
 import ProfileSk from "../skeleton/ProfileSk";
 import toast from "react-hot-toast";
-import { getCookie } from "@/app/api/authAction";
+import { refreshUser } from "@/app/api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { UserInfo } from "@/app/types";
 
 const Login: React.FC = () => {
-  const [username, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
   const { loggedIn, setLoggedIn } = useAuthStore();
+  const { setUserInfo, clearUserInfo } = useUserStore();
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfoState] = useState<UserInfo | null>(null);
 
   useEffect(() => {
-    const checkToken = async () => {
-      const access_token = await getCookie();
-      if (access_token && access_token.value.length >= 10) {
+    const initializeUser = async () => {
+      const data = await refreshUser();
+      if (data != null) {
         setLoggedIn(true);
+        setUserInfo(data);
+        setUserInfoState(data);
+      } else {
+        setLoggedIn(false);
       }
+      setLoading(false);
     };
-    checkToken();
-    setHasMounted(true);
-  }, [setLoggedIn]);
+
+    initializeUser();
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -42,10 +48,13 @@ const Login: React.FC = () => {
           password: password,
         }),
       });
+
       if (response.ok) {
         setLoggedIn(true);
+        clearUserInfo();
         const { data } = await response.json();
-        sessionStorage.setItem("userInfo", JSON.stringify(data));
+        setUserInfo(data);
+        setUserInfoState(data);
       } else {
         toast.error("아이디와 비밀번호를 확인해주세요");
       }
@@ -54,13 +63,14 @@ const Login: React.FC = () => {
     }
   };
 
-  if (!hasMounted) {
+  if (loading) {
     return <ProfileSk />;
   }
+
   return (
     <div className="max-w-128 bg-white p-8 rounded-lg w-full border-solid border-slate-200 border">
-      {loggedIn ? (
-        <Profile />
+      {loggedIn && userInfo ? (
+        <Profile userInfo={userInfo} />
       ) : (
         <form
           onSubmit={(e) => {
@@ -73,7 +83,7 @@ const Login: React.FC = () => {
               type="string"
               id="username"
               value={username}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               className="truncate appearance-none border rounded w-full pl-9 py-2 px-3 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
               placeholder="아이디"
               required
@@ -104,33 +114,11 @@ const Login: React.FC = () => {
               className="absolute top-2 left-2"
             />
           </div>
-          {/* <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center justify-center">
-            <input
-              id="default-checkbox"
-              type="checkbox"
-              value=""
-              className="w-4 h-4  bg-gray-100 "
-            />
-            <label
-              htmlFor="default-checkbox"
-              className="ms-2 font-normal text-sm truncate leading-tight"
-            >
-              자동로그인
-            </label>
-          </div>
-          <Link
-            href={"/signup"}
-            className="text-blue font-normal text-sm cursor-pointer leading-tight"
-          >
-            회원가입
-          </Link>
-        </div> */}
           <section className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 items-center justify-between">
               <button
                 type="submit"
-                className="py-3 px-4  bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
+                className="py-3 px-4 bg-blue hover:bg-[#2250f5] text-white font-bold w-full rounded focus:outline-none"
               >
                 로그인
               </button>
@@ -138,8 +126,8 @@ const Login: React.FC = () => {
             <div className="flex flex-col gap-2 items-center justify-between">
               <Link className="w-full" href={"/signup"}>
                 <button
-                  type="submit"
-                  className="py-3 px-4  bg-[#6870e9] hover:bg-[#525dee] text-white font-bold w-full rounded focus:outline-none"
+                  type="button"
+                  className="py-3 px-4 bg-[#6870e9] hover:bg-[#525dee] text-white font-bold w-full rounded focus:outline-none"
                 >
                   회원가입
                 </button>

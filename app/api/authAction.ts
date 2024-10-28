@@ -3,46 +3,44 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { savePostRequest, CommentRequest } from "@/app/types";
-import { NextResponse } from "next/server";
+import { useUserStore } from "../globalStatus/useUserStore";
+// import { NextResponse } from "next/server";
 
-export const refreshTokenServerAction = async () => {
-  const apiResponse = await fetch(process.env.API_URL + "/user/refresh", {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (apiResponse.ok) {
-    const accessToken = apiResponse.headers.get("Authorization");
-    const cookieStore = cookies();
-
-    if (accessToken != null) {
-      cookieStore.set("Authorization", accessToken, {
-        secure: true,
-        httpOnly: true,
-        maxAge: 1800,
+export async function refreshUser() {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("Authorization")?.value;
+  const refreshToken = cookieStore.get("refresh_token")?.value;
+  if (refreshToken) {
+    try {
+      const response = await fetch(`${process.env.API_URL}/user/refresh`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          ...(accessToken && { Authorization: accessToken }),
+          Cookie: `refresh_token=${refreshToken}`,
+        },
       });
+
+      if (!response.ok) {
+        console.error(
+          "Failed to refresh user data:",
+          response.status,
+          response.statusText
+        );
+        const errorDetails = await response.json();
+        console.error("Error details:", errorDetails);
+        throw new Error(`Failed to refresh user data: ${response.status}`);
+      }
+
+      const { data } = await response.json();
+      const { setUserInfo } = useUserStore.getState();
+      setUserInfo(data);
+      return data;
+    } catch (error) {
+      console.error("Error refreshing user data:", error);
     }
-
-    const setCookieHeader = apiResponse.headers.get("set-cookie");
-    const jsonData = await apiResponse.json();
-
-    const response = NextResponse.json({
-      message: "ok",
-      data: jsonData.data,
-    });
-
-    if (setCookieHeader) {
-      response.headers.set("Set-Cookie", setCookieHeader);
-    }
-
-    return response;
-  } else {
-    return NextResponse.json(
-      { error: "Refresh failed" },
-      { status: apiResponse.status }
-    );
   }
-};
+}
 
 export const commentSaveServerAction = async (data: CommentRequest) => {
   const cookieStore = cookies();
@@ -167,29 +165,3 @@ export async function refreshServerAction() {
     throw error;
   }
 }
-
-// export async function loginServerAction(data: FormData) {
-//   try {
-//     const response = await fetch(process.env.API_URL + "/guest/login", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       credentials: "include",
-//       body: JSON.stringify({
-//         username: data.get("username"),
-//         password: data.get("password"),
-//       }),
-//     });
-
-//     if (response.ok) {
-//       const token = response.headers.get("Authorization");
-//       revalidatePath("/");
-//       return token;
-//     } else {
-//       return "실패";
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-// }

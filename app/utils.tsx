@@ -21,6 +21,7 @@ import {
 
 import { BoardItem } from "./types";
 import { BoardItem2 } from "./types";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 export const categoryMap: { [key: number]: string } = {
   2: "축구분석",

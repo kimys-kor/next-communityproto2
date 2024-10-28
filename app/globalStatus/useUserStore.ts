@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import create from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
 
 type UserInfo = {
   username: string;
@@ -17,8 +18,10 @@ type UserStore = {
   clearUserInfo: () => void;
 };
 
-export const useUserStore = create<UserStore>((set) => ({
-  userInfo: null,
-  setUserInfo: (userInfo) => set({ userInfo }),
-  clearUserInfo: () => set({ userInfo: null }),
-}));
+export const useUserStore = create(
+  subscribeWithSelector<UserStore>((set) => ({
+    userInfo: null,
+    setUserInfo: (userInfo) => set({ userInfo }),
+    clearUserInfo: () => set({ userInfo: null }),
+  }))
+);
