@@ -9,36 +9,40 @@ const menuItems: MenuItem[] = [
   {
     name: "회원관리",
     subMenu: [
-      { name: "회원 목록", link: "/admin/members" },
-      { name: "회원 통계", link: "/admin/member-stats" },
+      { name: "회원 목록", link: "/protectedadmins/members" },
+      { name: "포인트", link: "/protectedadmins/members/point" },
     ],
   },
   {
-    name: "게시글로그",
+    name: "게시판관리 ",
     subMenu: [
-      { name: "로그 목록", link: "/admin/post-logs" },
-      { name: "로그 통계", link: "/admin/post-stats" },
+      { name: "금지어설정", link: "/protectedadmins/posts/forbiddenwords" },
+    ],
+  },
+  {
+    name: "댓글관리 ",
+    subMenu: [
+      { name: "금지어설정", link: "/protectedadmins/comments/forbiddenwords" },
     ],
   },
   {
     name: "포인트로그",
     subMenu: [
-      { name: "포인트 내역", link: "/admin/point-history" },
-      { name: "포인트 설정", link: "/admin/point-settings" },
-    ],
-  },
-  {
-    name: "승점보드관리",
-    subMenu: [
-      { name: "보드 목록", link: "/admin/score-board" },
-      { name: "보드 설정", link: "/admin/board-settings" },
+      { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
     ],
   },
   {
     name: "IP관리",
     subMenu: [
-      { name: "IP 목록", link: "/admin/ip-list" },
-      { name: "IP 차단 설정", link: "/admin/ip-settings" },
+      { name: "IP 목록", link: "/protectedadmins/iplist" },
+      { name: "IP 차단 설정", link: "/protectedadmins/ip-settings" },
+    ],
+  },
+  {
+    name: "마스터",
+    subMenu: [
+      { name: "관리자아이디설정", link: "/protectedadmins/ip-list" },
+      { name: "관리자활동로그", link: "/protectedadmins/ip-settings" },
     ],
   },
 ];
