@@ -4,6 +4,7 @@ import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 
 import Breadcrumb from "@/app/components/BreadCrumb";
 import SubMenu from "./(component)/SubMenu";
+import BoardContainer from "@/app/components/boards/BoardContainer";
 
 function page() {
   const breadcrumbItems = {
@@ -17,6 +18,7 @@ function page() {
       <ThreeBanner></ThreeBanner>
       <ProgressSliderPage></ProgressSliderPage>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
+      <BoardContainer typ={19} page={1} size={15} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import noticeIcon from "/public/images/icon/noticeIcon.png";
 import { BoardItem } from "@/app/types";
 
 const fetchBoardList = async () => {
-  const typ = 17;
+  const typ = 19;
 
   const response = await fetch(
     process.env.API_URL + `/guest/list?typ=${typ}&keyword=&page=0&size=5`,

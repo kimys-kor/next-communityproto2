@@ -4,11 +4,12 @@ import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 
 import Breadcrumb from "@/app/components/BreadCrumb";
 import SubMenu from "../(component)/SubMenu";
+import BoardContainer from "@/app/components/boards/BoardContainer";
 
 function page() {
   const breadcrumbItems = {
     title: "커뮤니티",
-    subMenu: "픽스터",
+    subMenu: "나는분석왕",
   };
 
   return (
@@ -18,6 +19,7 @@ function page() {
       <ThreeBanner></ThreeBanner>
       {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
+      <BoardContainer typ={11} page={1} size={15} />
     </div>
   );
 }
