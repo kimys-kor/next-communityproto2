@@ -7,6 +7,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { PhotoItem } from "@/app/types";
+import { FaTrash, FaArrowRight } from "react-icons/fa";
+import TransferPopup from "@/app/components/boards/TransferPopup";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 interface EventBoardClientProps {
   initialData: {
@@ -18,6 +21,7 @@ interface EventBoardClientProps {
 
 const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
   const pathname = usePathname();
+
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [boardList, setBoardList] = useState<PhotoItem[]>(
@@ -26,9 +30,10 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
   const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showTransferPopup, setShowTransferPopup] = useState(false);
   const size = 12;
+  const { userInfo } = useUserStore();
 
-  // Function to handle selecting all items
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([]);
@@ -38,7 +43,6 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     setSelectAll(!selectAll);
   };
 
-  // Function to handle individual item selection
   const handleSelectItem = (id: number) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(id)
@@ -47,7 +51,6 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     );
   };
 
-  // Function to handle page change and fetch new data based on the page
   const handlePageChange = async (newPage: number) => {
     setCurrentPage(newPage);
     try {
@@ -73,7 +76,77 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     }
   };
 
-  // Options for SelectBox (dummy data)
+  const handleMoveSelected = () => {
+    if (selectedItems.length === 0) {
+      alert("이동하실 게시물을 선택하세요");
+      return;
+    }
+    setShowTransferPopup(true);
+  };
+
+  const handleTransferConfirm = async (postType: number) => {
+    try {
+      const response = await fetch("/api/board/transferPost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems, postType }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to transfer selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+      setShowTransferPopup(false);
+    } catch (error) {
+      console.error("Error transferring selected items:", error);
+      alert("An error occurred while transferring the selected posts.");
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedItems.length === 0) {
+      alert("No items selected for deletion.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the selected items?"
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/board/deletePost", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idList: selectedItems }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete selected posts");
+      }
+
+      setBoardList((prevBoardList) =>
+        prevBoardList.filter((item) => !selectedItems.includes(item.id))
+      );
+      setSelectedItems([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error deleting selected items:", error);
+      alert("An error occurred while deleting the selected posts.");
+    }
+  };
+
   const options = [
     { value: "1", label: "전체" },
     { value: "2", label: "제목" },
@@ -89,54 +162,73 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     console.log("Searching...");
   }
 
-  const getStatus = (endDate: string): string => {
-    const today = new Date();
-    const end = new Date(endDate);
-    return end > today ? "진행중" : "종료";
-  };
-
-  const getStatusColor = (endDate: string): string => {
-    const status = getStatus(endDate);
-    return status === "진행중" ? "text-blue" : "text-gray-300";
-  };
-
   return (
     <section className="flex flex-col mt-3">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={selectAll}
-            onChange={handleSelectAll}
-            className="h-4 w-4"
-          />
-          <div className="text-[#555555] text-sm">
-            총
-            <span className="text-[#2C4AB6] font-semibold">
-              {" "}
-              {totalElements}
-            </span>
-            건
+      <div className="w-full">
+        <div
+          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full
+        "
+        >
+          <div className="flex items-center gap-2">
+            <div className="text-[#555555] text-sm">
+              총
+              <span className="text-[#2C4AB6] font-semibold">
+                {" "}
+                {totalElements}
+              </span>
+              건
+            </div>
+            <div className="text-[#555555] text-sm">
+              {"("}
+              <span className="text-[#2C4AB6] font-semibold">
+                {currentPage}
+              </span>
+              /<span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
+            </div>
           </div>
-          <div className="text-[#555555] text-sm">
-            {"("}
-            <span className="text-[#2C4AB6] font-semibold">{currentPage}</span>/
-            <span> {totalPages}</span> 페이지{")"}
-          </div>
+
+          <article className="flex justify-center gap-2">
+            <SelectBox
+              options={options}
+              onChange={handleChange}
+              defaultValue="1"
+            />
+            <SearchBox
+              handleSearch={handleSearch}
+              placeholderText="검색어 입력"
+            />
+          </article>
         </div>
-        <article className="flex justify-center gap-2">
-          <SelectBox
-            options={options}
-            onChange={handleChange}
-            defaultValue="1"
-          />
-          <SearchBox
-            handleSearch={handleSearch}
-            placeholderText="검색어 입력"
-          />
-        </article>
+        {userInfo?.sck && (
+          <div className="mt-5 flex justify-end items-center gap-5">
+            <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
+              <input
+                type="checkbox"
+                checked={selectAll}
+                onChange={handleSelectAll}
+                className="hidden"
+              />
+              <span>전체선택</span>
+            </label>
+            <button
+              onClick={handleMoveSelected}
+              className="flex items-center gap-1 text-teal-600 text-sm hover:text-teal-800"
+            >
+              <FaArrowRight />
+              <span>이동</span>
+            </button>
+            <button
+              onClick={handleDeleteSelected}
+              className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
+            >
+              <FaTrash />
+              <span>삭제</span>
+            </button>
+          </div>
+        )}
       </div>
-      <ul className="min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-1 md:grid-cols-2 gap-2">
+
+      <ul className="mt-5 min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-1 md:grid-cols-2 gap-2">
         {boardList.map((item) => (
           <li key={item.id} className="bg-white rounded-lg py-4 relative">
             <input
@@ -166,6 +258,7 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
           </li>
         ))}
       </ul>
+
       <span className="w-full flex justify-end mt-3">
         <Link href={`${pathname}/write`}>
           <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
@@ -173,6 +266,8 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
           </button>
         </Link>
       </span>
+
+      {/* Pagination component */}
       <Paging
         page={currentPage}
         size={size}
@@ -180,6 +275,14 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
         setPage={handlePageChange}
         scroll={"top"}
       />
+
+      {/* Transfer popup for move action */}
+      {showTransferPopup && (
+        <TransferPopup
+          onClose={() => setShowTransferPopup(false)}
+          onConfirm={handleTransferConfirm}
+        />
+      )}
     </section>
   );
 };
