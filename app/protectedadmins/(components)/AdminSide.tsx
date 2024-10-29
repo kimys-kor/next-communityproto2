@@ -1,4 +1,7 @@
+"use client";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa"; // Import the icon
 
 interface MenuItem {
   name: string;
@@ -16,37 +19,22 @@ const menuItems: MenuItem[] = [
       { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
     ],
   },
-  // {
-  //   name: "게시판관리",
-  //   subMenu: [{ name: "금지어설정", link: "/protectedadmins/post-forbidden" }],
-  // },
-  // {
-  //   name: "댓글관리",
-  //   subMenu: [
-  //     { name: "금지어설정", link: "/protectedadmins/comments-forbidden" },
-  //   ],
-  // },
   {
     name: "IP관리",
     subMenu: [{ name: "차단IP 관리", link: "/protectedadmins/iplist" }],
   },
-  {
-    name: "마스터",
-    subMenu: [
-      { name: "관리자아이디관리", link: "/protectedadmins/admin-members" },
-      { name: "관리자활동히스토리", link: "/protectedadmins/admin-log" },
-    ],
-  },
 ];
 
 export default function AdminSide() {
+  const { userInfo } = useUserStore();
   return (
     <div className="bg-gray-100 rounded-lg p-4 h-screen w-full max-w-full lg:max-w-xs overflow-y-auto">
       <Link
-        className="hover:text-blue text-lg font-semibold block mb-4 lg:mb-6"
+        className="hover:text-blue text-lg font-semibold flex items-center mb-4 lg:mb-6"
         href="/"
       >
         유저페이지
+        <FaArrowRight className="w-5 h-5 ml-2" /> {/* Add icon here */}
       </Link>
       <ul className="text-lg font-medium space-y-4">
         {menuItems.map((item, index) => (
@@ -69,6 +57,30 @@ export default function AdminSide() {
             </ul>
           </div>
         ))}
+
+        {/* Hardcoded "마스터" section */}
+        {userInfo?.sck === "asdasdfz12e5t185g8" && (
+          <div className="mb-4">
+            <li className="truncate px-4 py-3 rounded-md bg-blue-500 text-black transition-colors text-base md:text-lg">
+              마스터
+            </li>
+            <ul className="mt-2 pl-4 space-y-1">
+              <Link
+                href="/protectedadmins/admin-members"
+                className="block w-full"
+              >
+                <li className="truncate px-3 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors text-sm md:text-base">
+                  관리자아이디관리
+                </li>
+              </Link>
+              <Link href="/protectedadmins/admin-log" className="block w-full">
+                <li className="truncate px-3 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors text-sm md:text-base">
+                  관리자활동히스토리
+                </li>
+              </Link>
+            </ul>
+          </div>
+        )}
       </ul>
     </div>
   );
