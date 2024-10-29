@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paging from "@/app/components/Paging";
+import toast from "react-hot-toast";
 
 type AdminLog = {
   id: number;
@@ -10,42 +11,46 @@ type AdminLog = {
   createdDt: string;
 };
 
-type AdminLogHistoryClientProps = {
-  histories: AdminLog[];
-};
-
-function AdminLogHistoryClient({ histories }: AdminLogHistoryClientProps) {
+function AdminLogHistoryClient() {
   const size = 10;
+  const [histories, setHistories] = useState<AdminLog[]>([]);
   const [searchField, setSearchField] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(histories.length);
-  const [totalPages, setTotalPages] = useState(
-    Math.ceil(histories.length / size)
-  );
+  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchData = async (page: number, searchKeyword: string) => {
+    try {
+      const response = await fetch(
+        `/api/master/adminlog?page=${page - 1}&size=${size}&keyword=${encodeURIComponent(searchKeyword)}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch admin log data");
+      }
+      const data = await response.json();
+
+      setHistories(data.data.content || []);
+      setTotalElements(data.data.totalElements);
+      setTotalPages(data.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching admin logs:", error);
+      toast.error("Failed to load admin logs.");
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage, searchQuery);
+  }, [currentPage, searchQuery]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const filteredHistories = histories.filter((history) => {
-    if (searchField === "all") {
-      return (
-        history.username.includes(searchQuery) ||
-        history.content.includes(searchQuery) ||
-        history.createdDt.includes(searchQuery)
-      );
-    }
-    return history[searchField as keyof AdminLog]
-      ?.toString()
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-  });
-
-  const paginatedHistories = filteredHistories.slice(
-    (currentPage - 1) * size,
-    currentPage * size
-  );
+  const handleSearch = () => {
+    setCurrentPage(1);
+    fetchData(1, searchQuery);
+  };
 
   return (
     <div>
@@ -69,7 +74,7 @@ function AdminLogHistoryClient({ histories }: AdminLogHistoryClientProps) {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
-          onClick={() => console.log("Search clicked")}
+          onClick={handleSearch}
           className="px-4 py-2 bg-gray-600 text-white text-sm rounded-md font-medium"
         >
           검색
@@ -81,7 +86,7 @@ function AdminLogHistoryClient({ histories }: AdminLogHistoryClientProps) {
           <div className="text-[#555555] text-sm flex items-center gap-2">
             총
             <span className="text-[#2C4AB6] font-semibold">
-              {filteredHistories.length}
+              {totalElements}
             </span>
             건
           </div>
@@ -108,7 +113,7 @@ function AdminLogHistoryClient({ histories }: AdminLogHistoryClientProps) {
             </tr>
           </thead>
           <tbody>
-            {paginatedHistories.map((history, index) => (
+            {histories.map((history, index) => (
               <tr
                 key={history.id}
                 className={`text-gray-600 text-sm ${
@@ -141,7 +146,7 @@ function AdminLogHistoryClient({ histories }: AdminLogHistoryClientProps) {
         <Paging
           page={currentPage}
           size={size}
-          totalElements={filteredHistories.length}
+          totalElements={totalElements}
           setPage={handlePageChange}
           scroll="top"
         />

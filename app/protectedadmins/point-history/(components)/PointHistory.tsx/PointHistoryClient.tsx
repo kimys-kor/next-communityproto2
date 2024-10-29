@@ -31,7 +31,6 @@ function PointHistoryClient() {
       }
       const data = await response.json();
 
-      // Extract data from the response structure
       setHistories(data.data.content || []);
       setTotalElements(data.data.totalElements);
       setTotalPages(data.data.totalPages);
@@ -50,8 +49,8 @@ function PointHistoryClient() {
   };
 
   const handleSearch = () => {
-    setCurrentPage(1); // Reset to the first page for a new search
-    fetchData(1, searchQuery); // Fetch with the updated search keyword
+    setCurrentPage(1);
+    fetchData(1, searchQuery);
   };
 
   const filteredHistories = histories.filter((history) => {
