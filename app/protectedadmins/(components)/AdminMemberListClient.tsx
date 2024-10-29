@@ -21,7 +21,7 @@ type MemberListClientProps = {
   members: Member[];
 };
 
-function MemberListClient({ members }: MemberListClientProps) {
+function AdminMemberListClient({ members }: MemberListClientProps) {
   const size = 15;
   const [searchField, setSearchField] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -208,4 +208,4 @@ function MemberListClient({ members }: MemberListClientProps) {
   );
 }
 
-export default MemberListClient;
+export default AdminMemberListClient;

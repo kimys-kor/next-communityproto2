@@ -34,7 +34,7 @@ const menuItems: MenuItem[] = [
     name: "마스터",
     subMenu: [
       { name: "관리자아이디관리", link: "/protectedadmins/admin-members" },
-      { name: "관리자활동로그", link: "/protectedadmins/admin-log" },
+      { name: "관리자활동히스토리", link: "/protectedadmins/admin-log" },
     ],
   },
 ];
