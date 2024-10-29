@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import MemberDetail from "./MemberDetail";
 import Paging from "@/app/components/Paging";
+import { FaTrash, FaArrowRight } from "react-icons/fa";
 
 type Member = {
   id: number;
@@ -29,6 +30,7 @@ function MemberListClient({ members }: MemberListClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
 
   const handlePageChange = () => {
     setCurrentPage(1);
@@ -92,8 +94,36 @@ function MemberListClient({ members }: MemberListClientProps) {
         </button>
       </div>
 
+      <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
+        <div className="flex gap-2">
+          <div className="text-[#555555] text-sm flex items-center gap-2">
+            총
+            <span className="text-[#2C4AB6] font-semibold">
+              {totalElements}
+            </span>
+            건
+          </div>
+          <div className="text-[#555555] text-sm">
+            {"("}
+            <span className="text-[#2C4AB6] font-semibold">{page}</span> /{" "}
+            <span>{totalPages}</span> 페이지{")"}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
+            <input type="checkbox" className="hidden" />
+            <span>전체선택</span>
+          </label>
+          <button className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800">
+            <FaTrash />
+            <span>삭제</span>
+          </button>
+        </div>
+      </header>
+
       {/* Members Table */}
-      <div className="w-full overflow-x-auto">
+      <div className="mt-5 w-full overflow-x-auto">
         <div className="min-w-max mx-auto">
           <table className="w-full bg-white border border-solid border-gray-300">
             <thead>
