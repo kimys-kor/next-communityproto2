@@ -18,28 +18,23 @@ const menuItems: MenuItem[] = [
   },
   {
     name: "게시판관리",
-    subMenu: [
-      { name: "금지어설정", link: "/protectedadmins/posts/forbiddenwords" },
-    ],
+    subMenu: [{ name: "금지어설정", link: "/protectedadmins/post-forbidden" }],
   },
   {
     name: "댓글관리",
     subMenu: [
-      { name: "금지어설정", link: "/protectedadmins/comments/forbiddenwords" },
+      { name: "금지어설정", link: "/protectedadmins/comments-forbidden" },
     ],
   },
   {
     name: "IP관리",
-    subMenu: [
-      { name: "IP 목록", link: "/protectedadmins/iplist" },
-      { name: "IP 차단 설정", link: "/protectedadmins/ip-settings" },
-    ],
+    subMenu: [{ name: "차단IP 관리", link: "/protectedadmins/iplist" }],
   },
   {
     name: "마스터",
     subMenu: [
-      { name: "관리자아이디설정", link: "/protectedadmins/ip-list" },
-      { name: "관리자활동로그", link: "/protectedadmins/ip-settings" },
+      { name: "관리자아이디관리", link: "/protectedadmins/admin-members" },
+      { name: "관리자활동로그", link: "/protectedadmins/admin-log" },
     ],
   },
 ];
