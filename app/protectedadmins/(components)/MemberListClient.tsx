@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import MemberDetail from "./MemberDetail";
 import Paging from "@/app/components/Paging";
-import { FaTrash, FaArrowRight } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 type Member = {
   id: number;
@@ -28,12 +28,13 @@ function MemberListClient({ members }: MemberListClientProps) {
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [page, setPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(members.length);
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(members.length / size)
+  );
 
-  const handlePageChange = () => {
-    setCurrentPage(1);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
   const filteredMembers = members.filter((member) => {
@@ -52,6 +53,11 @@ function MemberListClient({ members }: MemberListClientProps) {
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
   });
+
+  const paginatedMembers = filteredMembers.slice(
+    (currentPage - 1) * size,
+    currentPage * size
+  );
 
   if (selectedMember) {
     return (
@@ -105,8 +111,10 @@ function MemberListClient({ members }: MemberListClientProps) {
           </div>
           <div className="text-[#555555] text-sm">
             {"("}
-            <span className="text-[#2C4AB6] font-semibold">{page}</span> /{" "}
-            <span>{totalPages}</span> 페이지{")"}
+            <span className="text-[#2C4AB6] font-semibold">
+              {currentPage}
+            </span>{" "}
+            / <span>{totalPages}</span> 페이지{")"}
           </div>
         </div>
 
@@ -124,85 +132,81 @@ function MemberListClient({ members }: MemberListClientProps) {
 
       {/* Members Table */}
       <div className="mt-5 w-full overflow-x-auto">
-        <div className="min-w-max mx-auto">
-          <table className="w-full bg-white border border-solid border-gray-300">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700 text-sm">
-                <th className="py-2 px-4 border-b border-solid">ID</th>
-                <th className="py-2 px-4 border-b border-solid">아이디</th>
-                <th className="py-2 px-4 border-b border-solid">전화번호</th>
-                <th className="py-2 px-4 border-b border-solid">이름</th>
-                <th className="py-2 px-4 border-b border-solid">닉네임</th>
-                <th className="py-2 px-4 border-b border-solid">포인트</th>
-                <th className="py-2 px-4 border-b border-solid">경험치</th>
-                <th className="py-2 px-4 border-b border-solid">상태</th>
-                <th className="py-2 px-4 border-b border-solid">생성 날짜</th>
-                <th className="py-2 px-4 border-b border-solid">
-                  마지막 로그인
-                </th>
-                <th className="py-2 px-4 border-b border-solid">수정</th>
+        <table className="w-full bg-white border border-solid truncate border-gray-300">
+          <thead>
+            <tr className="bg-gray-100 text-gray-700 text-sm">
+              <th className="py-2 px-4 border-b border-solid">ID</th>
+              <th className="py-2 px-4 border-b border-solid">아이디</th>
+              <th className="py-2 px-4 border-b border-solid">전화번호</th>
+              <th className="py-2 px-4 border-b border-solid">이름</th>
+              <th className="py-2 px-4 border-b border-solid">닉네임</th>
+              <th className="py-2 px-4 border-b border-solid">포인트</th>
+              <th className="py-2 px-4 border-b border-solid">경험치</th>
+              <th className="py-2 px-4 border-b border-solid">상태</th>
+              <th className="py-2 px-4 border-b border-solid">생성 날짜</th>
+              <th className="py-2 px-4 border-b border-solid">마지막 로그인</th>
+              <th className="py-2 px-4 border-b border-solid">수정</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedMembers.map((member, index) => (
+              <tr
+                key={member.id}
+                className={`text-gray-600 text-sm ${
+                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                } hover:bg-gray-200 transition-colors duration-200`}
+              >
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.id}
+                </td>
+                <td className="py-2 px-4 border-b border-solid">
+                  {member.username}
+                </td>
+                <td className="py-2 px-4 border-b border-solid">
+                  {member.phoneNum}
+                </td>
+                <td className="py-2 px-4 border-b border-solid">
+                  {member.fullName}
+                </td>
+                <td className="py-2 px-4 border-b border-solid">
+                  {member.nickname}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.point}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.exp}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.status}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.createdDt}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  {member.lastLogin ? member.lastLogin : "모름"}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  <button
+                    onClick={() => setSelectedMember(member)}
+                    className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200"
+                  >
+                    수정
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filteredMembers.map((member, index) => (
-                <tr
-                  key={member.id}
-                  className={`text-gray-600 text-sm ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-gray-200 transition-colors duration-200`}
-                >
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.id}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid">
-                    {member.username}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid">
-                    {member.phoneNum}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid">
-                    {member.fullName}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid">
-                    {member.nickname}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.point}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.exp}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.status}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.createdDt}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    {member.lastLogin ? member.lastLogin : "모름"}
-                  </td>
-                  <td className="py-2 px-4 border-b border-solid text-center">
-                    <button
-                      onClick={() => setSelectedMember(member)}
-                      className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200"
-                    >
-                      수정
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="mt-10">
-            <Paging
-              page={currentPage}
-              size={size}
-              totalElements={totalElements}
-              setPage={handlePageChange}
-              scroll={"top"}
-            />
-          </div>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-10">
+        <Paging
+          page={currentPage}
+          size={size}
+          totalElements={totalElements}
+          setPage={handlePageChange}
+          scroll="top"
+        />
       </div>
     </div>
   );

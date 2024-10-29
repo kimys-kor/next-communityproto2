@@ -125,7 +125,7 @@ function AdminMemberListClient({ members }: MemberListClientProps) {
       {/* Members Table */}
       <div className="mt-5 w-full overflow-x-auto">
         <div className="min-w-max mx-auto">
-          <table className="w-full bg-white border border-solid border-gray-300">
+          <table className="w-full bg-white truncate border border-solid border-gray-300">
             <thead>
               <tr className="bg-gray-100 text-gray-700 text-sm">
                 <th className="py-2 px-4 border-b border-solid">ID</th>
@@ -193,16 +193,16 @@ function AdminMemberListClient({ members }: MemberListClientProps) {
               ))}
             </tbody>
           </table>
-          <div className="mt-10">
-            <Paging
-              page={currentPage}
-              size={size}
-              totalElements={totalElements}
-              setPage={handlePageChange}
-              scroll={"top"}
-            />
-          </div>
         </div>
+      </div>
+      <div className="mt-10">
+        <Paging
+          page={currentPage}
+          size={size}
+          totalElements={totalElements}
+          setPage={handlePageChange}
+          scroll={"top"}
+        />
       </div>
     </div>
   );

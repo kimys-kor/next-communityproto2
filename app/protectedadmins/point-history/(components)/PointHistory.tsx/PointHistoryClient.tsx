@@ -98,7 +98,7 @@ function PointHistoryClient({ histories }: PointHistoryClientProps) {
 
       {/* Point Histories Table */}
       <div className="w-full overflow-x-auto">
-        <table className="w-full bg-white border border-solid border-gray-300">
+        <table className="w-full bg-white border truncate border-solid border-gray-300">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-sm">
               <th className="py-2 px-4 border-b border-solid">ID</th>

@@ -28,7 +28,7 @@ export default function BlockedIpList() {
   return (
     <div className="w-full flex justify-start">
       <div className="w-[300px] p-3 overflow-x-auto">
-        <table className="w-full bg-white border border-solid border-gray-300">
+        <table className="w-full bg-white truncate border border-solid border-gray-300">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-sm">
               <th className="py-2 px-4 border-b border-solid">ID</th>
