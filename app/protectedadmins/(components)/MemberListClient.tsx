@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import MemberDetail from "./MemberDetail";
+import Paging from "@/app/components/Paging";
 
 type Member = {
   id: number;
@@ -19,8 +21,18 @@ type MemberListClientProps = {
 };
 
 function MemberListClient({ members }: MemberListClientProps) {
+  const size = 15;
   const [searchField, setSearchField] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const handlePageChange = () => {
+    setCurrentPage(1);
+  };
 
   const filteredMembers = members.filter((member) => {
     if (searchField === "all") {
@@ -38,6 +50,15 @@ function MemberListClient({ members }: MemberListClientProps) {
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
   });
+
+  if (selectedMember) {
+    return (
+      <MemberDetail
+        member={selectedMember}
+        onBack={() => setSelectedMember(null)}
+      />
+    );
+  }
 
   return (
     <div>
@@ -131,7 +152,10 @@ function MemberListClient({ members }: MemberListClientProps) {
                     {member.lastLogin ? member.lastLogin : "모름"}
                   </td>
                   <td className="py-2 px-4 border-b border-solid text-center">
-                    <button className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200">
+                    <button
+                      onClick={() => setSelectedMember(member)}
+                      className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200"
+                    >
                       수정
                     </button>
                   </td>
@@ -139,6 +163,15 @@ function MemberListClient({ members }: MemberListClientProps) {
               ))}
             </tbody>
           </table>
+          <div className="mt-10">
+            <Paging
+              page={currentPage}
+              size={size}
+              totalElements={totalElements}
+              setPage={handlePageChange}
+              scroll={"top"}
+            />
+          </div>
         </div>
       </div>
     </div>

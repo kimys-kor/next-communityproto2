@@ -8,9 +8,12 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     name: "회원관리",
+    subMenu: [{ name: "회원 목록", link: "/protectedadmins" }],
+  },
+  {
+    name: "포인트로그",
     subMenu: [
-      { name: "회원 목록", link: "/protectedadmins/members" },
-      { name: "포인트", link: "/protectedadmins/members/point" },
+      { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
     ],
   },
   {
@@ -23,12 +26,6 @@ const menuItems: MenuItem[] = [
     name: "댓글관리",
     subMenu: [
       { name: "금지어설정", link: "/protectedadmins/comments/forbiddenwords" },
-    ],
-  },
-  {
-    name: "포인트로그",
-    subMenu: [
-      { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
     ],
   },
   {
@@ -59,7 +56,7 @@ export default function AdminSide() {
       <ul className="text-lg font-medium space-y-4">
         {menuItems.map((item, index) => (
           <div key={index} className="mb-4">
-            <li className="px-4 py-3 rounded-md bg-blue-500 text-black font-bold hover:bg-blue transition-colors text-base md:text-lg">
+            <li className="truncate px-4 py-3 rounded-md bg-blue-500 text-black transition-colors text-base md:text-lg">
               {item.name}
             </li>
             <ul className="mt-2 pl-4 space-y-1">
@@ -69,7 +66,7 @@ export default function AdminSide() {
                   key={subIndex}
                   className="block w-full"
                 >
-                  <li className="px-3 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors text-sm md:text-base">
+                  <li className="truncate px-3 py-2 text-gray-700 rounded-md hover:bg-gray-200 hover:text-gray-800 transition-colors text-sm md:text-base">
                     {subItem.name}
                   </li>
                 </Link>
