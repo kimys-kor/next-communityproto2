@@ -1,0 +1,148 @@
+"use client";
+import React, { useState } from "react";
+
+type Member = {
+  id: number;
+  username: string;
+  phoneNum: string;
+  fullName: string;
+  nickname: string;
+  point: number;
+  exp: number;
+  status: string;
+  createdDt: string;
+  lastLogin: string | null;
+};
+
+type MemberListClientProps = {
+  members: Member[];
+};
+
+function MemberListClient({ members }: MemberListClientProps) {
+  const [searchField, setSearchField] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const filteredMembers = members.filter((member) => {
+    if (searchField === "all") {
+      return (
+        member.username.includes(searchQuery) ||
+        member.phoneNum.includes(searchQuery) ||
+        member.fullName.includes(searchQuery) ||
+        member.nickname.includes(searchQuery) ||
+        member.status.includes(searchQuery) ||
+        member.createdDt.includes(searchQuery)
+      );
+    }
+    return member[searchField as keyof Member]
+      ?.toString()
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+  });
+
+  return (
+    <div>
+      {/* Search Controls */}
+      <div className="flex items-center gap-3 mb-6 p-3 bg-white rounded-md border border-solid border-gray-200 shadow-sm">
+        <select
+          className="p-2 border border-solid border-gray-300 rounded bg-gray-100 text-gray-700 text-sm"
+          value={searchField}
+          onChange={(e) => setSearchField(e.target.value)}
+        >
+          <option value="all">전체</option>
+          <option value="username">회원의 아이디</option>
+          <option value="phoneNum">전화번호</option>
+          <option value="fullName">풀네임</option>
+          <option value="nickname">닉네임</option>
+          <option value="status">상태</option>
+          <option value="createdDt">날짜</option>
+        </select>
+        <input
+          type="text"
+          placeholder="검색어 입력"
+          className="p-2 border border-solid border-gray-300 rounded w-64 text-gray-700 text-sm bg-gray-100"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button
+          onClick={() => console.log("Search clicked")}
+          className="px-4 py-2 bg-gray-600 text-white text-sm rounded-md font-medium"
+        >
+          검색
+        </button>
+      </div>
+
+      {/* Members Table */}
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-max mx-auto">
+          <table className="w-full bg-white border border-solid border-gray-300">
+            <thead>
+              <tr className="bg-gray-100 text-gray-700 text-sm">
+                <th className="py-2 px-4 border-b border-solid">ID</th>
+                <th className="py-2 px-4 border-b border-solid">아이디</th>
+                <th className="py-2 px-4 border-b border-solid">전화번호</th>
+                <th className="py-2 px-4 border-b border-solid">이름</th>
+                <th className="py-2 px-4 border-b border-solid">닉네임</th>
+                <th className="py-2 px-4 border-b border-solid">포인트</th>
+                <th className="py-2 px-4 border-b border-solid">경험치</th>
+                <th className="py-2 px-4 border-b border-solid">상태</th>
+                <th className="py-2 px-4 border-b border-solid">생성 날짜</th>
+                <th className="py-2 px-4 border-b border-solid">
+                  마지막 로그인
+                </th>
+                <th className="py-2 px-4 border-b border-solid">수정</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredMembers.map((member, index) => (
+                <tr
+                  key={member.id}
+                  className={`text-gray-600 text-sm ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-200 transition-colors duration-200`}
+                >
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.id}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid">
+                    {member.username}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid">
+                    {member.phoneNum}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid">
+                    {member.fullName}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid">
+                    {member.nickname}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.point}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.exp}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.status}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.createdDt}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    {member.lastLogin ? member.lastLogin : "모름"}
+                  </td>
+                  <td className="py-2 px-4 border-b border-solid text-center">
+                    <button className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200">
+                      수정
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default MemberListClient;
