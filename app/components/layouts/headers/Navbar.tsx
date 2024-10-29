@@ -176,7 +176,6 @@ const Navbar = () => {
         </ul>
       </nav>
 
-      {/* Mobile Navigation (Scrollable) */}
       <nav className="md:hidden w-full bg-blue font-medium text-sm text-white overflow-hidden">
         <div className="flex flex-wrap">
           <div className="flex flex-wrap items-center pl-3 divide-x divide-gray-300">
@@ -185,7 +184,7 @@ const Navbar = () => {
               className="cursor-pointer"
               onClick={toggleSidebar}
             />
-            {/* Adjust divide-x to divide-y if vertical */}
+
             {links.map((link, index) => (
               <Link
                 key={index}
@@ -201,7 +200,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Sidebar Component */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </div>
   );

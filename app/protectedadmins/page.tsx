@@ -1,12 +1,13 @@
 import React from "react";
 import MemberList from "./(components)/MemberList";
+import { FiMenu } from "react-icons/fi";
 
-function page() {
+export default function Page() {
   return (
-    <div className="flex flex-col gap-3 max-w-[1300px]">
-      <MemberList />
+    <div className="w-full justify-center flex-col gap-3">
+      <main className="w-full flex-col items-center mt-4 overflow-x-auto p-6 sm:p-3">
+        <MemberList />
+      </main>
     </div>
   );
 }
-
-export default page;

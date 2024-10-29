@@ -38,61 +38,64 @@ const members: Member[] = [
     createdDt: "2024.10.29 01:15:22",
     lastLogin: "2024.10.29 02:00:00",
   },
-  // Add more members here if needed
 ];
 
 function MemberList() {
   return (
-    <div className="overflow-x-auto p-3">
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100 text-gray-700 text-sm">
-            <th className="py-2 px-4 border-b">ID</th>
-            <th className="py-2 px-4 border-b">아이디</th>
-            <th className="py-2 px-4 border-b">전화번호</th>
-            <th className="py-2 px-4 border-b">이름</th>
-            <th className="py-2 px-4 border-b">닉네임</th>
-            <th className="py-2 px-4 border-b">포인트</th>
-            <th className="py-2 px-4 border-b">경험치</th>
-            <th className="py-2 px-4 border-b">상태</th>
-            <th className="py-2 px-4 border-b">생성 날짜</th>
-            <th className="py-2 px-4 border-b">마지막 로그인</th>
-            <th className="py-2 px-4 border-b">수정</th>
-          </tr>
-        </thead>
-        <tbody>
-          {members.map((member, index) => (
-            <tr
-              key={member.id}
-              className={`text-gray-600 text-sm ${
-                index % 2 === 0 ? "bg-gray-50" : "bg-white"
-              } hover:bg-gray-200 transition-colors duration-200`}
-            >
-              <td className="py-2 px-4 border-b text-center">{member.id}</td>
-              <td className="py-2 px-4 border-b">{member.username}</td>
-              <td className="py-2 px-4 border-b">{member.phoneNum}</td>
-              <td className="py-2 px-4 border-b">{member.fullName}</td>
-              <td className="py-2 px-4 border-b">{member.nickname}</td>
-              <td className="py-2 px-4 border-b text-center">{member.point}</td>
-              <td className="py-2 px-4 border-b text-center">{member.exp}</td>
-              <td className="py-2 px-4 border-b text-center">
-                {member.status}
-              </td>
-              <td className="py-2 px-4 border-b text-center">
-                {member.createdDt}
-              </td>
-              <td className="py-2 px-4 border-b text-center">
-                {member.lastLogin ? member.lastLogin : "모름"}
-              </td>
-              <td className="py-2 px-4 border-b text-center">
-                <button className="px-3 py-1 text-sm text-blue border border-blue rounded hover:bg-blue hover:text-white transition-colors duration-200">
-                  수정
-                </button>
-              </td>
+    <div className="w-full overflow-x-auto">
+      <div className="min-w-max mx-auto">
+        <table className="w-full bg-white border border-gray-300 border-solid">
+          <thead>
+            <tr className="bg-gray-100 text-gray-700 text-sm">
+              <th className="py-2 px-4 border-b">ID</th>
+              <th className="py-2 px-4 border-b">아이디</th>
+              <th className="py-2 px-4 border-b">전화번호</th>
+              <th className="py-2 px-4 border-b">이름</th>
+              <th className="py-2 px-4 border-b">닉네임</th>
+              <th className="py-2 px-4 border-b">포인트</th>
+              <th className="py-2 px-4 border-b">경험치</th>
+              <th className="py-2 px-4 border-b">상태</th>
+              <th className="py-2 px-4 border-b">생성 날짜</th>
+              <th className="py-2 px-4 border-b">마지막 로그인</th>
+              <th className="py-2 px-4 border-b">수정</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {members.map((member, index) => (
+              <tr
+                key={member.id}
+                className={`text-gray-600 text-sm ${
+                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                } hover:bg-gray-200 transition-colors duration-200`}
+              >
+                <td className="py-2 px-4 border-b text-center">{member.id}</td>
+                <td className="py-2 px-4 border-b">{member.username}</td>
+                <td className="py-2 px-4 border-b">{member.phoneNum}</td>
+                <td className="py-2 px-4 border-b">{member.fullName}</td>
+                <td className="py-2 px-4 border-b">{member.nickname}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {member.point}
+                </td>
+                <td className="py-2 px-4 border-b text-center">{member.exp}</td>
+                <td className="py-2 px-4 border-b text-center">
+                  {member.status}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  {member.createdDt}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  {member.lastLogin ? member.lastLogin : "모름"}
+                </td>
+                <td className="py-2 px-4 border-b text-center">
+                  <button className="px-3 py-1 text-sm text-blue border border-blue rounded hover:bg-blue hover:text-white transition-colors duration-200">
+                    수정
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
