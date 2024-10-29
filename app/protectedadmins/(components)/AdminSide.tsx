@@ -16,16 +16,16 @@ const menuItems: MenuItem[] = [
       { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
     ],
   },
-  {
-    name: "게시판관리",
-    subMenu: [{ name: "금지어설정", link: "/protectedadmins/post-forbidden" }],
-  },
-  {
-    name: "댓글관리",
-    subMenu: [
-      { name: "금지어설정", link: "/protectedadmins/comments-forbidden" },
-    ],
-  },
+  // {
+  //   name: "게시판관리",
+  //   subMenu: [{ name: "금지어설정", link: "/protectedadmins/post-forbidden" }],
+  // },
+  // {
+  //   name: "댓글관리",
+  //   subMenu: [
+  //     { name: "금지어설정", link: "/protectedadmins/comments-forbidden" },
+  //   ],
+  // },
   {
     name: "IP관리",
     subMenu: [{ name: "차단IP 관리", link: "/protectedadmins/iplist" }],
