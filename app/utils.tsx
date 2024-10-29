@@ -19,7 +19,7 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
-import { BoardItem } from "./types";
+import { BoardItem, Member, MemberDataResponse } from "./types";
 import { BoardItem2 } from "./types";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 
@@ -259,6 +259,41 @@ export const fetchInitialComments = async (
 
   return data.data;
 };
+
+export async function fetchInitialMemberData(
+  page: number = 0,
+  size: number = 15,
+  keyword: string = ""
+): Promise<{
+  content: Member[];
+  totalElements: number;
+  page: number;
+  size: number;
+}> {
+  const response = await fetch(
+    `${process.env.API_URL}+/admin/user/findall?page=${page}&size=${size}&keyword=${keyword}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch member data");
+  }
+
+  const responseData: MemberDataResponse = await response.json();
+
+  return {
+    content: responseData.data.content,
+    totalElements: responseData.data.totalElements,
+    page: responseData.data.pageable.pageNumber,
+    size: responseData.data.pageable.pageSize,
+  };
+}
 
 export const getPostUrl = (postType: number, id: number): string => {
   switch (postType) {

@@ -90,6 +90,43 @@ export type savePostRequest = {
   thumbNail: string | null;
 };
 
+export type Member = {
+  id: number;
+  username: string;
+  phoneNum: string;
+  fullName: string;
+  nickname: string;
+  point: number;
+  exp: number;
+  status: string;
+  createdDt: string;
+  lastLogin: string | null;
+};
+
+export type MemberDataResponse = {
+  status: string;
+  code: string;
+  message: string;
+  data: {
+    content: Member[];
+    pageable: {
+      offset: number;
+      pageSize: number;
+      pageNumber: number;
+      paged: boolean;
+      unpaged: boolean;
+    };
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
+  };
+};
+
 export const colors = [
   "transparent",
   "white",

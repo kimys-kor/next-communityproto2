@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MemberDetail from "./MemberDetail";
 import Paging from "@/app/components/Paging";
 import { FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
-type Member = {
+export type Member = {
   id: number;
   username: string;
   phoneNum: string;
@@ -17,47 +18,124 @@ type Member = {
   lastLogin: string | null;
 };
 
-type MemberListClientProps = {
-  members: Member[];
+export type MemberListClientProps = {
+  initialMembers: Member[];
+  totalElements: number;
+  initialPage: number;
+  size: number;
 };
 
-function MemberListClient({ members }: MemberListClientProps) {
-  const size = 15;
-  const [searchField, setSearchField] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalElements, setTotalElements] = useState(members.length);
-  const [totalPages, setTotalPages] = useState(
-    Math.ceil(members.length / size)
+async function fetchMembers(page: number, size: number, keyword: string) {
+  const response = await fetch(
+    `/api/admin/user?${new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      keyword,
+    })}`
   );
+  if (!response.ok) {
+    throw new Error("Failed to fetch member data");
+  }
+  const data = await response.json();
+  return data;
+}
+
+async function blockSelectedMembers(idList: string[]) {
+  const response = await fetch("/api/admin/deleteUser", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ idList: idList }),
+  });
+
+  if (!response.ok) throw new Error("Failed to block selected members");
+}
+
+function MemberListClient({
+  initialMembers,
+  totalElements: initialTotalElements,
+  initialPage = 1,
+  size,
+}: MemberListClientProps) {
+  const [members, setMembers] = useState<Member[]>(initialMembers);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [keyword, setKeyword] = useState<string>("");
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalElements, setTotalElements] = useState(initialTotalElements);
+  const [totalPages, setTotalPages] = useState(
+    Math.ceil(initialTotalElements / size)
+  );
+
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [searchField, setSearchField] = useState<string>("all");
+
+  const fetchData = async (pageNumber: number, searchKeyword: string) => {
+    setMembers([]);
+    try {
+      const data = await fetchMembers(pageNumber - 1, size, searchKeyword);
+      setMembers(data.data.content);
+      setTotalElements(data.data.totalElements);
+      setTotalPages(Math.ceil(data.data.totalElements / size));
+      setSelectedMembers([]);
+      setSelectAll(false);
+    } catch (error) {
+      console.error("Error fetching member data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage, keyword);
+  }, [currentPage, keyword]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  const filteredMembers = members.filter((member) => {
-    if (searchField === "all") {
-      return (
-        member.username.includes(searchQuery) ||
-        member.phoneNum.includes(searchQuery) ||
-        member.fullName.includes(searchQuery) ||
-        member.nickname.includes(searchQuery) ||
-        member.status.includes(searchQuery) ||
-        member.createdDt.includes(searchQuery)
-      );
-    }
-    return member[searchField as keyof Member]
-      ?.toString()
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-  });
+  const handleSearch = () => {
+    setCurrentPage(1);
+    setKeyword(searchQuery);
+  };
 
-  const paginatedMembers = filteredMembers.slice(
-    (currentPage - 1) * size,
-    currentPage * size
-  );
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedMembers([]);
+    } else {
+      setSelectedMembers(members.map((member) => member.username));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectMember = (username: string) => {
+    setSelectedMembers((prevSelected) =>
+      prevSelected.includes(username)
+        ? prevSelected.filter((memberUsername) => memberUsername !== username)
+        : [...prevSelected, username]
+    );
+  };
+
+  const handleBlockSelected = async () => {
+    if (selectedMembers.length === 0) {
+      alert("차단할 회원을 선택하세요.");
+      return;
+    }
+
+    const confirmed = window.confirm("선택한 회원을 차단하시겠습니까?");
+    if (!confirmed) return;
+
+    try {
+      await blockSelectedMembers(selectedMembers);
+      setSelectedMembers([]);
+      setSelectAll(false);
+      toast.success("선택한 회원이 차단되었습니다.");
+      window.location.reload(); // 새로고침
+    } catch (error) {
+      console.error("Error blocking members:", error);
+      toast.error("차단에 실패했습니다.");
+    }
+  };
 
   if (selectedMember) {
     return (
@@ -84,7 +162,7 @@ function MemberListClient({ members }: MemberListClientProps) {
           <option value="nickname">닉네임</option>
           <option value="status">상태</option>
           <option value="createdDt">날짜</option>
-        </select>
+        </select>{" "}
         <input
           type="text"
           placeholder="검색어 입력"
@@ -93,7 +171,7 @@ function MemberListClient({ members }: MemberListClientProps) {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button
-          onClick={() => console.log("Search clicked")}
+          onClick={handleSearch}
           className="px-4 py-2 bg-gray-600 text-white text-sm rounded-md font-medium"
         >
           검색
@@ -117,24 +195,32 @@ function MemberListClient({ members }: MemberListClientProps) {
             / <span>{totalPages}</span> 페이지{")"}
           </div>
         </div>
-
         <div className="flex items-center gap-5">
           <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
-            <input type="checkbox" className="hidden" />
+            <input
+              type="checkbox"
+              checked={selectAll}
+              onChange={handleSelectAll}
+              className="hidden"
+            />
             <span>전체선택</span>
           </label>
-          <button className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800">
+          <button
+            onClick={handleBlockSelected}
+            className="flex items-center gap-1 text-red-600 text-sm hover:text-red-800"
+          >
             <FaTrash />
-            <span>차단처리</span>
+            <span>차단/해제</span>
           </button>
         </div>
       </header>
 
       {/* Members Table */}
       <div className="mt-5 w-full overflow-x-auto">
-        <table className="w-full bg-white border border-solid truncate border-gray-300">
+        <table className="w-full bg-white border border-solid border-gray-300">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-sm">
+              <th className="py-2 px-4 border-b border-solid">선택</th>
               <th className="py-2 px-4 border-b border-solid">ID</th>
               <th className="py-2 px-4 border-b border-solid">아이디</th>
               <th className="py-2 px-4 border-b border-solid">전화번호</th>
@@ -149,13 +235,19 @@ function MemberListClient({ members }: MemberListClientProps) {
             </tr>
           </thead>
           <tbody>
-            {paginatedMembers.map((member, index) => (
+            {members.map((member) => (
               <tr
                 key={member.id}
-                className={`text-gray-600 text-sm ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                } hover:bg-gray-200 transition-colors duration-200`}
+                className="text-gray-600 text-sm hover:bg-gray-200 transition-colors duration-200"
               >
+                <td className="py-2 px-4 border-b border-solid text-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedMembers.includes(member.username)}
+                    onChange={() => handleSelectMember(member.username)}
+                    className="h-4 w-4"
+                  />
+                </td>
                 <td className="py-2 px-4 border-b border-solid text-center">
                   {member.id}
                 </td>
@@ -199,6 +291,7 @@ function MemberListClient({ members }: MemberListClientProps) {
           </tbody>
         </table>
       </div>
+
       <div className="mt-10">
         <Paging
           page={currentPage}

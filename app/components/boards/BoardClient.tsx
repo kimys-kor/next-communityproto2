@@ -129,13 +129,11 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   const handleDeleteSelected = async () => {
     if (selectedItems.length === 0) {
-      alert("No items selected for deletion.");
+      alert("게시글을 선택 해주세요.");
       return;
     }
 
-    const confirmed = window.confirm(
-      "Are you sure you want to delete the selected items?"
-    );
+    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
     if (!confirmed) {
       return;
     }
@@ -150,7 +148,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete selected posts");
+        throw new Error("게시글삭제 실패");
       }
 
       setBoardList((prevBoardList) =>

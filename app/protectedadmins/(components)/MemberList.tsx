@@ -1,55 +1,69 @@
 import React from "react";
-import MemberListClient from "./MemberListClient";
+import MemberListClient, { Member } from "./MemberListClient";
+import { cookies } from "next/headers";
 
-type Member = {
-  id: number;
-  username: string;
-  phoneNum: string;
-  fullName: string;
-  nickname: string;
-  point: number;
-  exp: number;
-  status: string;
-  createdDt: string;
-  lastLogin: string | null;
-};
+async function fetchInitialMemberData(
+  page = 0,
+  size = 15,
+  keyword = ""
+): Promise<{
+  content: Member[];
+  totalElements: number;
+  page: number;
+  size: number;
+}> {
+  "use server";
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("Authorization")?.value;
 
-async function fetchMembers(): Promise<Member[]> {
-  return [
-    {
-      id: 2,
-      username: "kwn201",
-      phoneNum: "123123",
-      fullName: "이준호",
-      nickname: "제우스",
-      point: 0,
-      exp: 0,
-      status: "NORMAL",
-      createdDt: "2024.10.29 00:24:47",
-      lastLogin: null,
-    },
-    {
-      id: 3,
-      username: "user202",
-      phoneNum: "987654",
-      fullName: "김철수",
-      nickname: "헬리오스",
-      point: 10,
-      exp: 5,
-      status: "ACTIVE",
-      createdDt: "2024.10.29 01:15:22",
-      lastLogin: "2024.10.29 02:00:00",
-    },
-  ];
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/admin/user/findall?page=${page}&size=${size}&keyword=${encodeURIComponent(keyword)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Failed to fetch member data:", errorText);
+      throw new Error("Failed to fetch member data");
+    }
+
+    const responseData = await response.json();
+    return {
+      content: responseData.data.content,
+      totalElements: responseData.data.totalElements,
+      page: responseData.data.pageable.pageNumber,
+      size: responseData.data.pageable.pageSize,
+    };
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
 }
 
 export default async function MemberList() {
-  const members = await fetchMembers();
+  const {
+    content: initialMembers,
+    totalElements,
+    page: initialPage,
+    size,
+  } = await fetchInitialMemberData();
 
   return (
     <div className="w-full p-3">
-      {/* Members Table */}
-      <MemberListClient members={members} />
+      <MemberListClient
+        initialMembers={initialMembers}
+        totalElements={totalElements}
+        initialPage={initialPage}
+        size={size}
+      />
     </div>
   );
 }
