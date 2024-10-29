@@ -1,7 +1,7 @@
 "use client";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa"; // Import the icon
+import { FaArrowRight } from "react-icons/fa";
 
 interface MenuItem {
   name: string;

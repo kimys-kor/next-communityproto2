@@ -389,3 +389,25 @@ export const formatDate = (createdDt: string) => {
     return `${year}.${month}.${day}`;
   }
 };
+
+export interface MenuItem {
+  name: string;
+  subMenu: { name: string; link: string }[];
+}
+
+export const menuItems: MenuItem[] = [
+  {
+    name: "회원관리",
+    subMenu: [{ name: "회원 목록", link: "/protectedadmins" }],
+  },
+  {
+    name: "포인트로그",
+    subMenu: [
+      { name: "포인트 히스토리", link: "/protectedadmins/point-history" },
+    ],
+  },
+  {
+    name: "IP관리",
+    subMenu: [{ name: "차단IP 관리", link: "/protectedadmins/iplist" }],
+  },
+];
