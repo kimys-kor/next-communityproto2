@@ -1,9 +1,11 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import MemberDetail from "./MemberDetail";
 import Paging from "@/app/components/Paging";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
+import NewAdminMemberForm from "./NewAdminMemberForm";
 
 export type Member = {
   id: number;
@@ -27,16 +29,18 @@ function AdminMemberListClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [searchField, setSearchField] = useState<string>("all");
+  const [showForm, setShowForm] = useState(false); // To toggle form display
 
   const fetchData = async (pageNumber: number, searchKeyword: string) => {
     setMembers([]);
     try {
       const response = await fetch(
-        `/api/master/adminuser?page=${pageNumber - 1}&size=${size}&keyword=${encodeURIComponent(searchKeyword)}`
+        `/api/master/adminuser?page=${pageNumber - 1}&size=${size}&keyword=${encodeURIComponent(
+          searchKeyword
+        )}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch member data");
@@ -83,6 +87,10 @@ function AdminMemberListClient() {
     );
   };
 
+  const handleAddClick = () => {
+    setShowForm(true);
+  };
+
   const handleBlockSelected = async () => {
     if (selectedMembers.length === 0) {
       alert("차단할 회원을 선택하세요.");
@@ -105,7 +113,7 @@ function AdminMemberListClient() {
       setSelectedMembers([]);
       setSelectAll(false);
       toast.success("선택한 회원이 차단되었습니다.");
-      fetchData(currentPage, keyword); // Refresh data after blocking
+      fetchData(currentPage, keyword);
     } catch (error) {
       console.error("Error blocking members:", error);
       toast.error("차단에 실패했습니다.");
@@ -171,6 +179,13 @@ function AdminMemberListClient() {
           </div>
         </div>
         <div className="flex items-center gap-5">
+          <button
+            onClick={handleAddClick}
+            className="flex items-center gap-1 text-black text-sm hover:text-blue"
+          >
+            <FaPlus />
+            <span>추가</span>
+          </button>
           <label className="flex items-center cursor-pointer text-purple-600 text-sm gap-1 hover:text-purple-800">
             <input
               type="checkbox"
@@ -189,6 +204,17 @@ function AdminMemberListClient() {
           </button>
         </div>
       </header>
+
+      {/* Add Member Form */}
+      {showForm && (
+        <NewAdminMemberForm
+          onSave={() => setShowForm(false)}
+          onCancel={() => setShowForm(false)}
+          currentPage={currentPage}
+          keyword={keyword}
+          fetchData={fetchData}
+        />
+      )}
 
       {/* Members Table */}
       <div className="mt-5 w-full overflow-x-auto">

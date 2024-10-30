@@ -106,8 +106,8 @@ function BlockedIpList() {
 
   const handleSaveIp = async () => {
     const ipAddress = prompt("추가할 아이피를 입력하세요.");
+
     if (!ipAddress) {
-      alert("아이피를 입력해주세요.");
       return;
     }
 
