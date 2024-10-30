@@ -30,9 +30,8 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
   const basePath = pathname?.split("/")[1] || "";
   const [isEditing, setIsEditing] = useState(false);
 
-  // Ensure content is defined and sanitize it
   const sanitizedData = () => {
-    const contentHtml = content.content || ""; // Default to empty string if undefined
+    const contentHtml = content.content || "";
     return { __html: DOMPurify.sanitize(contentHtml) };
   };
 
@@ -45,15 +44,17 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
     if (!confirmed) return;
 
     try {
-      const response = await fetch("/api/board/changePost", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId: content.id }),
-      });
+      const response = await fetch(
+        `/api/board/deleteMyPost?boardId=${content.id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (response.ok) {
         alert("게시물이 성공적으로 삭제되었습니다!");
-        router.push(`/${basePath}`);
+        window.location.href = `/${basePath}`;
       } else {
         throw new Error("게시물 삭제 실패");
       }
@@ -62,7 +63,6 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
       alert("게시물 삭제에 실패했습니다.");
     }
   };
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -115,17 +115,11 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
             </div>
           </section>
           <section className="flex items-center gap-3 text-md">
-            <Link href={`/${basePath}`}>
-              <div className="flex items-center gap-1 cursor-pointer text-[#6c757d] hover:text-gray-600">
-                <HiBars3 size={20} />
-                <span>목록</span>
-              </div>
-            </Link>
             {canEditOrDelete && (
               <>
                 <button
                   onClick={handleEditClick}
-                  className="text-blue-500 hover:text-blue-700"
+                  className="text-blue hover:text-deepblue"
                 >
                   수정
                 </button>
@@ -137,6 +131,12 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
                 </button>
               </>
             )}
+            <Link href={`/${basePath}`}>
+              <div className="flex items-center gap-1 cursor-pointer text-[#6c757d] hover:text-gray-600">
+                <HiBars3 size={20} />
+                <span>목록</span>
+              </div>
+            </Link>
           </section>
         </article>
       </section>

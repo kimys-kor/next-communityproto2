@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 

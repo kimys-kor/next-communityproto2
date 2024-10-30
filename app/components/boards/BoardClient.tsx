@@ -153,11 +153,11 @@ const BoardClient: React.FC<BoardClientProps> = ({
         throw new Error("게시글삭제 실패");
       }
 
-      setBoardList((prevBoardList) =>
-        prevBoardList.filter((item) => !selectedItems.includes(item.id))
-      );
+      await fetchData(page);
+
       setSelectedItems([]);
       setSelectAll(false);
+      toast.success("선택한 게시물이 성공적으로 삭제되었습니다.");
     } catch (error) {
       console.error("Error deleting selected items:", error);
       alert("An error occurred while deleting the selected posts.");
