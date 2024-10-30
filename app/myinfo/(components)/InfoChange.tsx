@@ -18,7 +18,6 @@ function InfoChange() {
     point: 104200,
     joinDate: "2024-08-25",
     phoneNumber: "01011112222",
-    email: "king@naver.com",
   };
 
   const {
@@ -30,9 +29,8 @@ function InfoChange() {
     mode: "onChange",
     defaultValues: {
       fullname: userInfo.fullname,
-      nickname: userInfo.nickname, // 기본값을 userInfo.nickname으로 설정
+      nickname: userInfo.nickname,
       phoneNumber: userInfo.phoneNumber,
-      email: userInfo.email,
     },
   });
 
@@ -126,41 +124,13 @@ function InfoChange() {
                     </>
                   )}
                 />
-                <button
+                {/* <button
                   type="button"
                   disabled={!isPhoneNumberValid}
                   className={`border border-solid rounded-lg border-blue bg-white text-blue px-2 py-3 w-full ${isPhoneNumberValid ? "hover:bg-blue hover:text-white" : "opacity-50 cursor-not-allowed"}`}
                 >
                   인증번호 전송
-                </button>
-              </div>
-              <div className="w-full flex flex-col gap-3 p-2">
-                <p className="w-24">E-mail</p>
-                <Controller
-                  name="email"
-                  control={control}
-                  rules={{
-                    required: "이메일은 필수 입력 사항입니다.",
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: "유효한 이메일 주소를 입력하세요.",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <input
-                        {...field}
-                        type="email"
-                        className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                      />
-                      {errors.email && (
-                        <p className="text-warnigtext text-xs">
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </>
-                  )}
-                />
+                </button> */}
               </div>
             </div>
           </div>
