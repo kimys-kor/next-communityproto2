@@ -27,6 +27,10 @@ const menuItems: MenuItem[] = [
     name: "IP관리",
     subMenu: [{ name: "차단IP 관리", link: "/protectedadmins/iplist" }],
   },
+  {
+    name: "배너관리",
+    subMenu: [{ name: "배너 관리", link: "/protectedadmins/bannerlist" }],
+  },
 ];
 
 export default function AdminSide() {

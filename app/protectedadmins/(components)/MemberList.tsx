@@ -32,7 +32,6 @@ async function fetchInitialMemberData(
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Failed to fetch member data:", errorText);
-      throw new Error("Failed to fetch member data");
     }
 
     const responseData = await response.json();

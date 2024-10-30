@@ -269,30 +269,36 @@ export async function fetchInitialMemberData(
   totalElements: number;
   page: number;
   size: number;
+  error?: boolean;
 }> {
-  const response = await fetch(
-    `${process.env.API_URL}+/admin/user/findall?page=${page}&size=${size}&keyword=${keyword}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/admin/user/findall?page=${page}&size=${size}&keyword=${encodeURIComponent(keyword)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch member data:", await response.text());
+      return { content: [], totalElements: 0, page, size, error: true };
     }
-  );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch member data");
+    const responseData: MemberDataResponse = await response.json();
+    return {
+      content: responseData.data.content,
+      totalElements: responseData.data.totalElements,
+      page: responseData.data.pageable.pageNumber,
+      size: responseData.data.pageable.pageSize,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { content: [], totalElements: 0, page, size, error: true };
   }
-
-  const responseData: MemberDataResponse = await response.json();
-
-  return {
-    content: responseData.data.content,
-    totalElements: responseData.data.totalElements,
-    page: responseData.data.pageable.pageNumber,
-    size: responseData.data.pageable.pageSize,
-  };
 }
 
 export const getPostUrl = (postType: number, id: number): string => {
