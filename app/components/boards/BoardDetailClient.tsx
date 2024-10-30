@@ -125,7 +125,7 @@ const BoardDetailClient: React.FC<BoardDetailClientPropsWithComments> = ({
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-700 hover:text-red-700"
                 >
                   삭제
                 </button>

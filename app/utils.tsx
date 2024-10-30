@@ -128,6 +128,7 @@ export async function fetchThreeBanner(): Promise<Banner[]> {
       `${process.env.API_URL}/guest/threeBannerlist`,
       {
         method: "GET",
+        cache: "no-store",
       }
     );
 
