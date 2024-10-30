@@ -263,7 +263,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
       </ul>
 
       {/* Registration button */}
-      {userInfo?.sck && (
+      {userInfo?.role && (
         <span className="mt-5 w-full flex justify-end">
           <Link href={`${pathname}/write`}>
             <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">

@@ -16,9 +16,11 @@ interface BoardClientProps {
   totalElements: number;
   size: number;
   typ: number;
+  writeBoolean: boolean;
 }
 
 const BoardClient: React.FC<BoardClientProps> = ({
+  writeBoolean,
   initialItems,
   initialPage,
   totalElements: initialTotalElements,
@@ -268,15 +270,25 @@ const BoardClient: React.FC<BoardClientProps> = ({
         </tbody>
       </table>
 
-      {userInfo?.sck && (
-        <span className="mt-5 w-full flex justify-end">
-          <Link href={`${pathname}/write`}>
-            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-              글작성하기
-            </button>
-          </Link>
-        </span>
-      )}
+      {writeBoolean
+        ? userInfo?.role && (
+            <span className="mt-5 w-full flex justify-end">
+              <Link href={`${pathname}/write`}>
+                <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+                  글작성하기
+                </button>
+              </Link>
+            </span>
+          )
+        : userInfo?.sck && (
+            <span className="mt-5 w-full flex justify-end">
+              <Link href={`${pathname}/write`}>
+                <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+                  글작성하기
+                </button>
+              </Link>
+            </span>
+          )}
 
       <Paging
         page={page}

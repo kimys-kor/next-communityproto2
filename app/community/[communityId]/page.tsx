@@ -1,5 +1,4 @@
 import BoardDetail from "@/app/components/boards/BoardDetail";
-import PhotoBoard from "@/app/components/boards/PhotoBoardContainer";
 import ProgressSliderPage from "@/app/components/ProgressSliderPage";
 import ThreeBanner from "@/app/components/ThreeBanner";
 import SubMenu from "../(component)/SubMenu";

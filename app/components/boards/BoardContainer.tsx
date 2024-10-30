@@ -5,9 +5,15 @@ interface BoardContainerProps {
   typ: number;
   page: number;
   size: number;
+  writeBoolean?: boolean;
 }
 
-const BoardContainer = async ({ typ, page, size }: BoardContainerProps) => {
+const BoardContainer = async ({
+  writeBoolean = false,
+  typ,
+  page,
+  size,
+}: BoardContainerProps) => {
   const {
     content,
     totalElements,
@@ -22,6 +28,7 @@ const BoardContainer = async ({ typ, page, size }: BoardContainerProps) => {
       totalElements={totalElements}
       size={pageSize}
       typ={typ}
+      writeBoolean={writeBoolean}
     />
   );
 };
