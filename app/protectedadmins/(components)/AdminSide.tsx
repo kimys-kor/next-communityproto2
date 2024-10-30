@@ -1,7 +1,11 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
+import { refreshUser } from "@/app/api/authAction";
+import { useRouter } from "next/navigation";
 
 interface MenuItem {
   name: string;
@@ -26,7 +30,25 @@ const menuItems: MenuItem[] = [
 ];
 
 export default function AdminSide() {
-  const { userInfo } = useUserStore();
+  const { userInfo, setUserInfo } = useUserStore();
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const initializeUser = async () => {
+      const data = await refreshUser();
+      if (data) {
+        setUserInfo(data);
+      } else {
+        router.push("/");
+      }
+      setLoading(false);
+    };
+    initializeUser();
+  }, [setUserInfo, router]);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className="bg-gray-100 rounded-lg p-4 h-screen w-full max-w-full lg:max-w-xs overflow-y-auto">
       <Link
@@ -34,7 +56,7 @@ export default function AdminSide() {
         href="/"
       >
         유저페이지
-        <FaArrowRight className="w-5 h-5 ml-2" /> {/* Add icon here */}
+        <FaArrowRight className="w-5 h-5 ml-2" />
       </Link>
       <ul className="text-lg font-medium space-y-4">
         {menuItems.map((item, index) => (
@@ -58,7 +80,7 @@ export default function AdminSide() {
           </div>
         ))}
 
-        {/* Hardcoded "마스터" section */}
+        {/* Conditionally render "마스터" section based on userInfo.sck */}
         {userInfo?.sck === "asdasdfz12e5t185g8" && (
           <div className="mb-4">
             <li className="truncate px-4 py-3 rounded-md bg-blue-500 text-black transition-colors text-base md:text-lg">

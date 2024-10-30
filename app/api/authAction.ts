@@ -7,38 +7,37 @@ import { useUserStore } from "../globalStatus/useUserStore";
 // import { NextResponse } from "next/server";
 
 export async function refreshUser() {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("Authorization")?.value;
-  const refreshToken = cookieStore.get("refresh_token")?.value;
-  if (refreshToken) {
-    try {
-      const response = await fetch(`${process.env.API_URL}/user/refresh`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          ...(accessToken && { Authorization: accessToken }),
-          Cookie: `refresh_token=${refreshToken}`,
-        },
-      });
+  const tokens = await getCookie();
+  if (!tokens) return null;
 
-      if (!response.ok) {
-        console.error(
-          "Failed to refresh user data:",
-          response.status,
-          response.statusText
-        );
-        const errorDetails = await response.json();
-        console.error("Error details:", errorDetails);
-        throw new Error(`Failed to refresh user data: ${response.status}`);
-      }
+  const { accessToken, refreshToken } = tokens;
 
-      const { data } = await response.json();
-      const { setUserInfo } = useUserStore.getState();
-      setUserInfo(data);
-      return data;
-    } catch (error) {
-      console.error("Error refreshing user data:", error);
+  try {
+    const response = await fetch(`${process.env.API_URL}/user/refresh`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        ...(accessToken && { Authorization: accessToken }),
+        Cookie: `refresh_token=${refreshToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error(
+        "Failed to refresh user data:",
+        response.status,
+        response.statusText
+      );
+      const errorDetails = await response.json();
+      console.error("Error details:", errorDetails);
+      throw new Error(`Failed to refresh user data: ${response.status}`);
     }
+
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error refreshing user data:", error);
+    return null;
   }
 }
 
@@ -121,8 +120,12 @@ export async function saveCookie(data: string) {
 
 export async function getCookie() {
   const cookieStore = cookies();
-  const token = cookieStore.get("Authorization");
-  return token;
+  const accessToken = cookieStore.get("Authorization")?.value;
+  const refreshToken = cookieStore.get("refresh_token")?.value;
+
+  if (!accessToken && !refreshToken) return null;
+
+  return { accessToken, refreshToken };
 }
 
 export async function removeCookie() {

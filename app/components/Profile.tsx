@@ -5,14 +5,10 @@ import { removeCookie } from "../api/authAction";
 import { useAuthStore } from "@/app/globalStatus/useAuthStore";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 import Link from "next/link";
+import { UserInfo } from "../types";
 
 interface ProfileProps {
-  userInfo: {
-    nickname: string;
-    fullName: string;
-    point: number;
-    sck?: boolean;
-  };
+  userInfo: UserInfo;
 }
 
 function Profile({ userInfo }: ProfileProps) {
@@ -45,7 +41,6 @@ function Profile({ userInfo }: ProfileProps) {
         정보수정
       </Link>
 
-      {/* Conditionally rendered link for protected admins */}
       {userInfo?.sck && (
         <Link
           href={"/protectedadmins"}
