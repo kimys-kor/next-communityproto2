@@ -127,6 +127,12 @@ export type MemberDataResponse = {
   };
 };
 
+export interface Banner {
+  id: number;
+  partnerName: string;
+  thumbNail: string;
+}
+
 export const colors = [
   "transparent",
   "white",

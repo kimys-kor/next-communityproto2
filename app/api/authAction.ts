@@ -36,7 +36,7 @@ export async function refreshUser() {
     const { data } = await response.json();
     return data;
   } catch (error) {
-    console.error("Error refreshing user data:", error);
+    console.error("Error refreshing user data:");
     return null;
   }
 }

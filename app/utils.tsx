@@ -19,9 +19,8 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
-import { BoardItem, Member, MemberDataResponse } from "./types";
+import { Banner, BoardItem, Member, MemberDataResponse } from "./types";
 import { BoardItem2 } from "./types";
-import { useUserStore } from "@/app/globalStatus/useUserStore";
 
 export const categoryMap: { [key: number]: string } = {
   2: "축구분석",
@@ -100,6 +99,47 @@ export async function fetchInitialAnalyzeData(typ: number) {
     return data.data.content as BoardItem[];
   } catch (error) {
     console.error("Error fetching initial data:", error);
+    return [];
+  }
+}
+
+export async function fetchHomeBanner(): Promise<Banner[]> {
+  try {
+    const response = await fetch(`${process.env.API_URL}/guest/bannerlist`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch banner list");
+    }
+
+    const data = await response.json();
+
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching banner content:", error);
+    return [];
+  }
+}
+
+export async function fetchThreeBanner(): Promise<Banner[]> {
+  try {
+    const response = await fetch(
+      `${process.env.API_URL}/guest/threeBannerlist`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch banner list");
+    }
+
+    const data = await response.json();
+
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching banner content:", error);
     return [];
   }
 }
