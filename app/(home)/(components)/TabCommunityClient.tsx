@@ -52,7 +52,7 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
             title: item.title,
             img: `/images/dog${(item.id % 4) + 1}.PNG`,
             date: "24.06.12",
-            writer: item.username || "관리자",
+            writer: item.nickname || "관리자",
           }));
         }
 
@@ -62,7 +62,7 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
       }
     };
 
-    const typMap = [6, 11, 9, 8];
+    const typMap = [9, 14, 12, 11];
     const typ = typMap[activeTab];
     const size = activeTab === 0 ? 4 : 5;
 
