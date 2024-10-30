@@ -36,7 +36,7 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
       },
       handleDrop(view, event, slice, moved) {
         const dataTransfer = event.dataTransfer;
-        // Ensure dataTransfer is not null and contains files
+
         if (
           dataTransfer &&
           dataTransfer.files &&

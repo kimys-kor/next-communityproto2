@@ -20,8 +20,8 @@ interface WriteProps {
 
 const Write: React.FC<WriteProps> = ({ title, postType }) => {
   const [content, setContent] = useState("");
-  const [notification, setNotification] = useState(false);
   const [postTitle, setPostTitle] = useState("");
+  const [notification, setNotification] = useState(false);
 
   const router = useRouter();
   const pathname = usePathname();

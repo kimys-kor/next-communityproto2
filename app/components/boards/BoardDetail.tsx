@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import BoardDetailClient from "./BoardDetailClient";
-import CommentPage from "./CommentPage";
-import { fetchInitialBoardContent } from "@/app/utils";
+import { fetchInitialBoardContent, fetchInitialComments } from "@/app/utils";
 
 const BoardDetail: React.FC = async () => {
   const headersList = headers();
@@ -14,14 +13,19 @@ const BoardDetail: React.FC = async () => {
   }
 
   const boardContent = await fetchInitialBoardContent(id);
-  if (!boardContent) {
+  const initialCommentsData = await fetchInitialComments(id, 0, 12);
+
+  if (!boardContent || !initialCommentsData) {
     return notFound();
   }
 
   return (
     <div>
-      <BoardDetailClient content={boardContent} />
-      <CommentPage boardId={id} />
+      <BoardDetailClient
+        content={boardContent}
+        boardId={id}
+        initialCommentsData={initialCommentsData}
+      />
     </div>
   );
 };

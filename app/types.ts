@@ -64,6 +64,7 @@ export interface BoardDetailClientProps {
     likes: number;
     replyNum: number;
     createdDt: string;
+    notification: boolean;
   };
 }
 

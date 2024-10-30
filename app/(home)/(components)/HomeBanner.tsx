@@ -6,6 +6,5 @@ import { Banner } from "@/app/types";
 export default async function HomeBanner() {
   const banners: Banner[] = await fetchHomeBanner();
 
-  console.log("Fetched Banners in HomeBanner:", banners); // Log server-side
   return <HomeBannerClient banners={banners} />;
 }
