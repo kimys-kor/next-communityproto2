@@ -192,7 +192,7 @@ function AdminMemberListClient() {
 
       {/* Members Table */}
       <div className="mt-5 w-full overflow-x-auto">
-        <table className="w-full bg-white border border-solid border-gray-300">
+        <table className="w-full bg-white border truncate border-solid border-gray-300">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-sm">
               <th className="py-2 px-4 border-b border-solid">선택</th>
