@@ -18,7 +18,7 @@ function page() {
       <ProgressSliderPage></ProgressSliderPage>
       {/* <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb> */}
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <BoardContainer typ={16} page={1} size={15} />
+      <BoardContainer writeBoolean={true} typ={16} page={1} size={15} />
     </div>
   );
 }
