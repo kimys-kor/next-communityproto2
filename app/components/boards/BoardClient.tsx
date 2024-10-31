@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { BoardItem } from "../../types";
+import { BoardItem, Member } from "../../types";
 import Paging from "@/app/components/Paging";
 import Link from "next/link";
 import NewIcon from "../NewIcon";
@@ -41,10 +41,10 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   const totalPages = Math.ceil(totalElements / size);
 
-  const fetchData = async (pageNumber: number) => {
+  const fetchData = async (pageNumber: number, keyword: string) => {
     try {
       const response = await fetch(
-        `/api/board/list?typ=${typ}&keyword=&page=${pageNumber - 1}&size=${size}`,
+        `/api/board/list?typ=${typ}&keyword=${keyword}&page=${pageNumber - 1}&size=${size}`,
         { cache: "no-store" }
       );
       if (!response.ok) {
@@ -59,15 +59,26 @@ const BoardClient: React.FC<BoardClientProps> = ({
     }
   };
 
+  const [keyword, setKeyword] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchField, setSearchField] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const handleSearch = () => {
+    setCurrentPage(1);
+    setKeyword(searchQuery);
+  };
+
   useEffect(() => {
     const pageFromQuery = parseInt(searchParams.get("page") || "1", 10);
     setPage(pageFromQuery);
-    fetchData(pageFromQuery);
-  }, [searchParams]);
+    fetchData(pageFromQuery, keyword);
+  }, [searchParams, keyword]);
 
   const handlePageChange = (newPage: number) => {
     router.replace(`${pathname}?page=${newPage}`);
     setPage(newPage);
+    fetchData(newPage, keyword);
   };
 
   const isNew = (dateString: string) => {
@@ -153,7 +164,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
         throw new Error("게시글삭제 실패");
       }
 
-      await fetchData(page);
+      await fetchData(page, keyword);
 
       setSelectedItems([]);
       setSelectAll(false);
@@ -166,6 +177,34 @@ const BoardClient: React.FC<BoardClientProps> = ({
 
   return (
     <section className="flex flex-col gap-1 mt-3">
+      <div className="flex items-center gap-3 mb-6 p-3 bg-white rounded-md border border-solid border-gray-200 shadow-sm">
+        <select
+          className="p-2 border border-solid border-gray-300 rounded bg-gray-100 text-gray-700 text-sm"
+          value={searchField}
+          onChange={(e) => setSearchField(e.target.value)}
+        >
+          <option value="all">전체</option>
+          <option value="username">회원의 아이디</option>
+          <option value="phoneNum">전화번호</option>
+          <option value="fullName">풀네임</option>
+          <option value="nickname">닉네임</option>
+          <option value="status">상태</option>
+          <option value="createdDt">날짜</option>
+        </select>
+        <input
+          type="text"
+          placeholder="검색어 입력"
+          className="p-2 border border-solid border-gray-300 rounded w-64 text-gray-700 text-sm bg-gray-100"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button
+          onClick={handleSearch}
+          className="px-4 py-2 bg-gray-600 text-white text-sm rounded-md font-medium"
+        >
+          검색
+        </button>
+      </div>
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
         <div className="flex gap-2">
           <div className="text-[#555555] text-sm flex items-center gap-2">

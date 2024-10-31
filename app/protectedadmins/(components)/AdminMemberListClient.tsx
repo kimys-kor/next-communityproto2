@@ -23,16 +23,15 @@ export type Member = {
 function AdminMemberListClient() {
   const size = 10;
   const [members, setMembers] = useState<Member[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [keyword, setKeyword] = useState<string>("");
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [searchField, setSearchField] = useState<string>("all");
-  const [showForm, setShowForm] = useState(false); // To toggle form display
+
+  const [showForm, setShowForm] = useState(false);
 
   const fetchData = async (pageNumber: number, searchKeyword: string) => {
     setMembers([]);
@@ -64,6 +63,9 @@ function AdminMemberListClient() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
+  const [searchField, setSearchField] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleSearch = () => {
     setCurrentPage(1);
