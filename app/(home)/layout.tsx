@@ -23,7 +23,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <NewPartnerCard />
             {/* <IconTabs></IconTabs> */}
           </aside>
-          <section className="w-full mt-36 md:w-3/4">{children}</section>
+          <section className="w-full mt-36 mmd:mt-28 md:mt-36 md:w-3/4">
+            {children}
+          </section>
           <RightSideBanner></RightSideBanner>
         </Container>
       </div>

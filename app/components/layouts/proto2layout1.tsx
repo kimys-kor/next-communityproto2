@@ -24,7 +24,9 @@ export default function Proto2layout1({
           <NewPartnerCard />
           {/* <IconTabs></IconTabs> */}
         </aside>
-        <section className="w-full mt-36 md:w-3/4">{children}</section>
+        <section className="w-full mt-36 mmd:mt-28 md:mt-36 md:w-3/4">
+          {children}
+        </section>
         <RightSideBanner></RightSideBanner>
       </Container>
       <Footer />

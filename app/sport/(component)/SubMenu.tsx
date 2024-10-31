@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function SubMenu() {
   return (
-    <div className="md:hidden w-full rounded-xl bg-white shadow-md flex justify-around px-3 py-2 text-sm font-medium">
+    <div className="relative md:hidden w-full rounded-xl bg-white shadow-md flex justify-around px-3 py-2 text-sm font-medium">
       <div>
         <Link className="flex items-center gap-1" href={"/sport"}>
           <Image src={SocIcon} width={14} height={14} alt="menuIcon" />
