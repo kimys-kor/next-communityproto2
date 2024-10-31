@@ -1,8 +1,9 @@
 "use client";
-
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import logo from "/public/images/logo.png";
+import Link from "next/link";
 
 interface FormData {
   id: string;
@@ -11,7 +12,6 @@ interface FormData {
   name: string;
   nickname: string;
   phoneNumber: string;
-  email: string;
 }
 
 const SignUpForm: React.FC = () => {
@@ -29,7 +29,6 @@ const SignUpForm: React.FC = () => {
       name: "",
       nickname: "",
       phoneNumber: "",
-      email: "",
     },
   });
 
@@ -39,15 +38,45 @@ const SignUpForm: React.FC = () => {
   const isPasswordValid =
     password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
 
-  const onSubmit = (data: FormData) => {
-    console.log("signUp request", data);
+  const onSubmit = async (data: FormData) => {
+    // Prepare the data to match the API's required format
+    const apiData = {
+      username: data.id,
+      password: data.password,
+      fullName: data.name,
+      phoneNum: data.phoneNumber,
+      nickname: data.nickname,
+    };
+
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(apiData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to sign up");
+      }
+
+      const result = await response.json();
+      console.log("Sign-up successful:", result);
+      alert("회원가입이 완료되었습니다!");
+    } catch (error) {
+      console.error("Sign-up error:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
     <div className="w-full flex flex-col gap-10 justify-center items-center">
       <article className="mt-5 w-full lg:w-auto flex flex-col justify-center items-center lg:items-start lg:px-20">
         <div className="w-80 flex justify-center items-center">
-          <Image alt="logo" width={260} height={100} src={logo}></Image>
+          <Link href={"/"}>
+            <Image alt="logo" width={260} height={100} src={logo}></Image>
+          </Link>
         </div>
         <div className="w-80 pt-5 text-lg font-medium text-blue flex justify-center items-center">
           <p className="text-3xl">회원가입</p>
@@ -154,6 +183,7 @@ const SignUpForm: React.FC = () => {
             </div>
           </div>
         </div>
+
         <div className="w-full md:w-1/2 lg:w-1/3 px-3 md:px-0">
           <p className="py-3 font-semibold text-lg border-solid border-b border-[#F3F3F3]">
             개인정보 입력
@@ -217,44 +247,21 @@ const SignUpForm: React.FC = () => {
                   </>
                 )}
               />
-              <button
+              {/* <button
                 type="button"
                 disabled={!isPhoneNumberValid}
-                className={`border border-solid rounded-lg border-blue bg-white text-blue px-2 py-3 w-full ${isPhoneNumberValid ? "hover:bg-blue hover:text-white" : "opacity-50 cursor-not-allowed"}`}
+                className={`border border-solid rounded-lg border-blue bg-white text-blue px-2 py-3 w-full ${
+                  isPhoneNumberValid
+                    ? "hover:bg-blue hover:text-white"
+                    : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 인증번호 전송
-              </button>
-            </div>
-            <div className="w-full flex flex-col gap-3 p-2">
-              <p className="w-24">E-mail</p>
-              <Controller
-                name="email"
-                control={control}
-                rules={{
-                  required: "이메일은 필수 입력 사항입니다.",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "유효한 이메일 주소를 입력하세요.",
-                  },
-                }}
-                render={({ field }) => (
-                  <>
-                    <input
-                      {...field}
-                      type="email"
-                      className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                    />
-                    {errors.email && (
-                      <p className="text-warnigtext text-xs">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </>
-                )}
-              />
+              </button> */}
             </div>
           </div>
         </div>
+
         <div className="w-full gap-3 flex justify-center p-2">
           <button
             type="submit"

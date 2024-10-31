@@ -1,60 +1,92 @@
 "use client";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
 
-import { useForm, Controller } from "react-hook-form";
-
+// Define the types for user information and editable data
 interface FormData {
   fullname: string;
   nickname: string;
-  phoneNumber: string;
-  email: string;
+  phoneNum: string;
 }
 
 function InfoChange() {
-  const userInfo = {
-    id: "user121",
-    fullname: "김득근",
-    nickname: "커뮤관리자",
-    Level: 1,
-    point: 104200,
-    joinDate: "2024-08-25",
-    phoneNumber: "01011112222",
-  };
+  const { userInfo } = useUserStore();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-    watch,
-  } = useForm<FormData>({
-    mode: "onChange",
-    defaultValues: {
-      fullname: userInfo.fullname,
-      nickname: userInfo.nickname,
-      phoneNumber: userInfo.phoneNumber,
-    },
+  // Set up initial state based on userInfo
+  const [editableData, setEditableData] = useState<FormData>({
+    fullname: userInfo?.fullName || "",
+    nickname: userInfo?.nickname || "",
+    phoneNum: userInfo?.phoneNum || "",
   });
 
-  const phoneNumber = watch("phoneNumber");
-  const isPhoneNumberValid = phoneNumber.length === 11;
+  // Detect changes to enable the submit button
+  const hasChanges =
+    editableData.fullname !== (userInfo?.fullName || "") ||
+    editableData.nickname !== (userInfo?.nickname || "") ||
+    (editableData.phoneNum !== (userInfo?.phoneNum || "") &&
+      editableData.phoneNum.length === 11);
 
-  const onSubmit = (data: FormData) => {
-    console.log("info Change request", data);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditableData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const apiData = {
+      fullName: editableData.fullname,
+      nickname: editableData.nickname,
+      phoneNum: editableData.phoneNum,
+    };
+
+    try {
+      const response = await fetch("/api/updateMyInfo", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(apiData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user info");
+      }
+
+      const result = await response.json();
+      console.log("User info updated successfully:", result);
+      alert("회원정보가 성공적으로 수정되었습니다!");
+      window.location.href = `/`;
+    } catch (error) {
+      console.error("Update error:", error);
+      alert("회원정보 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  useEffect(() => {
+    setEditableData({
+      fullname: userInfo?.fullName || "",
+      nickname: userInfo?.nickname || "",
+      phoneNum: userInfo?.phoneNum || "",
+    });
+  }, [userInfo]);
 
   return (
     <div className="w-full flex justify-center">
       <div className="w-full flex flex-col gap-10 justify-center items-center">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={onSubmit}
           className="w-full flex flex-col items-center gap-3"
         >
           <div className="w-full md:w-1/2 md:px-0 lg:w-1/3 px-3">
             <div className="w-full mt-3 flex flex-col gap-1">
               <div className="w-full flex flex-col gap-2 p-2">
                 <p className="w-24">아이디</p>
-
                 <input
-                  defaultValue={userInfo.id}
+                  defaultValue={userInfo?.username}
                   disabled
                   className="w-full truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-subtext leading-tight focus:outline-none"
                 />
@@ -68,78 +100,41 @@ function InfoChange() {
             <div className="mt-3 flex flex-col gap-3">
               <div className="w-full flex flex-col gap-3 p-2">
                 <p className="w-24">이름</p>
-                <Controller
+                <input
                   name="fullname"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                    />
-                  )}
+                  value={editableData.fullname}
+                  onChange={handleInputChange}
+                  className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
                 />
               </div>
               <div className="w-full flex flex-col gap-3 p-2">
                 <p className="w-24">닉네임</p>
-                <Controller
+                <input
                   name="nickname"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                    />
-                  )}
+                  value={editableData.nickname}
+                  onChange={handleInputChange}
+                  className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
                 />
               </div>
               <div className="w-full flex flex-col gap-2 p-2">
                 <p className="w-24">핸드폰번호</p>
                 <p className="text-subtext2 text-sm">-없이 숫자만 입력</p>
-                <Controller
-                  name="phoneNumber"
-                  control={control}
-                  rules={{
-                    required: "핸드폰 번호는 필수 입력 사항입니다.",
-                    pattern: {
-                      value: /^[0-9]+$/,
-                      message: "숫자만 입력 가능합니다.",
-                    },
-                    minLength: {
-                      value: 11,
-                      message: "11자리 숫자를 입력해야 합니다.",
-                    },
-                  }}
-                  render={({ field }) => (
-                    <>
-                      <input
-                        {...field}
-                        maxLength={11}
-                        className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
-                      />
-                      {errors.phoneNumber && (
-                        <p className="text-warnigtext text-xs">
-                          {errors.phoneNumber.message}
-                        </p>
-                      )}
-                    </>
-                  )}
+                <input
+                  name="phoneNum"
+                  value={editableData.phoneNum}
+                  onChange={handleInputChange}
+                  maxLength={11}
+                  className="truncate appearance-none border rounded py-2 px-1 font-normal text-sm text-gray-700 leading-tight focus:outline-none"
                 />
-                {/* <button
-                  type="button"
-                  disabled={!isPhoneNumberValid}
-                  className={`border border-solid rounded-lg border-blue bg-white text-blue px-2 py-3 w-full ${isPhoneNumberValid ? "hover:bg-blue hover:text-white" : "opacity-50 cursor-not-allowed"}`}
-                >
-                  인증번호 전송
-                </button> */}
               </div>
             </div>
           </div>
           <div className="w-full gap-3 flex justify-center p-2">
             <button
               type="submit"
-              disabled={!isValid || !isPhoneNumberValid}
+              disabled={!hasChanges}
               className={`w-full md:w-1/2 lg:w-1/3 px-4 py-4 ${
-                isValid && isPhoneNumberValid
+                hasChanges
                   ? "bg-blue text-white hover:bg-deepblue"
                   : "bg-gray-400 text-gray-600 cursor-not-allowed"
               }`}
