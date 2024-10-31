@@ -33,7 +33,7 @@ const NewPartnerCard = async () => {
         <div className="flex gap-2 justify-center items-center">
           <h1 className="text-lg font-bold">파트너</h1>
         </div>
-        <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
+        {/* <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
           <svg
             width="13"
             height="13"
@@ -44,7 +44,7 @@ const NewPartnerCard = async () => {
             <rect x="45" y="10" width="10" height="80" />
             <rect x="10" y="45" width="80" height="10" />
           </svg>
-        </div>
+        </div> */}
       </div>
       {boardList.map((item, index) => (
         <div

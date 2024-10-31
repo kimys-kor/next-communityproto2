@@ -33,7 +33,7 @@ const NoticeCard = async () => {
           <Image src={noticeIcon} width={27} height={27} alt="menuIcon" />
           <h1 className="text-lg font-bold">공지사항</h1>
         </div>
-        <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
+        {/* <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
           <svg
             width="13"
             height="13"
@@ -44,7 +44,7 @@ const NoticeCard = async () => {
             <rect x="45" y="10" width="10" height="80" />
             <rect x="10" y="45" width="80" height="10" />
           </svg>
-        </div>
+        </div> */}
       </div>
       {boardList.map((item, index) => (
         <div

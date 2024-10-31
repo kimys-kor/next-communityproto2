@@ -14,7 +14,7 @@ function HomeBoard() {
             <Image src={newBlue} width={40} height={40} alt="Id Icon" />
             <h1 className="text-lg font-bold">주간 베스트</h1>
           </div>
-          <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
+          {/* <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
             <svg
               width="13"
               height="13"
@@ -25,7 +25,7 @@ function HomeBoard() {
               <rect x="45" y="10" width="10" height="80" />
               <rect x="10" y="45" width="80" height="10" />
             </svg>
-          </div>
+          </div> */}
         </div>
         <HomeBoardWeekCard />
       </article>
@@ -35,7 +35,7 @@ function HomeBoard() {
             <Image src={newPurple} width={40} height={40} alt="Id Icon" />
             <h1 className="text-lg font-bold">실시간 베스트</h1>
           </div>
-          <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
+          {/* <div className="group cursor-pointer bg-semiblue w-6 h-6 flex justify-center items-center rounded-full hover:bg-blue">
             <svg
               width="13"
               height="13"
@@ -46,7 +46,7 @@ function HomeBoard() {
               <rect x="45" y="10" width="10" height="80" />
               <rect x="10" y="45" width="80" height="10" />
             </svg>
-          </div>
+          </div> */}
         </div>
         <HomeBoardDayCard />
       </article>
