@@ -161,7 +161,7 @@ const Navbar = () => {
                       <Link
                         key={sublink.href}
                         href={sublink.href}
-                        className={`outline-white w-full block p-2 text-base lg:text-base hover:bg-gray-700 hover:text-white 
+                        className={`outline-white w-full block p-2 text-base lg:text-base hover:bg-gray-700 hover:text-white truncate
                         ${index === link.dropdown.length - 1 ? "" : "border-b border-solid border-slate-200"}`}
                         onClick={() => handleLinkClick(sublink.href)}
                       >

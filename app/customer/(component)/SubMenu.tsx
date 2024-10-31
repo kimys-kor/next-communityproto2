@@ -5,19 +5,25 @@ import Image from "next/image";
 import Link from "next/link";
 
 function SubMenu() {
+  const menuItems = [
+    { href: "/customer", label: "공지사항", icon: notice },
+    { href: "/customer/qalist", label: "1:1문의", icon: inquiries },
+  ];
+
   return (
-    <div className="md:hidden w-full rounded-xl bg-white shadow-md flex justify-around px-3 py-2 text-sm font-medium">
-      <div>
-        <Link className="flex items-center gap-1" href={"/customer"}>
-          <Image src={notice} width={20} height={20} alt="menuIcon" />
-          <p>공지사항</p>
-        </Link>
-      </div>
-      <div>
-        <Link className="flex items-center gap-1" href={"/customer/qalist"}>
-          <Image src={inquiries} width={20} height={20} alt="menuIcon" />
-          <p>1:1문의</p>
-        </Link>
+    <div className="relative md:hidden w-full rounded-xl bg-white shadow-md px-3 py-1 text-base font-medium">
+      <div className="flex flex-wrap justify-around gap-4">
+        {menuItems.map((item, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-2 w-1/2 sm:w-auto py-2 transform transition-transform duration-200 px-2 hover:bg-gray-100 rounded-lg"
+          >
+            <Link href={item.href} className="flex items-center gap-2">
+              <Image src={item.icon} width={18} height={18} alt="menuIcon" />
+              <p className="text-sm sm:text-base">{item.label}</p>
+            </Link>
+          </div>
+        ))}
       </div>
     </div>
   );

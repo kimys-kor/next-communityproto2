@@ -51,23 +51,10 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     extensions: [
       StarterKit.configure({
         history: false,
-        bulletList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-        orderedList: {
-          keepMarks: true,
-          keepAttributes: false,
-        },
-        heading: {
-          levels: [1, 2, 3],
-        },
-        paragraph: {
-          HTMLAttributes: {
-            // 기본텍스트 크기, 띄어쓰기 간격 조절
-            class: "text-2xl min-h-[3rem]",
-          },
-        },
+        bulletList: { keepMarks: true, keepAttributes: false },
+        orderedList: { keepMarks: true, keepAttributes: false },
+        heading: { levels: [1, 2, 3] },
+        paragraph: { HTMLAttributes: { class: "text-2xl min-h-[3rem]" } },
       }),
       TextStyle,
       FontSize,
@@ -95,6 +82,7 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
     },
     immediatelyRender: false,
   });
+
   if (!editor) {
     return null;
   }
@@ -161,6 +149,7 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
   const handleFontSizeChange = (size: string) => {
     editor.chain().focus().setFontSize(size).run();
   };
+
   const addLink = useCallback(() => {
     const url = prompt("Enter the URL", linkUrl);
 
@@ -177,7 +166,6 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         .extendMarkRange("link")
         .setLink({ href: finalUrl, target: "_blank" })
         .run();
-
       setLinkUrl("");
     }
   }, [editor, linkUrl]);
@@ -189,103 +177,116 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
   if (!editor) return null;
 
   return (
-    <div className="flex items-center gap-2 bg-gray-100 p-2 w-full border-b border-solid border-gray-200">
-      {/* Bold button */}
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`p-2 rounded ${editor.isActive("bold") ? "bg-gray-300" : ""}`}
-        title="Bold"
-      >
-        <FontAwesomeIcon icon={faBold} />
-      </button>
-      {/* Heading button */}
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`p-2 rounded ${editor.isActive("heading", { level: 2 }) ? "bg-gray-300" : ""}`}
-        title="Heading 2"
-      >
-        <FontAwesomeIcon icon={faHeading} />
-      </button>
-      {/* Bullet List button */}
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`p-2 rounded ${editor.isActive("bulletList") ? "bg-gray-300" : ""}`}
-        title="Bullet List"
-      >
-        <FontAwesomeIcon icon={faListUl} />
-      </button>
-      {/* Ordered List button */}
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`p-2 rounded ${editor.isActive("orderedList") ? "bg-gray-300" : ""}`}
-        title="Ordered List"
-      >
-        <FontAwesomeIcon icon={faListOl} />
-      </button>
-      {/* Align Left button */}
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("left").run()}
-        className={`p-2 rounded ${editor.isActive({ textAlign: "left" }) ? "bg-gray-300" : ""}`}
-        title="Align left"
-      >
-        <FontAwesomeIcon icon={faAlignLeft} />
-      </button>
-      {/* Align Center button */}
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        className={`p-2 rounded ${editor.isActive({ textAlign: "center" }) ? "bg-gray-300" : ""}`}
-        title="Align center"
-      >
-        <FontAwesomeIcon icon={faAlignCenter} />
-      </button>
-      {/* Align Right button */}
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        className={`p-2 rounded ${editor.isActive({ textAlign: "right" }) ? "bg-gray-300" : ""}`}
-        title="Align right"
-      >
-        <FontAwesomeIcon icon={faAlignRight} />
-      </button>
-      {/* Image button (multiple image functionality) */}
-      <button
-        className="p-2 rounded"
-        onClick={handleIconClick}
-        title="Insert Image"
-      >
-        <FontAwesomeIcon icon={faImage} />
-      </button>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleImageChange}
-        className="hidden"
-        multiple
-      />
-      {/* Text color picker */}
-      <input
-        type="color"
-        onInput={handleTextColorChange}
-        className="ml-2 p-1 border border-gray-400 rounded"
-        title="Text Color"
-      />
-      {/* Font size options */}
-      <select
-        onChange={(e) => handleFontSizeChange(e.target.value)}
-        className="ml-2 p-1 border border-gray-400 rounded"
-        title="Font Size"
-      >
-        <option value="24px">24px</option>
-        <option value="32px">32px</option>
-        <option value="38px">38px</option>
-        <option value="42px">42px</option>
-        <option value="56px">56px</option>
-      </select>
-      <button className="p-2 rounded" onClick={addLink} title="Add Link">
-        <FontAwesomeIcon icon={faLink} />
-      </button>
-      <button className="p-2 rounded" onClick={removeLink} title="Remove Link">
-        <FontAwesomeIcon icon={faLink} style={{ transform: "rotate(45deg)" }} />
-      </button>{" "}
+    <div className="flex flex-wrap items-center gap-2 bg-gray-100 p-2 w-full border-b border-solid border-gray-200">
+      {/* Button Group with Responsive Styling */}
+      <div className="flex flex-wrap gap-2">
+        {/* Bold button */}
+        <button
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive("bold") ? "bg-gray-300" : ""}`}
+          title="Bold"
+        >
+          <FontAwesomeIcon icon={faBold} />
+        </button>
+        {/* Heading button */}
+        <button
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={`p-1 sm:p-2 rounded ${editor.isActive("heading", { level: 2 }) ? "bg-gray-300" : ""}`}
+          title="Heading 2"
+        >
+          <FontAwesomeIcon icon={faHeading} />
+        </button>
+        {/* Bullet List button */}
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive("bulletList") ? "bg-gray-300" : ""}`}
+          title="Bullet List"
+        >
+          <FontAwesomeIcon icon={faListUl} />
+        </button>
+        {/* Ordered List button */}
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive("orderedList") ? "bg-gray-300" : ""}`}
+          title="Ordered List"
+        >
+          <FontAwesomeIcon icon={faListOl} />
+        </button>
+        {/* Align buttons */}
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive({ textAlign: "left" }) ? "bg-gray-300" : ""}`}
+          title="Align Left"
+        >
+          <FontAwesomeIcon icon={faAlignLeft} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive({ textAlign: "center" }) ? "bg-gray-300" : ""}`}
+          title="Align Center"
+        >
+          <FontAwesomeIcon icon={faAlignCenter} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          className={`p-1 sm:p-2 rounded ${editor.isActive({ textAlign: "right" }) ? "bg-gray-300" : ""}`}
+          title="Align Right"
+        >
+          <FontAwesomeIcon icon={faAlignRight} />
+        </button>
+        {/* Image and Color Inputs */}
+        <button
+          className="p-1 sm:p-2 rounded"
+          onClick={handleIconClick}
+          title="Insert Image"
+        >
+          <FontAwesomeIcon icon={faImage} />
+        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          className="hidden"
+          multiple
+        />
+        <input
+          type="color"
+          onInput={handleTextColorChange}
+          className="ml-2 p-1 border border-gray-400 rounded"
+          title="Text Color"
+        />
+        <select
+          onChange={(e) => handleFontSizeChange(e.target.value)}
+          className="ml-2 p-1 border border-gray-400 rounded"
+          title="Font Size"
+        >
+          <option value="24px">24px</option>
+          <option value="32px">32px</option>
+          <option value="38px">38px</option>
+          <option value="42px">42px</option>
+          <option value="56px">56px</option>
+        </select>
+        {/* Link Management */}
+        <button
+          className="p-1 sm:p-2 rounded"
+          onClick={addLink}
+          title="Add Link"
+        >
+          <FontAwesomeIcon icon={faLink} />
+        </button>
+        <button
+          className="p-1 sm:p-2 rounded"
+          onClick={removeLink}
+          title="Remove Link"
+        >
+          <FontAwesomeIcon
+            icon={faLink}
+            style={{ transform: "rotate(45deg)" }}
+          />
+        </button>
+      </div>
     </div>
   );
 };
