@@ -40,7 +40,6 @@ function DeleteAccount() {
       console.log("Account deletion successful:", result);
       alert("계정이 성공적으로 삭제되었습니다.");
 
-      // Redirect or perform any additional action after successful account deletion
       window.location.href = "/";
     } catch (error) {
       console.error("Account deletion error:", error);

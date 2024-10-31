@@ -130,7 +130,7 @@ function MemberListClient({
       setSelectedMembers([]);
       setSelectAll(false);
       toast.success("선택한 회원이 차단되었습니다.");
-      window.location.reload(); // 새로고침
+      window.location.reload();
     } catch (error) {
       console.error("Error blocking members:", error);
       toast.error("차단에 실패했습니다.");

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
         cookieStore.set("Authorization", accessToken, {
           secure: true,
           httpOnly: true,
-          maxAge: 1800,
+          maxAge: 7200,
         });
       }
 
