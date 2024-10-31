@@ -2,7 +2,7 @@ import ThreeBanner from "@/app/components/ThreeBanner";
 import sportMain from "/public/images/sportMain.png";
 import Image from "next/image";
 import Breadcrumb from "@/app/components/BreadCrumb";
-import SubMenu from "@/app/community/(component)/SubMenu";
+import SubMenu from "@/app/event/(component)/SubMenu";
 import BoardContainer from "@/app/components/boards/BoardContainer";
 
 export default function Page() {
