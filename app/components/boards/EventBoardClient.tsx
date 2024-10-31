@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Paging from "@/app/components/Paging";
-import SelectBox from "@/app/components/SelectBox";
-import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { PhotoItem } from "@/app/types";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import TransferPopup from "@/app/components/boards/TransferPopup";
@@ -20,7 +18,10 @@ interface EventBoardClientProps {
 }
 
 const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { userInfo } = useUserStore();
 
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -31,8 +32,44 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
   const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [currentPage, setCurrentPage] = useState(1);
   const [showTransferPopup, setShowTransferPopup] = useState(false);
-  const size = 12;
-  const { userInfo } = useUserStore();
+
+  // Parameters with default values
+  const size = 12; // items per page
+  const typ = searchParams.get("typ") || "14";
+  const keyword = searchParams.get("keyword") || "";
+
+  const fetchData = async (page: number) => {
+    try {
+      const response = await fetch(
+        `/api/board/photoList?typ=${typ}&keyword=${keyword}&page=${page - 1}&size=${size}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          cache: "no-store",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch photo board data");
+      }
+
+      const data = await response.json();
+      setBoardList(data.data.content);
+      setTotalElements(data.data.totalElements);
+      setTotalPages(data.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching photo board data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage, typ, keyword]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    router.replace(`${pathname}?page=${newPage}`);
+  };
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -51,31 +88,6 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     );
   };
 
-  const handlePageChange = async (newPage: number) => {
-    setCurrentPage(newPage);
-    try {
-      const response = await fetch(
-        `/api/board/eventList?page=${newPage - 1}&size=${size}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch event board data");
-      }
-
-      const data = await response.json();
-      setBoardList(data.data.content);
-      setTotalElements(data.data.totalElements);
-      setTotalPages(data.data.totalPages);
-    } catch (error) {
-      console.error("Error fetching event board data:", error);
-    }
-  };
-
   const handleMoveSelected = () => {
     if (selectedItems.length === 0) {
       alert("이동하실 게시물을 선택하세요");
@@ -88,9 +100,7 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     try {
       const response = await fetch("/api/board/transferPost", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idList: selectedItems, postType }),
       });
 
@@ -126,9 +136,7 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
     try {
       const response = await fetch("/api/board/deletePost", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idList: selectedItems }),
       });
 
@@ -146,21 +154,6 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
       alert("An error occurred while deleting the selected posts.");
     }
   };
-
-  const options = [
-    { value: "1", label: "전체" },
-    { value: "2", label: "제목" },
-    { value: "3", label: "제목+내용" },
-    { value: "4", label: "작성자" },
-  ];
-
-  const handleChange = (value: string) => {
-    console.log("Selected value:", value);
-  };
-
-  async function handleSearch() {
-    console.log("Searching...");
-  }
 
   return (
     <section className="flex flex-col mt-3">
@@ -186,18 +179,6 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
               /<span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
             </div>
           </div>
-
-          <article className="flex justify-center gap-2">
-            <SelectBox
-              options={options}
-              onChange={handleChange}
-              defaultValue="1"
-            />
-            <SearchBox
-              handleSearch={handleSearch}
-              placeholderText="검색어 입력"
-            />
-          </article>
         </div>
         {userInfo?.sck && (
           <div className="mt-5 flex justify-end items-center gap-5">
@@ -243,7 +224,7 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
                   width={477}
                   height={141}
                   className="w-[477px] h-[141px] rounded-lg object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
-                  src={item.thumbNail}
+                  src={item.thumbNail || "/images/default-thumbnail.jpg"}
                   alt={item.title}
                 />
               </Link>

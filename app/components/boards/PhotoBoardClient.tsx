@@ -1,15 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Paging from "@/app/components/Paging";
-import SelectBox from "@/app/components/SelectBox";
-import SearchBox from "@/app/components/search/SearchBox";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { PhotoItem } from "@/app/types";
 import { useUserStore } from "@/app/globalStatus/useUserStore";
 import { FaTrash, FaArrowRight } from "react-icons/fa";
 import TransferPopup from "@/app/components/boards/TransferPopup";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 interface PhotoBoardClientProps {
   initialData: {
@@ -20,7 +18,9 @@ interface PhotoBoardClientProps {
 }
 
 const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { userInfo } = useUserStore();
 
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -29,9 +29,47 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     initialData.boardList
   );
   const [totalElements, setTotalElements] = useState(initialData.totalElements);
+  const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [currentPage, setCurrentPage] = useState(1);
   const [showTransferPopup, setShowTransferPopup] = useState(false);
+
+  // Parameters with default values
   const size = 12; // items per page
+  const typ = searchParams.get("typ") || "9";
+  const keyword = searchParams.get("keyword") || "";
+
+  const fetchData = async (page: number) => {
+    try {
+      const response = await fetch(
+        `/api/board/photoList?typ=${typ}&keyword=${keyword}&page=${page - 1}&size=${size}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          cache: "no-store",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch photo board data");
+      }
+
+      const data = await response.json();
+      setBoardList(data.data.content);
+      setTotalElements(data.data.totalElements);
+      setTotalPages(data.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching photo board data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage, typ, keyword]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    router.replace(`${pathname}?page=${newPage}`);
+  };
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -50,30 +88,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     );
   };
 
-  const handlePageChange = async (newPage: number) => {
-    setCurrentPage(newPage);
-    try {
-      const response = await fetch(
-        `/api/board/photoList?page=${newPage - 1}&size=${size}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch photo board data");
-      }
-
-      const data = await response.json();
-      setBoardList(data.data.content);
-      setTotalElements(data.data.totalElements);
-    } catch (error) {
-      console.error("Error fetching photo board data:", error);
-    }
-  };
-
   const handleMoveSelected = () => {
     if (selectedItems.length === 0) {
       alert("이동하실 게시물을 선택하세요");
@@ -86,9 +100,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     try {
       const response = await fetch("/api/board/transferPost", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idList: selectedItems, postType }),
       });
 
@@ -124,9 +136,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     try {
       const response = await fetch("/api/board/deletePost", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idList: selectedItems }),
       });
 
@@ -145,55 +155,22 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
     }
   };
 
-  const options = [
-    { value: "1", label: "전체" },
-    { value: "2", label: "제목" },
-    { value: "3", label: "제목+내용" },
-    { value: "4", label: "작성자" },
-  ];
-
-  const handleChange = (value: string) => {
-    console.log("Selected value:", value);
-  };
-
-  async function handleSearch() {
-    console.log("Searching...");
-  }
-
   return (
     <section className="flex flex-col gap-1 mt-3">
-      {/* Header with selection and search options */}
       <div className="w-full">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-1 w-full">
           <div className="flex items-center gap-2">
             <div className="text-[#555555] text-sm">
               총{" "}
               <span className="text-[#2C4AB6] font-semibold">
-                {" "}
-                {totalElements}{" "}
+                {totalElements}
               </span>{" "}
               건
             </div>
             <div className="text-[#555555] text-sm">
-              {"("}
-              <span className="text-[#2C4AB6] font-semibold">
-                {currentPage}
-              </span>{" "}
-              /<span> {Math.ceil(totalElements / size)}</span> 페이지{")"}
+              ({currentPage} / <span>{totalPages}</span> 페이지)
             </div>
           </div>
-
-          <article className="flex justify-center gap-2">
-            <SelectBox
-              options={options}
-              onChange={handleChange}
-              defaultValue="1"
-            />
-            <SearchBox
-              handleSearch={handleSearch}
-              placeholderText="검색어 입력"
-            />
-          </article>
         </div>
         {userInfo?.sck && (
           <div className="mt-5 flex justify-end items-center gap-5">
@@ -224,7 +201,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
         )}
       </div>
 
-      {/* Photo board items */}
       <ul className="mt-5 min-w-full bg-white overflow-hidden overflow-x-auto text-[14px] grid grid-cols-2 md:grid-cols-3 gap-5">
         {boardList.map((item) => (
           <li key={item.id} className="bg-white rounded-lg cursor-pointer">
@@ -242,7 +218,7 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
                   width={326}
                   height={230}
                   className="rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
-                  src={item.thumbNail || "/images/default-thumbnail.jpg"} // Replace with a fallback image
+                  src={item.thumbNail || "/images/default-thumbnail.jpg"}
                   alt={item.title}
                 />
               </Link>
@@ -262,18 +238,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
         ))}
       </ul>
 
-      {/* Registration button */}
-      {userInfo?.role && (
-        <span className="mt-5 w-full flex justify-end">
-          <Link href={`${pathname}/write`}>
-            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-              글작성하기
-            </button>
-          </Link>
-        </span>
-      )}
-
-      {/* Pagination component */}
       <Paging
         page={currentPage}
         size={size}
@@ -282,7 +246,6 @@ const PhotoBoardClient: React.FC<PhotoBoardClientProps> = ({ initialData }) => {
         scroll="top"
       />
 
-      {/* Transfer popup for move action */}
       {showTransferPopup && (
         <TransferPopup
           onClose={() => setShowTransferPopup(false)}
