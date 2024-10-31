@@ -99,7 +99,7 @@ export const TabACommunityClient: React.FC<TabACommunityClientProps> = ({
                   className="flex flex-col justify-evenly items-center gap-2 px-2 hover:cursor-pointer"
                 >
                   <Image
-                    className="rounded-md h-28"
+                    className="rounded-md h-20 sm:h-28"
                     src={item.img}
                     width={100}
                     height={130}
