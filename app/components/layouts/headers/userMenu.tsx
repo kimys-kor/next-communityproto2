@@ -4,11 +4,35 @@ import Avatar from "../../Avatar";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Profile from "../../Profile";
+import { useAuthStore } from "@/app/globalStatus/useAuthStore";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
+import { UserInfo } from "@/app/types";
+import { refreshUser } from "@/app/api/authAction";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfoState] = useState<UserInfo | null>(null);
+  const { loggedIn, setLoggedIn } = useAuthStore();
+  const { setUserInfo, clearUserInfo } = useUserStore();
+
+  useEffect(() => {
+    const initializeUser = async () => {
+      const data = await refreshUser();
+      if (data != null) {
+        setLoggedIn(true);
+        setUserInfo(data);
+        setUserInfoState(data);
+      } else {
+        setLoggedIn(false);
+      }
+      setLoading(false);
+    };
+
+    initializeUser();
+  }, []);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -43,7 +67,7 @@ const UserMenu = () => {
         <div className="z-10 w-72 absolute bg-white overflow-hidden right-0 top-12 text-sm border border-solid border-gray-300">
           <div className="flex flex-col">
             <>
-              <Profile setLoggedIn={setLoggedIn} />
+              <Profile userInfo={userInfo} />
               <Link href={"/myinfo"}>
                 <div
                   onClick={toggleOpen}

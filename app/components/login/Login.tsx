@@ -15,11 +15,11 @@ import { UserInfo } from "@/app/types";
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { loggedIn, setLoggedIn } = useAuthStore();
-  const { setUserInfo, clearUserInfo } = useUserStore();
+
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfoState] = useState<UserInfo | null>(null);
-
+  const { loggedIn, setLoggedIn } = useAuthStore();
+  const { setUserInfo, clearUserInfo } = useUserStore();
   useEffect(() => {
     const initializeUser = async () => {
       const data = await refreshUser();

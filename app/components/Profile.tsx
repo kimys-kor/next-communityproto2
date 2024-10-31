@@ -8,7 +8,7 @@ import Link from "next/link";
 import { UserInfo } from "../types";
 
 interface ProfileProps {
-  userInfo: UserInfo;
+  userInfo: UserInfo | null;
 }
 
 function Profile({ userInfo }: ProfileProps) {

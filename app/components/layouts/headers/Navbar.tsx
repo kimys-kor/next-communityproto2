@@ -179,17 +179,17 @@ const Navbar = () => {
       <nav className="md:hidden w-full bg-blue font-medium text-sm text-white overflow-hidden">
         <div className="flex flex-wrap">
           <div className="flex flex-wrap items-center pl-3 divide-x divide-gray-300">
-            <AiOutlineMenu
-              size={20}
-              className="cursor-pointer"
+            <div
+              className="cursor-pointer px-2 h-[48px] py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white"
               onClick={toggleSidebar}
-            />
-
+            >
+              <AiOutlineMenu size={20} />
+            </div>
             {links.map((link, index) => (
               <Link
                 key={index}
                 href={link.href}
-                className={`px-2 py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
+                className={`px-2 w-[110px] h-[48px] py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
                 onClick={() => handleLinkClick(link.href)}
               >
                 {link.label}
