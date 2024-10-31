@@ -54,8 +54,11 @@ const sidebarData: LinkItem[] = [
     label: "스포츠분석",
     icon: sportIcon,
     dropdown: [
-      { href: "/sport", label: "축구분석" },
-      { href: "/sport/base", label: "야구분석" },
+      { href: "/sport", label: "해외축구분석" },
+      { href: "/sport/asia", label: "아시아축구분석" },
+      { href: "/sport/mlb", label: "MLB분석" },
+      { href: "/sport/baseball", label: "KBO/NPB분석" },
+      { href: "/sport/nba", label: "NBA분석" },
       { href: "/sport/basket", label: "농구분석" },
       { href: "/sport/volley", label: "배구분석" },
     ],
@@ -142,12 +145,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <SidebarTopNavItem
               icon={<IoMdRefresh size={22} />}
               label="새글"
-              onClick={() => setActiveTab(2)}
+              onClick={() => setActiveTab(3)}
             />
             <SidebarTopNavItem
               icon={<FaSearch size={20} />}
               label="검색"
-              onClick={() => setActiveTab(2)}
+              onClick={() => setActiveTab(3)}
             />
             <SidebarTopNavItem
               icon={<IoMdMore size={22} />}
@@ -156,6 +159,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             />
           </ul>
           {showMore && <SidebarAdditionalMenu />}
+          <article className="w-full table border-collapse">
+            <ul className="w-full table-row mb-4">
+              <li
+                className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer"
+                onClick={() => setActiveTab(2)}
+              >
+                로그인
+              </li>
+              <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
+                <Link href={"/signup"}>회원가입</Link>
+              </li>
+              <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
+                정보찾기
+              </li>
+            </ul>
+          </article>
         </article>
 
         {/* Main Navigation */}
@@ -172,7 +191,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
 export default Sidebar;
 
-// Reusable Top Navigation Item Component with consistent sizing
 const SidebarTopNavItem: React.FC<SidebarTopNavItemProps> = ({
   icon,
   label,
