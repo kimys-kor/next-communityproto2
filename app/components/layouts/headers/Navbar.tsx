@@ -189,7 +189,7 @@ const Navbar = () => {
               <Link
                 key={index}
                 href={link.href}
-                className={`px-2 w-[110px] h-[48px] py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
+                className={`px-2 ${link.icon ? "w-[110px]" : "w-[70px]"} h-[48px] py-2 flex items-center justify-center transition-colors duration-200 hover:bg-indigo-600 hover:text-white`}
                 onClick={() => handleLinkClick(link.href)}
               >
                 {link.label}

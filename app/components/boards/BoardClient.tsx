@@ -241,7 +241,7 @@ const BoardClient: React.FC<BoardClientProps> = ({
                 </td>
               )}
               <td className="grow py-4 px-2 font-medium">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 leading-5">
                   {isNew(boardItem.createdDt.toString()) && <NewIcon />}
                   <Link href={`${pathname}/${boardItem.id}`}>
                     {boardItem.title}

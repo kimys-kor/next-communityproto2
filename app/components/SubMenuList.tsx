@@ -20,7 +20,7 @@ const SubMenuList: React.FC<SubMenuListProps> = ({ menuItems }) => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className="flex items-center gap-2 w-1/2 sm:w-auto py-2 transform transition-transform duration-200 px-2 hover:bg-gray-100 rounded-lg"
+            className="flex items-center gap-2 sm:w-auto py-2 transform transition-transform duration-200 px-2 hover:bg-gray-100 rounded-lg"
           >
             <Link href={item.href} className="flex items-center gap-2">
               <Image src={item.icon} width={18} height={18} alt="menuIcon" />
