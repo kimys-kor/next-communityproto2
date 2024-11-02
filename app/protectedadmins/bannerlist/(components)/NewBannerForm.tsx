@@ -14,7 +14,7 @@ const NewBannerForm = ({ onClose, onSave }: NewBannerFormProps) => {
   const [partnerUrl, setPartnerUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null); // Holds uploaded image URL
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
 

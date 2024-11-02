@@ -212,13 +212,19 @@ function BannerList() {
                   />
                 </td>
                 <td className="py-2 px-4 border-b border-solid align-middle">
-                  <a
-                    href={banner.partnerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {banner.partnerUrl}
-                  </a>
+                  <td className="py-2 px-4 border-b border-solid align-middle">
+                    <a
+                      href={
+                        banner.partnerUrl.startsWith("http")
+                          ? banner.partnerUrl
+                          : `http://${banner.partnerUrl}`
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {banner.partnerUrl}
+                    </a>
+                  </td>
                 </td>
                 <td className="py-2 px-4 border-b border-solid text-center align-middle">
                   {banner.clickNum}
