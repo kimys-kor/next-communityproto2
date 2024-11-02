@@ -107,15 +107,6 @@ export const postSaveServerAction = async (data: savePostRequest) => {
   }
 };
 
-export async function saveCookie(data: string) {
-  const cookieStore = cookies();
-  cookieStore.set("Authorization", data, {
-    secure: true,
-    httpOnly: true,
-    maxAge: 1800,
-  });
-}
-
 export async function getCookie() {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("Authorization")?.value;
@@ -140,29 +131,4 @@ export async function removeCookie() {
     httpOnly: true,
     maxAge: -1,
   });
-}
-
-export async function saveRefreshToken(response: any) {
-  const cookieStore = cookies();
-  const data = cookieStore.get("refresh_token");
-}
-
-export async function refreshServerAction() {
-  try {
-    const response = await fetch(process.env.API_URL + "/user/refresh", {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const token = response.headers.get("Authorization");
-      revalidatePath("/");
-      return token;
-    } else {
-      return "실패";
-    }
-  } catch (error) {
-    throw error;
-  }
 }

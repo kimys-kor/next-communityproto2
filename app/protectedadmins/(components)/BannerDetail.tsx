@@ -8,26 +8,54 @@ type BannerDetailProps = {
 
 function BannerDetail({ banner, onBack }: BannerDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    partnerName: banner.partnerName,
-    partnerUrl: banner.partnerUrl,
-    clickNum: banner.clickNum,
-  });
-  const [image, setImage] = useState<File | null>(null);
+  const [partnerName, setPartnerName] = useState(banner.partnerName);
+  const [partnerUrl, setPartnerUrl] = useState(banner.partnerUrl);
+  const [thumbNail, setThumbNail] = useState(banner.thumbNail);
   const [imagePreview, setImagePreview] = useState<string | null>(
     banner.thumbNail
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  const handlePartnerNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPartnerName(e.target.value);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePartnerUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPartnerUrl(e.target.value);
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setImage(file);
+
     if (file) {
-      setImagePreview(URL.createObjectURL(file));
+      setImagePreview(URL.createObjectURL(file)); // Temporarily preview the new image
+
+      const uploadFormData = new FormData();
+      uploadFormData.append("files", file, file.name);
+
+      try {
+        const response = await fetch("/api/imagesbanner", {
+          method: "POST",
+          body: uploadFormData,
+        });
+
+        if (!response.ok) {
+          console.error("Failed to upload image");
+          return;
+        }
+
+        const data = await response.json();
+        const uploadedUrl = data.data[0];
+        console.log(uploadedUrl + "hihihihi");
+        if (uploadedUrl) {
+          setThumbNail(uploadedUrl); // Set the new thumbnail URL from response
+          setImagePreview(uploadedUrl); // Update the preview to the new URL
+          console.log("Updated thumbNail URL:", uploadedUrl);
+        } else {
+          console.error("Image upload response is missing the URL");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
@@ -37,42 +65,41 @@ function BannerDetail({ banner, onBack }: BannerDetailProps) {
 
   const handleCancelClick = () => {
     setIsEditing(false);
-    setFormData({
-      partnerName: banner.partnerName,
-      partnerUrl: banner.partnerUrl,
-      clickNum: banner.clickNum,
-    });
-    setImage(null);
+    setPartnerName(banner.partnerName);
+    setPartnerUrl(banner.partnerUrl);
+    setThumbNail(banner.thumbNail);
     setImagePreview(banner.thumbNail);
   };
 
   const handleSubmit = async () => {
+    if (!banner.id || !partnerName || !partnerUrl || !thumbNail) {
+      console.log("Missing required fields.");
+      return;
+    }
+
+    const formData = {
+      id: banner.id,
+      partnerName,
+      partnerUrl,
+      thumbNail,
+    };
+
+    console.log("Form Data:", formData);
+
     try {
-      const payload = {
-        id: banner.id,
-        ...formData,
-      };
-
-      const formDataObj = new FormData();
-      formDataObj.append("id", payload.id.toString());
-      formDataObj.append("partnerName", payload.partnerName);
-      formDataObj.append("partnerUrl", payload.partnerUrl);
-      formDataObj.append("clickNum", payload.clickNum.toString());
-
-      if (image) {
-        formDataObj.append("thumbNail", image);
-      }
-
       const response = await fetch("/api/admin/updatebanner", {
         method: "POST",
-        body: formDataObj,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         alert("배너 정보가 성공적으로 업데이트되었습니다.");
         onBack();
       } else {
-        alert("업데이트 중 오류가 발생했습니다.");
+        console.error("Failed to update banner information");
       }
     } catch (error) {
       console.error("Error updating banner information:", error);
@@ -105,9 +132,8 @@ function BannerDetail({ banner, onBack }: BannerDetailProps) {
               </label>
               <input
                 type="text"
-                name="partnerName"
-                value={formData.partnerName}
-                onChange={handleInputChange}
+                value={partnerName}
+                onChange={handlePartnerNameChange}
                 className="w-full p-2 border border-green-300 rounded bg-green-50"
               />
             </div>
@@ -117,21 +143,8 @@ function BannerDetail({ banner, onBack }: BannerDetailProps) {
               </label>
               <input
                 type="text"
-                name="partnerUrl"
-                value={formData.partnerUrl}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-green-300 rounded bg-green-50"
-              />
-            </div>
-            <div>
-              <label className="block font-medium mb-1 text-indigo-700">
-                클릭 수
-              </label>
-              <input
-                type="number"
-                name="clickNum"
-                value={formData.clickNum}
-                onChange={handleInputChange}
+                value={partnerUrl}
+                onChange={handlePartnerUrlChange}
                 className="w-full p-2 border border-green-300 rounded bg-green-50"
               />
             </div>

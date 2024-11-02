@@ -11,6 +11,7 @@ export async function POST(request: Request) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("Authorization")?.value;
 
+  console.log("실행행실행행실행행실행행");
   try {
     const formData = await request.formData();
 
