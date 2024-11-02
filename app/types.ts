@@ -132,6 +132,8 @@ export interface Banner {
   id: number;
   partnerName: string;
   thumbNail: string;
+  partnerUrl: string;
+  clickNum: number;
 }
 
 export const colors = [

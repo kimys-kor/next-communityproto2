@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Paging from "@/app/components/Paging";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import toast from "react-hot-toast";
 import NewBannerForm from "./NewBannerForm";
 import Image from "next/image";
+import BannerDetail from "../../(components)/BannerDetail";
 
 export type Banner = {
   id: number;
@@ -22,6 +23,7 @@ function BannerList() {
   const [selectedBanners, setSelectedBanners] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [selectedBanner, setSelectedBanner] = useState<Banner | null>(null);
   const size = 10;
 
   const fetchData = async () => {
@@ -110,6 +112,18 @@ function BannerList() {
     }
   }
 
+  if (selectedBanner) {
+    return (
+      <BannerDetail
+        banner={selectedBanner}
+        onBack={() => {
+          setSelectedBanner(null);
+          fetchData();
+        }}
+      />
+    );
+  }
+
   return (
     <div>
       <header className="flex justify-between items-center w-full text-xs md:text-sm text-[#555555]">
@@ -166,6 +180,7 @@ function BannerList() {
               <th className="py-2 px-4 border-b border-solid">배너</th>
               <th className="py-2 px-4 border-b border-solid">파트너 URL</th>
               <th className="py-2 px-4 border-b border-solid">클릭 수</th>
+              <th className="py-2 px-4 border-b border-solid">수정</th>
             </tr>
           </thead>
           <tbody>
@@ -207,6 +222,14 @@ function BannerList() {
                 </td>
                 <td className="py-2 px-4 border-b border-solid text-center align-middle">
                   {banner.clickNum}
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center align-middle">
+                  <button
+                    onClick={() => setSelectedBanner(banner)}
+                    className="px-3 py-1 text-xs text-gray-700 border border-solid border-gray-500 rounded hover:bg-gray-500 hover:text-white transition-colors duration-200"
+                  >
+                    <FaEdit />
+                  </button>
                 </td>
               </tr>
             ))}

@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Failed to fetch point history:", errorText);
+      console.error("Failed to fetch ip history:", errorText);
       return NextResponse.json(
         { error: "Failed to fetch point history" },
         { status: response.status }
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching point history:", error);
+    console.error("Error fetching ip history:", error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

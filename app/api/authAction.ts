@@ -3,8 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { savePostRequest, CommentRequest } from "@/app/types";
-import { useUserStore } from "../globalStatus/useUserStore";
-// import { NextResponse } from "next/server";
 
 export async function refreshUser() {
   const tokens = await getCookie();
@@ -13,7 +11,7 @@ export async function refreshUser() {
   const { accessToken, refreshToken } = tokens;
 
   try {
-    const response = await fetch(`${process.env.API_URL}/user/refresh`, {
+    const response = await fetch(`${process.env.API_URL}/user/myinfo`, {
       method: "GET",
       credentials: "include",
       headers: {
