@@ -6,9 +6,9 @@ export async function POST(request: Request) {
     const cookieStore = cookies();
     const accessToken = cookieStore.get("Authorization")?.value;
 
-    const { partnerName, url } = await request.json();
+    const { partnerName, thumbNail, partnerUrl } = await request.json();
 
-    if (!partnerName || !url) {
+    if (!partnerName || !thumbNail || !partnerUrl) {
       return NextResponse.json(
         { error: "Partner name and url are required." },
         { status: 400 }
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${accessToken}`,
       },
       credentials: "include",
-      body: JSON.stringify({ partnerName, url }),
+      body: JSON.stringify({ partnerName, thumbNail, partnerUrl }),
     });
 
     if (!response.ok) {

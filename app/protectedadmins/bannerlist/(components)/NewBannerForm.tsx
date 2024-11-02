@@ -11,6 +11,7 @@ interface NewBannerFormProps {
 
 const NewBannerForm = ({ onClose, onSave }: NewBannerFormProps) => {
   const [partnerName, setPartnerName] = useState("");
+  const [partnerUrl, setPartnerUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null); // Holds uploaded image URL
@@ -90,7 +91,7 @@ const NewBannerForm = ({ onClose, onSave }: NewBannerFormProps) => {
       const bannerResponse = await fetch("/api/admin/savebanner", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ partnerName, url: imageUrl }),
+        body: JSON.stringify({ partnerName, url: imageUrl, partnerUrl }),
       });
 
       if (!bannerResponse.ok) {
@@ -115,6 +116,13 @@ const NewBannerForm = ({ onClose, onSave }: NewBannerFormProps) => {
           placeholder="파트너 이름"
           value={partnerName}
           onChange={(e) => setPartnerName(e.target.value)}
+          className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
+        />
+        <input
+          type="text"
+          placeholder="파트너 URL"
+          value={partnerUrl}
+          onChange={(e) => setPartnerUrl(e.target.value)}
           className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
         />
         <div

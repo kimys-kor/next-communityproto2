@@ -10,6 +10,8 @@ export type Banner = {
   id: number;
   partnerName: string;
   thumbNail: string;
+  partnerUrl: string;
+  clickNum: number;
 };
 
 function BannerList() {
@@ -162,6 +164,8 @@ function BannerList() {
               <th className="py-2 px-4 border-b border-solid">ID</th>
               <th className="py-2 px-4 border-b border-solid">파트너 이름</th>
               <th className="py-2 px-4 border-b border-solid">배너</th>
+              <th className="py-2 px-4 border-b border-solid">파트너 URL</th>
+              <th className="py-2 px-4 border-b border-solid">클릭 수</th>
             </tr>
           </thead>
           <tbody>
@@ -191,6 +195,18 @@ function BannerList() {
                     height={75}
                     alt="banner"
                   />
+                </td>
+                <td className="py-2 px-4 border-b border-solid align-middle">
+                  <a
+                    href={banner.partnerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {banner.partnerUrl}
+                  </a>
+                </td>
+                <td className="py-2 px-4 border-b border-solid text-center align-middle">
+                  {banner.clickNum}
                 </td>
               </tr>
             ))}
