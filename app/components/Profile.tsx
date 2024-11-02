@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Avatar from "@/app/components/Avatar";
 import { removeCookie } from "../api/authAction";
@@ -37,13 +38,13 @@ function Profile({ userInfo }: ProfileProps) {
           {userInfo?.point ?? 0}
         </span>
       </div>
-      <Link href={"/myinfo"} className="cursor-pointer hover:text-blue">
+      <Link href="/myinfo" className="cursor-pointer hover:text-blue">
         정보수정
       </Link>
 
       {userInfo?.sck && (
         <Link
-          href={"/protectedadmins"}
+          href="/protectedadmins"
           className="cursor-pointer text-blue hover:text-deepblue"
         >
           관리자페이지

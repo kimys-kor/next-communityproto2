@@ -18,6 +18,10 @@ import sportIcon from "/public/images/sportIcon.png";
 import commuIcon from "/public/images/commuIcon.png";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { useUserStore } from "@/app/globalStatus/useUserStore";
+import Profile from "../Profile";
+import AuthMenu from "./AuthMenu";
+import { UserInfo } from "@/app/types";
 
 interface LinkItem {
   href: string;
@@ -111,6 +115,8 @@ const sidebarData: LinkItem[] = [
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState(1);
   const [showMore, setShowMore] = useState(false);
+  const { userInfo } = useUserStore();
+  // const [userInfo, setUserInfoState] = useState<UserInfo | null>(null);
 
   const handleClose = () => {
     setShowMore(false);
@@ -160,20 +166,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </ul>
           {showMore && <SidebarAdditionalMenu />}
           <article className="w-full table border-collapse">
-            <ul className="w-full table-row mb-4">
-              <li
-                className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer"
-                onClick={() => setActiveTab(2)}
-              >
-                로그인
-              </li>
-              <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
-                <Link href={"/signup"}>회원가입</Link>
-              </li>
-              <li className="w-1/3 table-cell bg-blue hover:bg-mediumblue text-white text-lg text-center px-2 py-2 cursor-pointer">
-                정보찾기
-              </li>
-            </ul>
+            {userInfo?.role ? (
+              <Profile userInfo={userInfo} />
+            ) : (
+              <AuthMenu setActiveTab={setActiveTab} />
+            )}
           </article>
         </article>
 
@@ -207,7 +204,6 @@ const SidebarTopNavItem: React.FC<SidebarTopNavItemProps> = ({
   </li>
 );
 
-// Additional Menu with consistent item sizing
 const SidebarAdditionalMenu: React.FC = () => (
   <ul className="flex justify-around mb-4">
     <SidebarTopNavItem
