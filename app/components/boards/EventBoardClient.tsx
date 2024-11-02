@@ -240,13 +240,15 @@ const EventBoardClient: React.FC<EventBoardClientProps> = ({ initialData }) => {
         ))}
       </ul>
 
-      <span className="w-full flex justify-end mt-3">
-        <Link href={`${pathname}/write`}>
-          <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
-            글작성하기
-          </button>
-        </Link>
-      </span>
+      {userInfo?.sck && (
+        <span className="w-full flex justify-end mt-3">
+          <Link href={`${pathname}/write`}>
+            <button className="bg-blue text-white hover:bg-mediumblue rounded-sm text-[13px] px-3 py-3">
+              글작성하기
+            </button>
+          </Link>
+        </span>
+      )}
 
       {/* Pagination component */}
       <Paging
