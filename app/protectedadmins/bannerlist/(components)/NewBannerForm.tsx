@@ -91,7 +91,7 @@ const NewBannerForm = ({ onClose, onSave }: NewBannerFormProps) => {
       const bannerResponse = await fetch("/api/admin/savebanner", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ partnerName, url: imageUrl, partnerUrl }),
+        body: JSON.stringify({ partnerName, thumbNail: imageUrl, partnerUrl }),
       });
 
       if (!bannerResponse.ok) {
