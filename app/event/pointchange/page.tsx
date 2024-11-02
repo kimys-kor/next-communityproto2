@@ -13,7 +13,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-3 max-w-[1300px]">
-      <SubMenu />
+      {/* <SubMenu />
       <ThreeBanner />
       <div>
         <Image
@@ -25,7 +25,7 @@ export default function Page() {
         />
       </div>
       <Breadcrumb breadcrumbData={breadcrumbItems}></Breadcrumb>
-      <BoardContainer typ={15} page={1} size={15} />
+      <BoardContainer typ={15} page={1} size={15} /> */}
     </div>
   );
 }

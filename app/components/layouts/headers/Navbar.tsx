@@ -64,7 +64,7 @@ const Navbar = () => {
       // width: "w-14 md:w-24 lg:w-32",
       dropdown: [
         { href: "/event", label: "이벤트" },
-        { href: "/event/pointchange", label: "포인트교환" },
+        // { href: "/event/pointchange", label: "포인트교환" },
       ],
     },
     {
