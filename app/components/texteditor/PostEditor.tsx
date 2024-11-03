@@ -2,7 +2,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
-import { FontSize } from "@/app/utils";
 import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 import ImageExtension from "@tiptap/extension-image";
@@ -21,6 +20,29 @@ import {
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useRef, useState } from "react";
+
+const FontSize = TextStyle.extend({
+  addOptions() {
+    return {
+      ...this.parent?.(),
+      HTMLAttributes: {},
+    };
+  },
+  addAttributes() {
+    return {
+      fontSize: {
+        default: null,
+        parseHTML: (element) => element.style.fontSize || null,
+        renderHTML: (attributes) => {
+          if (!attributes.fontSize) return {};
+          return {
+            style: `font-size: ${attributes.fontSize}`,
+          };
+        },
+      },
+    };
+  },
+});
 
 interface TipTapProps {
   value: string;
@@ -56,8 +78,8 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
         heading: { levels: [1, 2, 3] },
         paragraph: { HTMLAttributes: { class: "text-2xl min-h-[3rem]" } },
       }),
-      TextStyle,
       FontSize,
+      TextStyle,
       TextAlign.configure({
         types: ["heading", "paragraph", "image"],
         defaultAlignment: "left",
@@ -135,7 +157,8 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
   };
 
   const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    editor.chain().focus().setFontSize(e.target.value).run();
+    const fontSize = e.target.value;
+    editor.chain().focus().setMark("textStyle", { fontSize }).run();
   };
 
   const addLink = useCallback(() => {
@@ -239,7 +262,7 @@ const MenuBar = ({ editor, uploadImagesToServer }: any) => {
         <option value="32px">32px</option>
         <option value="38px">38px</option>
         <option value="42px">42px</option>
-        <option value="56px">56px</option>
+        <option value="56px">56px </option>
       </select>
       <button onClick={addLink} className="p-2 rounded" title="Add Link">
         <FontAwesomeIcon icon={faLink} />
