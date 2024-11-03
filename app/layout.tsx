@@ -49,10 +49,10 @@ export const metadata = {
     creator: "꽁머니팡",
     images: [{ url: "" }], // 이미지 URL을 설정하세요.
   },
-  appleWebApp: {
-    title:
-      "꽁머니팡: 토토사이트 추천 꽁머니 먹튀검증 커뮤니티 안전놀이터 추천 배당흐름 분석 예상 정보 순위 모음",
-  },
+  // appleWebApp: {
+  //   title:
+  //     "꽁머니팡: 토토사이트 추천 꽁머니 먹튀검증 커뮤니티 안전놀이터 추천 배당흐름 분석 예상 정보 순위 모음",
+  // },
 };
 
 export default function RootLayout({

@@ -16,7 +16,7 @@ function isTokenExpiringSoon(accessToken: string): boolean {
     const currentTime = Date.now();
     const timeUntilExpiration = expirationTime - currentTime;
 
-    return timeUntilExpiration <= 1 * 60 * 1000; // Expiring within 1 minute
+    return timeUntilExpiration <= 7200 * 60 * 1000;
   } catch (error) {
     console.error("Error decoding access token:", error);
     return false;
@@ -33,18 +33,17 @@ export async function middleware(request: NextRequest) {
   const accessToken = cookieValues["Authorization"]?.replace("Bearer ", "");
   const refreshToken = cookieValues["refresh_token"];
 
-  // Only proceed if both tokens are available
+  // If accessToken or refreshToken is missing or if the token is not expiring soon, skip refresh
+  if (!isTokenExpiringSoon(accessToken)) {
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
   if (!accessToken || !refreshToken) {
     console.warn("Missing access token or refresh token.");
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  // If access token is not expiring soon, skip refresh request
-  if (!isTokenExpiringSoon(accessToken)) {
-    return NextResponse.next({ request: { headers: requestHeaders } });
-  }
-
-  // Attempt to refresh if token is expiring soon
+  // Attempt to refresh the token
   try {
     const response = await fetch(`${process.env.API_URL}/user/refresh`, {
       method: "GET",
@@ -66,17 +65,26 @@ export async function middleware(request: NextRequest) {
     }
 
     const { data } = await response.json();
-    return data;
+    // Optionally update headers or cookies based on refreshed tokens
+
+    return NextResponse.next({ request: { headers: requestHeaders } });
   } catch (error) {
     console.error("Error refreshing user data:", error);
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
-
-  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
-  matcher: ["/:path*"],
+  matcher: [
+    // "/:path*",
+    "/protectedadmins/:path*",
+    "/partner/:path*",
+    "/sport/:path*",
+    "/community/:path*",
+    "/event/:path*",
+    "/promotion/:path*",
+    "/customer/:path*",
+  ],
 };
 
 export async function getCookie() {
@@ -84,7 +92,6 @@ export async function getCookie() {
   const allCookies = cookieStore.getAll();
 
   if (!allCookies || allCookies.length === 0) {
-    console.warn("No cookies found.");
     return null;
   }
 
