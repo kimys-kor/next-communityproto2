@@ -1,12 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(request: Request) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("Authorization")?.value;
