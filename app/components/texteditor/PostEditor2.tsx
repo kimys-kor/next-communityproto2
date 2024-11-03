@@ -2,7 +2,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
-import { FontSize } from "./FontSize";
+import { FontSize } from "./Fontsize";
 import TextAlign from "@tiptap/extension-text-align";
 // import ImageExtension from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
