@@ -2,19 +2,23 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextStyle from "@tiptap/extension-text-style";
+import { FontSize } from "@/app/utils";
 import TextAlign from "@tiptap/extension-text-align";
-import { FontSize } from "./fontsize";
+// import ImageExtension from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
+  // faItalic,
   faListOl,
   faListUl,
   faHeading,
+  // faImage,
   faAlignLeft,
   faAlignCenter,
   faAlignRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { useRef } from "react";
 
 interface TipTapProps {
   value: string;
@@ -22,6 +26,25 @@ interface TipTapProps {
 }
 
 const MenuBar = ({ editor }: any) => {
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // const handleImageChange = (e: any) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       if (typeof reader.result === "string") {
+  //         editor.chain().focus().setImage({ src: reader.result }).run();
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  // const handleIconClick = () => {
+  //   fileInputRef.current?.click();
+  // };
+
   const handleTextColorChange = (e: any) => {
     editor.chain().focus().setColor(e.target.value).run();
   };
@@ -97,7 +120,22 @@ const MenuBar = ({ editor }: any) => {
         <FontAwesomeIcon icon={faAlignRight} />
       </button>
 
-      {/* Text color picker */}
+      {/* Image button (single functionality for image upload) */}
+      {/* <button
+        className="p-2 rounded"
+        onClick={handleIconClick}
+        title="Insert Image"
+      >
+        <FontAwesomeIcon icon={faImage} />
+      </button>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageChange}
+        className="hidden"
+      /> */}
+
+      {/* Text color picker (intact as requested) */}
       <input
         type="color"
         onInput={handleTextColorChange}
@@ -162,11 +200,10 @@ const Tiptap = ({ value, onChange }: TipTapProps) => {
   if (!editor) {
     return null;
   }
-
   return (
     <div className="flex flex-col border border-solid border-gray-200">
       <MenuBar editor={editor} />
-      <EditorContent className="min-h-[500px]" editor={editor} />
+      <EditorContent className="min-h-[500px] " editor={editor} />
     </div>
   );
 };
